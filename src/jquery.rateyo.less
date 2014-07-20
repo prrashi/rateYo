@@ -1,3 +1,44 @@
 .jq-ry-container {
 
+  position: relative;
+  padding: 0px;
+  line-height: 0px;
+  display: block;
+  padding-right: 5px;
+  padding-left: 5px;
+
+  &> .jq-ry-group-wrapper {
+
+    position: relative;
+    width: 100%;
+    cursor: pointer;
+
+    &> .jq-ry-group {
+
+      position: relative;
+      line-height: 0px;
+      z-index: 10;
+      white-space: nowrap;
+
+      &> svg {
+
+        display: inline;
+      }
+
+      &.jq-ry-normal-group {
+
+        width: 100%;
+      }
+
+      &.jq-ry-rated-group {
+
+        width: 0%;
+        z-index: 11;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        overflow: hidden;
+      }
+    }
+  }
 }
