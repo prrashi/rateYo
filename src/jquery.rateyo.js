@@ -32,7 +32,7 @@
     padding: 5,
     rating: 0,
     onEnter: null,
-    onSet: null,
+    onClick: null,
     onLeave: null
   };
 
@@ -70,14 +70,14 @@
 
     var $nomalSVGs = $normalGroup.find("svg")
                              .attr({width: options.starWidth,
-                                    height: options.Height,
+                                    height: options.starHeight,
                                     fill: options.normalFill,
                                     stroke: options.stroke,
                                     "stroke-width": options.strokeWidth});
 
     var $ratedSVGs = $ratedGroup.find("svg")
                             .attr({width: options.starWidth,
-                                   height: options.Height,
+                                   height: options.starHeight,
                                    fill: options.ratedFill,
                                    stroke: options.stroke,
                                    "stroke-width": options.strokeWidth});
