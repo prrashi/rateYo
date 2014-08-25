@@ -1,4 +1,4 @@
 rateYo
 ======
 
-A simple and flexible star rating plugin
+A simple and flexible star rating Plugin
