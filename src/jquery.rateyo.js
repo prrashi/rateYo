@@ -4,19 +4,19 @@
 ;(function ($) {
   "use strict";
 
-  var BASICSTAR = '<?xml version="1.0" encoding="utf-8"?>'+
-                  '<svg version="1.1" id="Layer_1"'+
-                        'xmlns="http://www.w3.org/2000/svg"'+
-                        'viewBox="0 12.705 512 486.59"'+
-                        'x="0px" y="0px"'+
-                        'xml:space="preserve">'+
-                    '<polygon id="star-icon"'+
-                              'points="256.814,12.705 317.205,198.566'+
-                                      ' 512.631,198.566 354.529,313.435 '+
-                                      '414.918,499.295 256.814,384.427 '+
-                                      '98.713,499.295 159.102,313.435 '+
-                                      '1,198.566 196.426,198.566 "/>'+
-                  '</svg>';
+  var BASICSTAR = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"+
+                  "<svg version=\"1.1\" id=\"Layer_1\""+
+                        "xmlns=\"http://www.w3.org/2000/svg\""+
+                        "viewBox=\"0 12.705 512 486.59\""+
+                        "x=\"0px\" y=\"0px\""+
+                        "xml:space=\"preserve\">"+
+                    "<polygon id=\"star-icon\""+
+                              "points=\"256.814,12.705 317.205,198.566"+
+                                      " 512.631,198.566 354.529,313.435 "+
+                                      "414.918,499.295 256.814,384.427 "+
+                                      "98.713,499.295 159.102,313.435 "+
+                                      "1,198.566 196.426,198.566 \"/>"+
+                  "</svg>";
 
   var DEFAULTS = {
 
@@ -50,7 +50,7 @@
 
     containerWidth = containerWidth*options.numStars;
 
-    $node.addClass('jq-ry-container')
+    $node.addClass("jq-ry-container")
          .width(containerWidth);
 
     var $groupWrapper = $("<div/>").addClass("jq-ry-group-wrapper")
@@ -70,36 +70,32 @@
       $ratedGroup.append($(BASICSTAR));
     }
 
-    var $nomalSVGs = $normalGroup.find("svg")
-                             .attr({width: options.starWidth,
-                                    height: options.starHeight,
-                                    fill: options.normalFill,
-                                    stroke: options.stroke,
-                                    "stroke-width": options.strokeWidth});
+    $normalGroup.find("svg")
+        .attr({width: options.starWidth,
+               height: options.starHeight,
+               fill: options.normalFill,
+               stroke: options.stroke,
+               "stroke-width": options.strokeWidth});
 
-    var $ratedSVGs = $ratedGroup.find("svg")
+    $ratedGroup.find("svg")
                             .attr({width: options.starWidth,
                                    height: options.starHeight,
                                    fill: options.ratedFill,
                                    stroke: options.stroke,
                                    "stroke-width": options.strokeWidth});
 
-    var containerHeight = $node.height();
-
     var position = $normalGroup.offset(),
         nodeStartX = position.left,
-        nodeStartY = position.top,
-        nodeEndX = nodeStartX + $normalGroup.width(),
-        nodeEndY = nodeStartY + containerHeight;
+        nodeEndX = nodeStartX + $normalGroup.width();
 
-    var getRating = this.getRating = function () {
+    this.getRating = function () {
 
       return rating;
     };
 
-    var setRating = this.setRating (new_value) {
+    var setRating = this.setRating = function (newValue) {
 
-      rating = new_value;
+      rating = newValue;
 
       return this;
     };
@@ -115,8 +111,7 @@
 
     function _calculateRating (e) {
 
-      var pageX = e.pageX,
-          pageY = e.pageY;
+      var pageX = e.pageX;
 
       var calculatedRating;
 
@@ -151,7 +146,7 @@
       showRating(_calculateRating(e));
     }
 
-    function onMouseLeave (e) {
+    function onMouseLeave () {
 
       showRating();
 
@@ -173,7 +168,7 @@
 
         options.onClick.apply($node, [resultantRating, that]);
       }
-    };
+    }
 
     function bindEvents () {
 
@@ -204,44 +199,58 @@
   var rateYoInstances = RateYo.prototype.collection = [];
 
   function getInstance (node) {
-  
+
     var instance;
 
-    $.each(rateYoInstances, function (i) {
-    
+    $.each(rateYoInstances, function () {
+
       if(node === this.node){
-      
+
         instance = this;
         return false;
       }
     });
 
     return instance;
-  };
+  }
 
   function rateYo (options) {
+
+    var optionsMap = {
+
+      "rating": {
+
+        "getter": "getRating",
+        "setter": "setRating"
+      }
+    };
 
     var $nodes = $(this);
 
     if($nodes.length === 0) {
-    
+
       return $nodes;
     }
 
     var args = Array.prototype.slice.apply(arguments, []);
 
-    var options;
-
     if (args.length === 0) {
-   
+
       //Setting Options to empty
       options = args[0] = {};
     }else if (args.length === 1 && typeof args[0] === "object") {
-    
+
       //Setting options to first argument
       options = args[0];
     }else if (args.length > 1 && args[0] === "options") {
-   
+
+      var option = args[1];
+
+      if (!optionsMap[option]) {
+
+        throw Error("Invalid Option!");
+      }
+
       var result = [];
 
       var isGetter = args.length === 2;
@@ -249,7 +258,8 @@
       var existingInstance;
 
       if(isGetter) {
-      
+
+        // Getting the rating of the last instance
         existingInstance = getInstance($nodes.get($nodes.length - 1));
 
         if(!existingInstance) {
@@ -257,25 +267,27 @@
           throw Error("Trying to get options before even initialization");
         }
 
-        return existingInstance[args[1]]();
-      }else {
+        return existingInstance[option.getter]();
+      } else {
+
+        var value=args[2];
 
         $.each($nodes, function (i, $node) {
-        
+
           var existingInstance = getInstance($node.get(0));
 
           if(!existingInstance) {
-          
+
             throw Error("Trying to set options before even initialization");
           }
 
-          result.push(existingInstance[args[1]](args[2]));
+          result.push(existingInstance[option.setter](args[2]));
         });
 
         return $(result);
       }
     }else {
-    
+
       throw Error("Invalid Arguments");
     }
 
@@ -283,8 +295,8 @@
 
     return $.each($nodes, function () {
 
-      rateYoInstances.push(new RateYo($(this), options));
-    });
+               rateYoInstances.push(new RateYo($(this), options));
+           });
   }
 
   $.fn.rateYo = rateYo;
