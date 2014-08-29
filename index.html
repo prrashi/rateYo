@@ -5,19 +5,25 @@
 
     <meta charset="utf-8"></meta>
     <link rel="stylesheet" href="jquery.rateyo.min.css"/>
+    <link rel="stylesheet" href="bootstrap.min.css"/>
   </head>
   <body>
 
-    <div>
+    <h1>Rate Yo!</h1>
+    <div class="clearfix">
       <div id="rateYo1" style="float: left"></div>
       <div class="counter" style="float: left;
                             font-weight: bold;
                             margin-left: 10px;
                             margin-top: 7px;"></div>
-      <div style="clear: both"></div>
+    </div>
+    <div class="clearfix">
+      <button id="getRating" class="btn btn-primary">Get value</button>
+      <button id="setRating" class="btn btn-primary">Set random value</button>
     </div>
 
     <script type="text/javascript" src="jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="bootstrap.min.js"></script>
     <script type="text/javascript" src="jquery.rateyo.min.js"></script>
 
     <script type="text/javascript">
@@ -38,6 +44,24 @@
           onEnter: changeRating,
           onClick: changeRating,
           onLeave: changeRating
+        });
+
+        $("#getRating").click(function (e) {
+
+          e.preventDefault();
+
+          $("#rateYo1").rateYo("options", "rating");
+        });
+
+        $("#setRating").click(function (e) {
+
+          e.preventDefault();
+
+          var randomRating = parseFloat((Math.random()*5 + 1).toFixed(2));
+
+          randomRating = randomRating>5?5:randomRating;
+
+          $("#rateYo1").rateYo("options", "rating", randomRating);
         });
       });
     </script>
