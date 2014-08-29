@@ -40,6 +40,8 @@
 
     this.$node = $node;
 
+    this.node = $node.get(0);
+
     var that = this;
 
     var rating = options.rating;
@@ -90,15 +92,17 @@
         nodeEndX = nodeStartX + $normalGroup.width(),
         nodeEndY = nodeStartY + containerHeight;
 
-    function getRating () {
+    var getRating = this.getRating = function () {
 
       return rating;
-    }
+    };
 
-    function setRating (new_value) {
+    var setRating = this.setRating (new_value) {
 
       rating = new_value;
-    }
+
+      return this;
+    };
 
     function showRating (ratingVal) {
 
@@ -199,13 +203,83 @@
 
   var rateYoInstances = RateYo.prototype.collection = [];
 
+  function getInstance (node) {
+  
+    var instance;
+
+    $.each(rateYoInstances, function (i) {
+    
+      if(node === this.node){
+      
+        instance = this;
+        return false;
+      }
+    });
+
+    return instance;
+  };
+
   function rateYo (options) {
 
-    options = options || {};
+    var $nodes = $(this);
+
+    if($nodes.length === 0) {
+    
+      return $nodes;
+    }
+
+    var args = Array.prototype.slice.apply(arguments, []);
+
+    var options;
+
+    if (args.length === 0) {
+   
+      //Setting Options to empty
+      options = args[0] = {};
+    }else if (args.length === 1 && typeof args[0] === "object") {
+    
+      //Setting options to first argument
+      options = args[0];
+    }else if (args.length > 1 && args[0] === "options") {
+   
+      var result = [];
+
+      var isGetter = args.length === 2;
+
+      var existingInstance;
+
+      if(isGetter) {
+      
+        existingInstance = getInstance($nodes.get($nodes.length - 1));
+
+        if(!existingInstance) {
+
+          throw Error("Trying to get options before even initialization");
+        }
+
+        return existingInstance[args[1]]();
+      }else {
+
+        $.each($nodes, function (i, $node) {
+        
+          var existingInstance = getInstance($node.get(0));
+
+          if(!existingInstance) {
+          
+            throw Error("Trying to set options before even initialization");
+          }
+
+          result.push(existingInstance[args[1]](args[2]));
+        });
+
+        return $(result);
+      }
+    }else {
+    
+      throw Error("Invalid Arguments");
+    }
 
     options = $.extend(JSON.parse(JSON.stringify(DEFAULTS)), options);
-
-    var $nodes = $(this);
 
     return $.each($nodes, function () {
 
