@@ -17,6 +17,9 @@
       <div style="clear: both"></div>
     </div>
 
+    <div class="rateyo-widg"></div>
+    <div class="rateyo-widg"></div>
+    <div class="rateyo-widg"></div>
     <script type="text/javascript" src="../lib/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="../min/jquery.rateyo.min.js"></script>
 
@@ -38,6 +41,11 @@
           onEnter: changeRating,
           onClick: changeRating,
           onLeave: changeRating
+        });
+
+        $(".rateyo-widg").rateYo({
+
+          rating: 4.2
         });
       });
     </script>
