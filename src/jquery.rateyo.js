@@ -31,9 +31,8 @@
     maxValue: 5,
     padding: 5,
     rating: 0,
-    onEnter: null,
-    onClick: null,
-    onLeave: null
+    onChange: null,
+    onSet: null
   };
 
   function RateYo ($node, options) {
@@ -95,7 +94,11 @@
 
     var setRating = this.setRating = function (newValue) {
 
-      rating = newValue;
+      rating = parseFloat(newValue.toFixed(1));
+
+      showRating();
+
+      $node.trigger("rateyo.set", {rating: rating});
 
       return this;
     };
@@ -129,61 +132,63 @@
       return calculatedRating;
     }
 
-    function onMouseMove (e) {
+    function onMouseEnter (e) {
 
-      var rating = _calculateRating(e);
+      var rating = parseFloat(_calculateRating(e).toFixed(1));
 
       showRating(rating);
 
-      if(options.onEnter && typeof options.onEnter === "function") {
-
-        options.onEnter.apply($node, [rating.toFixed(1), that]);
-      }
-    }
-
-    function onMouseEnter (e) {
-
-      showRating(_calculateRating(e));
+      $node.trigger("rateyo.change", {rating: rating});
     }
 
     function onMouseLeave () {
 
       showRating();
 
-      if(options.onLeave && typeof options.onLeave === "function") {
-
-        options.onLeave.apply($node, [rating, that]);
-      }
+      $node.trigger("rateyo.change", {rating: rating});
     }
 
     function onMouseClick (e) {
 
-      var resultantRating = _calculateRating(e).toFixed(1);
+      var resultantRating = parseFloat(_calculateRating(e).toFixed(1));
 
       setRating(resultantRating);
+    }
 
-      showRating();
+    function onChange (e, data) {
 
-      if(options.onClick && typeof options.onClick === "function") {
+      if(options.onChange && typeof options.onChange === "function") {
 
-        options.onClick.apply($node, [resultantRating, that]);
+        options.onChange.apply(this, [data.rating, that]);
+      }
+    }
+
+    function onSet (e, data) {
+
+      if(options.onSet && typeof options.onSet === "function") {
+
+        options.onSet.apply(this, [data.rating, that]);
       }
     }
 
     function bindEvents () {
 
-      $node.on("mousemove", onMouseMove)
+      $node.on("mousemove", onMouseEnter)
            .on("mouseenter", onMouseEnter)
            .on("mouseleave", onMouseLeave)
-           .on("click", onMouseClick);
+           .on("click", onMouseClick)
+           .on("rateyo.change", onChange)
+           .on("rateyo.set", onSet);
     }
 
     function unbindEvents () {
 
-      $node.off("mousemove", onMouseMove)
+      $node.off("mousemove", onMouseEnter)
            .off("mouseenter", onMouseEnter)
            .off("mouseleave", onMouseLeave)
-           .off("click", onMouseClick);
+           .off("click", onMouseClick)
+           .off("rateyo.change", onChange)
+           .on("rateyo.set", onSet);
     }
 
     this.destroy = function () {
@@ -267,21 +272,21 @@
           throw Error("Trying to get options before even initialization");
         }
 
-        return existingInstance[option.getter]();
+        return existingInstance[optionsMap[option].getter]();
       } else {
 
         var value=args[2];
 
-        $.each($nodes, function (i, $node) {
+        $.each($nodes, function (i, node) {
 
-          var existingInstance = getInstance($node.get(0));
+          var existingInstance = getInstance($(node).get(0));
 
           if(!existingInstance) {
 
             throw Error("Trying to set options before even initialization");
           }
 
-          result.push(existingInstance[option.setter](args[2]));
+          result.push(existingInstance[optionsMap[option].setter](args[2]));
         });
 
         return $(result);
