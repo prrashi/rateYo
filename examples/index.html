@@ -38,14 +38,15 @@
 
         $("#rateYo1").rateYo({
           rating: 3.6,
-          onEnter: changeRating,
-          onClick: changeRating,
-          onLeave: changeRating
+          onChange: changeRating
         });
 
         $(".rateyo-widg").rateYo({
 
           rating: 4.2
+        }).on("ratyo.set", function(e, data){
+
+          changeRating(data.rating);
         });
       });
     </script>
