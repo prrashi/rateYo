@@ -4,6 +4,8 @@
 ;(function ($) {
   "use strict";
 
+  /* The basic svg string required to generate stars
+   */
   var BASICSTAR = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"+
                   "<svg version=\"1.1\" id=\"Layer_1\""+
                         "xmlns=\"http://www.w3.org/2000/svg\""+
@@ -24,17 +26,80 @@
     starHeight: "32px",
     normalFill: "gray",
     ratedFill: "#f39c12",
-    stroke: "transparent",
-    strokeWidth: 0,
     numStars: 5,
     minValue: 0,
     maxValue: 5,
-    padding: 5,
+    precision: 1,
     rating: 0,
     onChange: null,
     onSet: null
   };
 
+  function checkPercision (value, minValue, maxValue) {
+
+    /* its like comparing 0.00 with 0 which is true*/
+    if (value === minValue) {
+
+      value = minValue;
+    }
+    else if(value === maxValue) {
+
+      value = maxValue;
+    }
+
+    return value;
+  }
+
+  function checkBounds (value, minValue, maxValue) {
+
+    var isValid = value >= minValue && value <= maxValue;
+
+    if(!isValid){
+
+        throw Error("Invalid Rating, expected value between "+ minValue +
+                    " and " + maxValue);
+    }
+
+    return value;
+  }
+
+  function getInstance (node, collection) {
+
+    var instance;
+
+    $.each(collection, function () {
+
+      if(node === this.node){
+
+        instance = this;
+        return false;
+      }
+    });
+
+    return instance;
+  }
+
+  function deleteInstance (node, collection) {
+
+    $.each(collection, function (index) {
+
+      if (node === this.node) {
+
+        var firstPart = collection.slice(0, index),
+            secondPart = collection.slice(index+1, collection.length);
+
+        collection = firstPart.concat(secondPart);
+
+        return false;
+      }
+    });
+
+    return collection;
+  }
+
+  /* The Contructor, whose instances are used by plugin itself,
+   * to set and get values
+   */
   function RateYo ($node, options) {
 
     this.$node = $node;
@@ -44,6 +109,25 @@
     var that = this;
 
     var rating = options.rating;
+
+    var isPercentage = false,
+        maxValue = options.maxValue,
+        minValue = options.minValue;
+
+    if (typeof rating === "string") {
+
+      if (rating[rating.length - 1] === "%") {
+
+        isPercentage = true;
+        rating = rating.substr(0, rating.length - 1);
+        maxValue=100;
+        minValue = 0;
+      }
+
+      rating = parseInt(rating);
+
+      checkBounds(rating, minValue, maxValue);
+    }
 
     var containerWidth = parseInt(options.starWidth.replace("px","").trim());
 
@@ -63,38 +147,44 @@
                                  .addClass("jq-ry-group")
                                  .appendTo($groupWrapper);
 
-    for (var i=0; i<options.maxValue; i++) {
+    for (var i=0; i<options.numStars; i++) {
 
       $normalGroup.append($(BASICSTAR));
       $ratedGroup.append($(BASICSTAR));
     }
 
     $normalGroup.find("svg")
-        .attr({width: options.starWidth,
-               height: options.starHeight,
-               fill: options.normalFill,
-               stroke: options.stroke,
-               "stroke-width": options.strokeWidth});
+                .attr({width: options.starWidth,
+                       height: options.starHeight,
+                       fill: options.normalFill});
 
     $ratedGroup.find("svg")
-                            .attr({width: options.starWidth,
-                                   height: options.starHeight,
-                                   fill: options.ratedFill,
-                                   stroke: options.stroke,
-                                   "stroke-width": options.strokeWidth});
-
-    var position = $normalGroup.offset(),
-        nodeStartX = position.left,
-        nodeEndX = nodeStartX + $normalGroup.width();
+               .attr({width: options.starWidth,
+                      height: options.starHeight,
+                      fill: options.ratedFill});
 
     this.getRating = function () {
 
       return rating;
     };
 
-    var setRating = this.setRating = function (newValue) {
+    this.setRating = function (newValue) {
 
-      rating = parseFloat(newValue.toFixed(1));
+      if (typeof newValue === "string") {
+
+        if (newValue[newValue.length - 1] === "%") {
+
+          newValue = newValue.substr(0, newValue.length - 1);
+        }
+
+        newValue = parseFloat(newValue);
+      }
+
+      checkBounds(newValue, minValue, maxValue);
+
+      rating = parseFloat(newValue.toFixed(options.precision));
+
+      checkPercision(parseFloat(rating), minValue, maxValue);
 
       showRating();
 
@@ -107,12 +197,16 @@
 
       ratingVal = ratingVal || rating;
 
-      var percent = (ratingVal/options.maxValue)*100;
+      var percent = (ratingVal/maxValue)*100;
 
       $ratedGroup.css("width", percent + "%");
     }
 
-    function _calculateRating (e) {
+    function calculateRating (e) {
+
+      var position = $normalGroup.offset(),
+        nodeStartX = position.left,
+        nodeEndX = nodeStartX + $normalGroup.width();
 
       var pageX = e.pageX;
 
@@ -120,13 +214,13 @@
 
       if(pageX < nodeStartX) {
 
-        calculatedRating = 0;
+        calculatedRating = minValue;
       }else if (pageX > nodeEndX) {
 
-        calculatedRating = options.maxValue;
+        calculatedRating = maxValue;
       }else {
 
-        calculatedRating = ((pageX - nodeStartX)/(nodeEndX - nodeStartX))*5;
+        calculatedRating = ((pageX - nodeStartX)/(nodeEndX - nodeStartX))*maxValue;
       }
 
       return calculatedRating;
@@ -134,7 +228,8 @@
 
     function onMouseEnter (e) {
 
-      var rating = parseFloat(_calculateRating(e).toFixed(1));
+      var rating = calculateRating(e).toFixed(options.precision);
+      rating = checkPercision(parseFloat(rating), minValue, maxValue);
 
       showRating(rating);
 
@@ -150,15 +245,17 @@
 
     function onMouseClick (e) {
 
-      var resultantRating = parseFloat(_calculateRating(e).toFixed(1));
+      var resultantRating = calculateRating(e).toFixed(options.precision);
+      resultantRating = parseFloat(resultantRating);
 
-      setRating(resultantRating);
+      that.setRating(resultantRating);
     }
 
     function onChange (e, data) {
 
       if(options.onChange && typeof options.onChange === "function") {
 
+        /* jshint validthis:true */
         options.onChange.apply(this, [data.rating, that]);
       }
     }
@@ -167,6 +264,7 @@
 
       if(options.onSet && typeof options.onSet === "function") {
 
+        /* jshint validthis:true */
         options.onSet.apply(this, [data.rating, that]);
       }
     }
@@ -194,32 +292,24 @@
     this.destroy = function () {
 
       unbindEvents();
-      $node.remove();
+
+      RateYo.prototype.collection = deleteInstance($node.get(0),
+                                                   this.collection);
+
+      $node.removeClass("jq-ry-container").children().remove();
+
+      return $node;
     };
 
     bindEvents();
-    showRating();
+    this.setRating(rating);
   }
 
-  var rateYoInstances = RateYo.prototype.collection = [];
+  RateYo.prototype.collection = [];
 
-  function getInstance (node) {
+  function _rateYo (options) {
 
-    var instance;
-
-    $.each(rateYoInstances, function () {
-
-      if(node === this.node){
-
-        instance = this;
-        return false;
-      }
-    });
-
-    return instance;
-  }
-
-  function rateYo (options) {
+    var rateYoInstances = RateYo.prototype.collection;
 
     var optionsMap = {
 
@@ -227,9 +317,14 @@
 
         "getter": "getRating",
         "setter": "setRating"
+      },
+      "destroy": {
+
+        "getter": "destroy"
       }
     };
 
+    /* jshint validthis:true */
     var $nodes = $(this);
 
     if($nodes.length === 0) {
@@ -262,31 +357,49 @@
 
       var existingInstance;
 
+      var method; //Method of the RateYo that is to be called
+
       if(isGetter) {
 
-        // Getting the rating of the last instance
-        existingInstance = getInstance($nodes.get($nodes.length - 1));
+        // Getting the last instance
+        existingInstance = getInstance($nodes.get($nodes.length - 1),
+                                       rateYoInstances);
 
         if(!existingInstance) {
 
           throw Error("Trying to get options before even initialization");
         }
 
-        return existingInstance[optionsMap[option].getter]();
+        method = existingInstance[optionsMap[option].getter];
+
+        if (!method) {
+
+          throw Error("Method " + option + " does not exist!");
+        }
+
+        return method.apply(existingInstance, []);
       } else {
 
         var value=args[2];
 
         $.each($nodes, function (i, node) {
 
-          var existingInstance = getInstance($(node).get(0));
+          var existingInstance = getInstance($(node).get(0),
+                                             rateYoInstances);
 
           if(!existingInstance) {
 
             throw Error("Trying to set options before even initialization");
           }
 
-          result.push(existingInstance[optionsMap[option].setter](args[2]));
+          method = existingInstance[optionsMap[option].setter];
+
+          if (!method) {
+
+            throw Error("Method " + option + " does not exist!");
+          }
+
+          result.push(method.apply(existingInstance, [value]));
         });
 
         return $(result);
@@ -300,8 +413,21 @@
 
     return $.each($nodes, function () {
 
+               var existingInstance = getInstance(this, rateYoInstances);
+
+               if (existingInstance) {
+
+                 return;
+               }
+
                rateYoInstances.push(new RateYo($(this), options));
            });
+  }
+
+  function rateYo () {
+
+    /* jshint validthis:true */
+    return _rateYo.apply(this, Array.prototype.slice.apply(arguments, []));
   }
 
   $.fn.rateYo = rateYo;
