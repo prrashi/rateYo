@@ -1,7 +1,1 @@
-div.counter {
-
-  float: left;
-  font-weight: bold;
-  margin-left: 10px;
-  margin-top: 7px;
-}
+body{background:url(debut_light.png)}div.sidebar{position:fixed;width:200px;height:100%;top:0;left:0;background-color:#fff;border-right:1px solid #ddd;overflow:auto;z-index:100}div.sidebar>a{display:block}div.main-content{padding-left:200px;position:relative}div.main-content h1.page-title img.page-logo{width:90px;height:90px;display:inline-block}div.main-content h1.page-title>span{vertical-align:bottom;font-size:1.6em}div.main-content div.counter{float:left;font-weight:700;margin-left:10px;margin-top:7px}

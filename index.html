@@ -4,20 +4,124 @@
   <head>
 
     <meta charset="utf-8"></meta>
-    <link rel="stylesheet" href="jquery.rateyo.min.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="RateYo!, A jQuery star rating plugin">
+    <meta name="keywords" content="RateYo, Star Rating Plugin, Jquery plugin, JS, jQuery">
+    <meta name="author" content="Prashanth Pamidi">
+
+    <title>RateYo!, A jQuery Star Rating Plugin</title>
+
+    <link rel="icon" href="favicon.ico"/>
+
     <link rel="stylesheet" href="bootstrap.min.css"/>
     <link rel="stylesheet" href="application.css"/>
+
+    <link rel="stylesheet" href="jquery.rateyo.min.css"/>
+
   </head>
   <body>
 
-    <h1>Rate Yo!</h1>
-    <div class="clearfix">
-      <div id="rateYo1" class="pull-left"></div>
-      <div class="counter pull-left"></div>
+    <div class="sidebar">
+
+      <a href="#">RateYo!</a>
+      <ul class="nav">
+        <li>
+          <a href="#introduction">Introduction</a>
+        </li>
+        <li>
+          <a href="https://github.com/prrashi/rateYo">
+            Github Repo
+          </a>
+        </li>
+      </ul>
+
+      <a href="#usage">Usage</a>
+
+      <a href="#options">Options</a>
+      <ul class="nav">
+        <li>
+          <a href="#option-numstars">Star Width</a>
+        </li>
+        <li>
+          <a href="#option-numstars">Star Height</a>
+        </li>
+        <li>
+          <a href="#option-numstars">Normal Fill Color</a>
+        </li>
+        <li>
+          <a href="#option-numstars">Rated Fill Color</a>
+        </li>
+        <li>
+          <a href="#option-numstars">Number of Stars</a>
+        </li>
+        <li>
+          <a href="#option-minValue">Minimum Value</a>
+        </li>
+        <li>
+          <a href="#option-maxValue">Maximum Value</a>
+        </li>
+        <li>
+          <a href="#option-precision">Precision</a>
+        </li>
+        <li>
+          <a href="#option-rating">Default Rating</a>
+        </li>
+        <li>
+          <a href="#option-onSet">onSet</a>
+        </li>
+        <li>
+          <a href="#option-onChange">onChange</a>
+        </li>
+      </ul>
+
+      <a href="#methods">Methods</a>
+      <ul class="nav">
+        <li>
+          <a href="#method-rating">Rating</a>
+        </li>
+        <li>
+          <a href="#method-destroy">Destroy</a>
+        </li>
+      </ul>
+
+      <a href="#events">Events</a>
+      <ul class="nav">
+        <li>
+          <a href="#event-set">rateyo.set</a>
+        </li>
+        <li>
+          <a href="#event-change">rateyo.change</a>
+        </li>
+      </ul>
     </div>
-    <div class="clearfix">
-      <button id="getRating" class="btn btn-primary">Get value</button>
-      <button id="setRating" class="btn btn-primary">Set random value</button>
+    <div class="main-content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-10">
+            <h1 class="page-title">
+              <img class="page-logo" src="rateYo.png"/>
+              <span>Rate Yo!</span>
+            </h1>
+            <div id="introductioon">
+              <p>
+              RateYo! is a tiny and flexible jQuery star rating plugin,
+              it uses SVG to render rating, so no images required.
+              </p>
+              <p>
+              just create a &lt;div/&gt;, throw some styles and thats it!,
+              </p>
+           </div>
+            <div class="clearfix">
+              <div id="rateYo1" class="pull-left"></div>
+              <div class="counter pull-left"></div>
+            </div>
+            <div class="clearfix">
+              <button id="getRating" class="btn btn-primary">Get value</button>
+              <button id="setRating" class="btn btn-primary">Set random value</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script type="text/javascript" src="jquery-2.1.1.min.js"></script>
