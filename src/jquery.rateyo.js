@@ -195,7 +195,10 @@
 
     function showRating (ratingVal) {
 
-      ratingVal = ratingVal || rating;
+      if(ratingVal === undefined){
+
+        ratingVal = rating;
+      }
 
       var percent = (ratingVal/maxValue)*100;
 
@@ -342,7 +345,7 @@
 
       //Setting options to first argument
       options = args[0];
-    }else if (args.length > 1 && args[0] === "options") {
+    }else if (args.length > 1 && args[0] === "method") {
 
       var option = args[1];
 
@@ -399,7 +402,9 @@
             throw Error("Method " + option + " does not exist!");
           }
 
-          result.push(method.apply(existingInstance, [value]));
+          method.apply(existingInstance, [value]);
+
+          result.push(existingInstance.node);
         });
 
         return $(result);
