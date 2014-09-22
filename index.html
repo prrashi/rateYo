@@ -97,7 +97,7 @@
     <div class="main-content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-md-10">
+          <div class="col-md-12">
             <h1 class="page-title">
               <img class="page-logo" src="rateYo.png"/>
               <span>Rate Yo!</span>
@@ -110,14 +110,62 @@
               <p>
               just create a &lt;div/&gt;, throw some styles and thats it!,
               </p>
-           </div>
-            <div class="clearfix">
-              <div id="rateYo1" class="pull-left"></div>
-              <div class="counter pull-left"></div>
             </div>
-            <div class="clearfix">
-              <button id="getRating" class="btn btn-primary">Get value</button>
-              <button id="setRating" class="btn btn-primary">Set random value</button>
+            <div class="well">
+              <div id="demo1" class="clearfix">
+                <div id="rateYo1" class="pull-left"></div>
+                <div class="counter pull-left"></div>
+              </div>
+              <div class="clearfix">
+                <button id="getRating" class="btn btn-primary">Get value</button>
+                <button id="setRating" class="btn btn-primary">Set random value</button>
+              </div>
+<pre>
+  <code>
+  &lt;-- HTML --&gt;
+  &lt;div id="rateYo1" class="pull-left"&gt;&lt;/div&gt;
+  &lt;div class="counter pull-left"&gt;&lt;/div&gt;
+
+  &lt;-- JAVASCRIPT --&gt;
+  $(function () {
+
+    var rating = 3.6;
+
+    $(".counter").text(rating);
+
+    var changeRating = function (rating) {
+
+      $(this).next().text(rating);
+    };
+
+    $("#rateYo1").rateYo({
+      rating: 3.6,
+      onSet: changeRating,
+      onChange: changeRating
+    });
+
+    $("#getRating").click(function (e) {
+
+      e.preventDefault();
+
+      var rating = $("#rateYo1").rateYo("options", "rating");
+
+      window.alert("Its " + rating + "!");
+    });
+
+    $("#setRating").click(function (e) {
+
+      e.preventDefault();
+
+      var randomRating = parseFloat((Math.random()*5 + 1).toFixed(2));
+
+      randomRating = randomRating>5?5:randomRating;
+
+      $("#rateYo1").rateYo("options", "rating", randomRating);
+    });
+  });
+  </code>
+</pre>
             </div>
           </div>
         </div>
