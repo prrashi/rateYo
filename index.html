@@ -12,10 +12,11 @@
     <title>RateYo!, A jQuery Star Rating Plugin</title>
 
     <link rel="icon" href="favicon.ico"/>
+    <link href='libs/shCore.css' rel='stylesheet' type='text/css'>
+    <link href='libs/shThemeDefault.css' rel='stylesheet' type='text/css'>
 
-    <link rel="stylesheet" href="bootstrap.min.css"/>
+    <link rel="stylesheet" href="libs/bootstrap.min.css"/>
     <link rel="stylesheet" href="application.css"/>
-
     <link rel="stylesheet" href="jquery.rateyo.min.css"/>
 
   </head>
@@ -26,7 +27,7 @@
       <a href="#">RateYo!</a>
       <ul class="nav">
         <li>
-          <a href="#introduction">Introduction</a>
+          <a href="#">Usage</a>
         </li>
         <li>
           <a href="https://github.com/prrashi/rateYo">
@@ -34,8 +35,6 @@
           </a>
         </li>
       </ul>
-
-      <a href="#usage">Usage</a>
 
       <a href="#options">Options</a>
       <ul class="nav">
@@ -111,71 +110,50 @@
               just create a &lt;div/&gt;, throw some styles and thats it!,
               </p>
             </div>
-            <div class="well">
-              <div id="demo1" class="clearfix">
-                <div id="rateYo1" class="pull-left"></div>
-                <div class="counter pull-left"></div>
-              </div>
-              <div class="clearfix">
-                <button id="getRating" class="btn btn-primary">Get value</button>
-                <button id="setRating" class="btn btn-primary">Set random value</button>
-              </div>
-<pre>
-  <code>
-  &lt;-- HTML --&gt;
-  &lt;div id="rateYo1" class="pull-left"&gt;&lt;/div&gt;
-  &lt;div class="counter pull-left"&gt;&lt;/div&gt;
-
-  &lt;-- JAVASCRIPT --&gt;
-  $(function () {
-
-    var rating = 3.6;
-
-    $(".counter").text(rating);
-
-    var changeRating = function (rating) {
-
-      $(this).next().text(rating);
-    };
-
-    $("#rateYo1").rateYo({
-      rating: 3.6,
-      onSet: changeRating,
-      onChange: changeRating
-    });
-
-    $("#getRating").click(function (e) {
-
-      e.preventDefault();
-
-      var rating = $("#rateYo1").rateYo("options", "rating");
-
-      window.alert("Its " + rating + "!");
-    });
-
-    $("#setRating").click(function (e) {
-
-      e.preventDefault();
-
-      var randomRating = parseFloat((Math.random()*5 + 1).toFixed(2));
-
-      randomRating = randomRating>5?5:randomRating;
-
-      $("#rateYo1").rateYo("options", "rating", randomRating);
-    });
-  });
-  </code>
-</pre>
+            <div id="demo1" class="clearfix">
+              <div id="rateYo" class="pull-left"></div>
             </div>
+            <pre class="brush: js">
+              &lt;-- HTML --&gt;
+              &lt;div id="rateYo" class="pull-left"&gt;&lt;/div&gt;
+            </pre>
+            <pre class="brush: js">
+              /* Javascript */
+
+              //Make sure that the dom is ready
+              $(function () {
+
+                var rating = 3.6;
+
+                $("#rateYo").rateYo({
+                  rating: 3.6
+                });
+
+              });
+            </pre>
+          </div>
+        </div><!-- End Row -->
+        <div class="row">
+          <div class="col-md-12">
+            <h3>Optiions</h3>
+            
           </div>
         </div>
-      </div>
-    </div>
-
-    <script type="text/javascript" src="jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="bootstrap.min.js"></script>
+      </div><!-- End Container Fluid -->
+    </div><!-- End Main Content -->
+    <script src='libs/shCore.js' type='text/javascript'></script>
+    <script src='libs/shBrushXml.js' type='text/javascript'></script>
+    <script src='libs/shBrushJScript.js' type='text/javascript'></script>
+    <script type="text/javascript" src="libs/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="libs/bootstrap.min.js"></script>
     <script type="text/javascript" src="jquery.rateyo.min.js"></script>
-
     <script type="text/javascript" src="application.js"></script>
+    <script type="text/javascript">
+
+      $(function () {
+      
+        SyntaxHighlighter.all();
+      });
+    </script>
   </body>
 </html>

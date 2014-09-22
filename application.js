@@ -2,6 +2,11 @@ $(function () {
 
   var rating = 3.6;
 
+  $("#rateYo").rateYo({
+
+    rating: rating
+  });
+
   $(".counter").text(rating);
 
   var changeRating = function (rating) {
@@ -19,7 +24,7 @@ $(function () {
 
     e.preventDefault();
 
-    var rating = $("#rateYo1").rateYo("options", "rating");
+    var rating = $("#rateYo1").rateYo("method", "rating");
 
     window.alert("Its " + rating + "!");
   });
@@ -32,7 +37,7 @@ $(function () {
 
     randomRating = randomRating>5?5:randomRating;
 
-    $("#rateYo1").rateYo("options", "rating", randomRating);
+    $("#rateYo1").rateYo("method", "rating", randomRating);
   });
 });
 
