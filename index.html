@@ -39,31 +39,28 @@
       <a href="#options">Options</a>
       <ul class="nav">
         <li>
-          <a href="#option-numstars">Star Width</a>
+          <a href="#option-starWidth">starWidth</a>
         </li>
         <li>
-          <a href="#option-numstars">Star Height</a>
+          <a href="#option-normalFill">normalFill</a>
         </li>
         <li>
-          <a href="#option-numstars">Normal Fill Color</a>
+          <a href="#option-ratedFill">ratedFill</a>
         </li>
         <li>
-          <a href="#option-numstars">Rated Fill Color</a>
+          <a href="#option-numStars">numStars</a>
         </li>
         <li>
-          <a href="#option-numstars">Number of Stars</a>
+          <a href="#option-minValue">minValue</a>
         </li>
         <li>
-          <a href="#option-minValue">Minimum Value</a>
+          <a href="#option-maxValue">maxValue</a>
         </li>
         <li>
-          <a href="#option-maxValue">Maximum Value</a>
+          <a href="#option-precision">precision</a>
         </li>
         <li>
-          <a href="#option-precision">Precision</a>
-        </li>
-        <li>
-          <a href="#option-rating">Default Rating</a>
+          <a href="#option-rating">rating</a>
         </li>
         <li>
           <a href="#option-onSet">onSet</a>
@@ -76,10 +73,10 @@
       <a href="#methods">Methods</a>
       <ul class="nav">
         <li>
-          <a href="#method-rating">Rating</a>
+          <a href="#method-rating">rating</a>
         </li>
         <li>
-          <a href="#method-destroy">Destroy</a>
+          <a href="#method-destroy">destroy</a>
         </li>
       </ul>
 
@@ -107,7 +104,7 @@
               it uses SVG to render rating, so no images required.
               </p>
               <p>
-              just create a &lt;div/&gt;, throw some styles and thats it!,
+              just create a &lt;div/&gt;, throw some styles, initialize and thats it!.
               </p>
             </div>
             <div id="demo1" class="clearfix">
@@ -123,8 +120,6 @@
               //Make sure that the dom is ready
               $(function () {
 
-                var rating = 3.6;
-
                 $("#rateYo").rateYo({
                   rating: 3.6
                 });
@@ -134,9 +129,57 @@
           </div>
         </div><!-- End Row -->
         <div class="row">
-          <div class="col-md-12">
-            <h3>Optiions</h3>
-            
+          <div class="col-md-12 options-content">
+            <h3>Options</h3>
+            <div class="option option-starWidth">
+              <p><b>starWidth:</b><code>string, eg: &quot;32px&quot;</code></p>
+              <div class="option-content">
+                <div class="clearfix">
+                  <div class="pull-left">
+                    <small>14px</small>
+                  </div>
+                  <div class="pull-left">
+                    <div class="rating" data-width="14px"></div>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <div class="pull-left">
+                    <small>20px</small>
+                  </div>
+                  <div class="pull-left">
+                    <div class="rating" data-width="20px"></div>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <div class="pull-left">
+                    <small>30px</small>
+                  </div>
+                  <div class="pull-left">
+                    <div class="rating" data-width="30px"></div>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <div class="pull-left">
+                    <small>40px</small>
+                  </div>
+                  <div class="pull-left">
+                    <div class="rating" data-width="40px"></div>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <pre class="brush: js">
+                    $(function () {
+
+                      $("#rateYo").rateYo({
+                        rating: 3.6,
+                        starWidth: "18px"
+                      });
+
+                    });
+                  </pre>
+                </div>
+              </div><!-- End Option Content -->
+            </div><!-- End option-starWidth-->
           </div>
         </div>
       </div><!-- End Container Fluid -->
