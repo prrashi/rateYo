@@ -23,7 +23,6 @@
   var DEFAULTS = {
 
     starWidth: "32px",
-    starHeight: "32px",
     normalFill: "gray",
     ratedFill: "#f39c12",
     numStars: 5,
@@ -109,6 +108,10 @@
     var that = this;
 
     var rating = options.rating;
+
+    // In the current version, the width and height of the star
+    // should be the same
+    options.starHeight = options.starWidth;
 
     var isPercentage = false,
         maxValue = options.maxValue,
