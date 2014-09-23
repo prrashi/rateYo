@@ -112,7 +112,7 @@
             </div>
             <pre class="brush: js">
               &lt;-- HTML --&gt;
-              &lt;div id="rateYo" class="pull-left"&gt;&lt;/div&gt;
+              &lt;div id="rateYo"&gt;&lt;/div&gt;
             </pre>
             <pre class="brush: js">
               /* Javascript */
@@ -132,47 +132,23 @@
           <div class="col-md-12 options-content">
             <h3>Options</h3>
             <div class="option option-starWidth">
-              <p><b>starWidth:</b><code>string, eg: &quot;32px&quot;</code></p>
+              <p><b>starWidth:</b><code>string, default: 18px</code></p>
               <div class="option-content">
                 <div class="clearfix">
-                  <div class="pull-left">
-                    <small>14px</small>
-                  </div>
-                  <div class="pull-left">
-                    <div class="rating" data-width="14px"></div>
-                  </div>
-                </div>
-                <div class="clearfix">
-                  <div class="pull-left">
-                    <small>20px</small>
-                  </div>
-                  <div class="pull-left">
-                    <div class="rating" data-width="20px"></div>
-                  </div>
-                </div>
-                <div class="clearfix">
-                  <div class="pull-left">
-                    <small>30px</small>
-                  </div>
-                  <div class="pull-left">
-                    <div class="rating" data-width="30px"></div>
-                  </div>
-                </div>
-                <div class="clearfix">
-                  <div class="pull-left">
-                    <small>40px</small>
-                  </div>
-                  <div class="pull-left">
-                    <div class="rating" data-width="40px"></div>
-                  </div>
+                  <div class="rating" data-width="40px"></div>
                 </div>
                 <div class="clearfix">
                   <pre class="brush: js">
+                    &lt;-- HTML --&gt;
+                    &lt;div id="rateYo"&gt;&lt;/div&gt;
+                  </pre>
+                  <pre class="brush: js">
+                    /* Javascript */
+
                     $(function () {
 
                       $("#rateYo").rateYo({
-                        rating: 3.6,
-                        starWidth: "18px"
+                        starWidth: "40px"
                       });
 
                     });
@@ -180,6 +156,70 @@
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-starWidth-->
+            <div class="option option-normalFill">
+              <p>
+                <b>normalFill:</b>
+                <code>string, default: #808080
+                  <i style="width: 16px;height:16px;display: inline-block; background: #808080; vertical-align: middle"></i>
+                </code>
+              </p>
+              <div class="option-content">
+                <div class="clearfix">
+                  <div class="pull-left">
+                    <div class="rating" data-color="#A0A0A0"></div>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <pre class="brush: js">
+                    &lt;-- HTML --&gt;
+                    &lt;div id="rateYo"&gt;&lt;/div&gt;
+                  </pre>
+                  <pre class="brush: js">
+                    /* Javascript */
+
+                    $(function () {
+
+                      $("#rateYo").rateYo({
+                        normalFill: "#A0A0A0"
+                      });
+
+                    });
+                  </pre>
+                </div>
+              </div><!-- End Option Content -->
+            </div><!-- End option-normalFill-->
+            <div class="option option-ratedFill">
+              <p>
+                <b>ratedFill:</b>
+                <code>string, default: #F39C12
+                  <i style="width: 16px;height:16px;display: inline-block; background: #F39C12; vertical-align: middle"></i>
+                </code>
+              </p>
+              <div class="option-content">
+                <div class="clearfix">
+                  <div class="pull-left">
+                    <div class="rating" data-color="#E74C3C"></div>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <pre class="brush: js">
+                    &lt;-- HTML --&gt;
+                    &lt;div id="rateYo"&gt;&lt;/div&gt;
+                  </pre>
+                  <pre class="brush: js">
+                    /* Javascript */
+
+                    $(function () {
+
+                      $("#rateYo").rateYo({
+                        ratedFill: "#E74C3C"
+                      });
+
+                    });
+                  </pre>
+                </div>
+              </div><!-- End Option Content -->
+            </div><!-- End option-ratedFill-->
           </div>
         </div>
       </div><!-- End Container Fluid -->
@@ -194,7 +234,6 @@
     <script type="text/javascript">
 
       $(function () {
-      
         SyntaxHighlighter.all();
       });
     </script>

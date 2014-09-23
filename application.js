@@ -18,18 +18,28 @@ $(function () {
 
   var $options = $("div.options-content div.option");
 
-  /* Option - StarWidth */
-  var $rateYos = $options.filter(".option-starWidth").find("div.rating");
+  /* Option - starWidth */
+  var $widthDemo = $options.filter(".option-starWidth")
+                           .find("div.rating");
+  $widthDemo.rateYo({
 
-  $rateYos.each(function () {
+    rating: getRandomRating(),
+    starWidth: $widthDemo.attr("data-width")
+  });
 
-    var width = $(this).attr("data-width");
+  /* Option - normalFill */
+  var $normalFillDemo = $options.filter(".option-normalFill")
+                                .find("div.rating");
+  $normalFillDemo.rateYo({
+    normalFill: $normalFillDemo.attr("data-color")
+  });
 
-    $(this).rateYo({
-
-      rating: getRandomRating(),
-      starWidth: width
-    });
+  /* Option - ratedFill */
+  var $ratedFillDemo = $options.filter(".option-ratedFill")
+                               .find("div.rating");
+  $ratedFillDemo.rateYo({
+    rating: 3.8,
+    ratedFill: $ratedFillDemo.attr("data-color")
   });
   /*
   $(".counter").text(rating);
