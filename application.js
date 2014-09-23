@@ -41,6 +41,14 @@ $(function () {
     rating: 3.8,
     ratedFill: $ratedFillDemo.attr("data-color")
   });
+
+  /* Option - numStars */
+  var $numStarsDemo = $options.filter(".option-numStars")
+                              .find("div.rating");
+  $numStarsDemo.rateYo({
+    rating: getRandomRating(),
+    numStars: parseFloat($numStarsDemo.attr("data-number"))
+  });
   /*
   $(".counter").text(rating);
 
