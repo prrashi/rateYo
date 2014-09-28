@@ -203,7 +203,7 @@
         ratingVal = rating;
       }
 
-      var percent = (ratingVal/maxValue)*100;
+      var percent = ((ratingVal - minValue)/(maxValue - minValue))*100;
 
       $ratedGroup.css("width", percent + "%");
     }
@@ -226,7 +226,8 @@
         calculatedRating = maxValue;
       }else {
 
-        calculatedRating = ((pageX - nodeStartX)/(nodeEndX - nodeStartX))*maxValue;
+        calculatedRating = ((pageX - nodeStartX)/(nodeEndX - nodeStartX))*(maxValue - minValue);
+        calculatedRating = minValue + calculatedRating;
       }
 
       return calculatedRating;

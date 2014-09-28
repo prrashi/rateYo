@@ -27,7 +27,7 @@
 
       $(function () {
 
-        var rating = 3.6;
+        var rating = 0.8;
 
         $(".counter").text(rating);
 
@@ -37,9 +37,11 @@
         };
 
         $("#rateYo1").rateYo({
-          rating: 3.6,
-          numStars: 5,
-          precision: 2
+          rating: rating,
+          numStars: 1,
+          precision: 2,
+          minValue: 0,
+          maxValue: 1
         }).on("rateyo.change", function (e, data) {
 
           changeRating.apply(this, [data.rating]);
