@@ -2,9 +2,12 @@ $(function () {
 
   var rating = 3.6
 
-  function getRandomRating () {
+  function getRandomRating (min, max) {
 
-    var randomRating = parseFloat((Math.random()*5 + 1).toFixed(2));
+    min = min || 0;
+    max = max || 5;
+
+    var randomRating = parseFloat(((Math.random() + min)*max + 1).toFixed(2));
 
     randomRating = randomRating>5?5:randomRating;
 
@@ -48,6 +51,23 @@ $(function () {
   $numStarsDemo.rateYo({
     rating: getRandomRating(),
     numStars: parseFloat($numStarsDemo.attr("data-number"))
+  });
+
+  var updateCounter = function (rating) {
+
+    $(this).next(".counter").text(rating);
+  };
+
+  /* Option - minValue */
+  var $minValueDemo = $options.filter(".option-minValue")
+                              .find("div.rating"),
+      minValue = parseInt($minValueDemo.attr("data-value"));
+
+  $minValueDemo.rateYo({
+    minValue: minValue,
+    rating: getRandomRating(minValue),
+    onSet: updateCounter,
+    onChange: updateCounter
   });
   /*
   $(".counter").text(rating);

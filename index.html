@@ -255,6 +255,38 @@
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-numStars -->
+            <div class="option option-minValue">
+              <p>
+                <b>minValue:</b>
+                <code>number, default: 0</code>
+                <p>The Minimum value, you want the rating to start with.</p>
+              </p>
+              <div class="option-content">
+                <div class="clearfix">
+                  <div class="pull-left rating-container">
+                    <div class="rating" data-value="1"></div>
+                    <div class="counter"></div>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <pre class="brush: js">
+                    &lt;-- HTML --&gt;
+                    &lt;div id="rateYo"&gt;&lt;/div&gt;
+                  </pre>
+                  <pre class="brush: js">
+                    /* Javascript */
+
+                    $(function () {
+
+                      $("#rateYo").rateYo({
+                        minValue: 1
+                      });
+
+                    });
+                  </pre>
+                </div>
+              </div><!-- End Option Content -->
+            </div><!-- End option-minValue -->
           </div>
         </div>
       </div><!-- End Container Fluid -->
