@@ -1,18 +1,19 @@
 $(function () {
+  "use strict";
 
-  var rating = 3.6
+  var rating = 3.6;
 
   function getRandomRating (min, max) {
 
     min = min || 0;
     max = max || 5;
 
-    var randomRating = parseFloat(((Math.random() + min)*max + 1).toFixed(2));
+    var randomRating = parseFloat(((Math.random())*max).toFixed(2));
 
-    randomRating = randomRating>5?5:randomRating;
+    randomRating = randomRating < min? min : randomRating;
 
     return randomRating;
-  };
+  }
 
   $("#rateYo").rateYo({
 
@@ -69,37 +70,70 @@ $(function () {
     onSet: updateCounter,
     onChange: updateCounter
   });
-  /*
-  $(".counter").text(rating);
 
-  var changeRating = function (rating) {
+  /* Option - maxValue */
+  var $maxValueDemo = $options.filter(".option-maxValue")
+                              .find("div.rating");
 
-    $(this).next().text(rating);
-  };
-
-  $("#rateYo1").rateYo({
-    rating: 3.6,
-    onSet: changeRating,
-    onChange: changeRating
+  $maxValueDemo.rateYo({
+    maxValue: 1,
+    numStars: 1,
+    rating: getRandomRating(0, 1),
+    onSet: updateCounter,
+    onChange: updateCounter,
+    starWidth: "50px"
   });
 
-  $("#getRating").click(function (e) {
+  /* Option - precision */
+  var $precisionDemo = $options.filter(".option-precision")
+                               .find("div.rating");
 
-    e.preventDefault();
-
-    var rating = $("#rateYo1").rateYo("method", "rating");
-
-    window.alert("Its " + rating + "!");
+  $precisionDemo.rateYo({
+    precision: 2,
+    rating: getRandomRating(),
+    onSet: updateCounter,
+    onChange: updateCounter
   });
 
-  $("#setRating").click(function (e) {
+  /* Option - rating */
+  var $ratingDemo = $options.filter(".option-rating")
+                            .find("div.rating");
 
-    e.preventDefault();
-
-    var randomRating = getRandomRating();
-
-    $("#rateYo1").rateYo("method", "rating", randomRating);
+  $ratingDemo.rateYo({
+    rating: $ratingDemo.attr("data-rating"),
+    onSet: updateCounter,
+    onChange: updateCounter,
+    precision: 0
   });
-  */
+
+  var $onSetDemo = $options.filter(".option-onSet")
+                           .find("div.rating"),
+      initialized = false;
+
+  $onSetDemo.rateYo({
+    onSet: function (rating) {
+
+      if (!initialized) {
+
+        initialized = true;
+        return;
+      }
+
+      window.alert("Rating is set to: " + rating);
+    }
+  });
+
+  var $onChangeDemo = $options.filter(".option-onChange")
+                              .find("div.rating"),
+      initialized = false;
+
+  $onChangeDemo.rateYo({
+
+    onChange: function (rating) {
+
+      $(this).next().text(rating);
+    },
+    rating: getRandomRating()
+  });
 });
 

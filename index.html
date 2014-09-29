@@ -106,6 +106,7 @@
               <p>
               just create a &lt;div/&gt;, throw some styles, initialize and thats it!.
               </p>
+              <p><b>Hover</b> to change the rating and <b>Click</b> to set.</p>
             </div>
             <div id="demo1" class="clearfix">
               <div id="rateYo" class="pull-left"></div>
@@ -164,7 +165,7 @@
                 <code>string, default: #808080
                   <i style="width: 16px;height:16px;display: inline-block; background: #808080; vertical-align: middle"></i>
                 </code>
-                <p>The background color for the un-rated part of a sta</p>
+                <p>The background color for the un-rated part of a star</p>
               </p>
               <div class="option-content">
                 <div class="clearfix">
@@ -287,6 +288,192 @@
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-minValue -->
+            <div class="option option-maxValue">
+              <p>
+                <b>maxValue:</b>
+                <code>number, default: 5</code>
+                <p>The Maximum value, you want the rating to end with.</p>
+              </p>
+              <div class="option-content">
+                <div class="clearfix">
+                  <div class="pull-left rating-container">
+                    <div class="rating" data-value="0.5"></div>
+                    <div class="counter"></div>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <pre class="brush: js">
+                    &lt;-- HTML --&gt;
+                    &lt;div id="rateYo"&gt;&lt;/div&gt;
+                  </pre>
+                  <pre class="brush: js">
+                    /* Javascript */
+
+                    $(function () {
+
+                      $("#rateYo").rateYo({
+                        maxValue: 1,
+                        numStars: 1,
+                        starWidth: "40px"
+                      });
+                    });
+                  </pre>
+                </div>
+              </div><!-- End Option Content -->
+            </div><!-- End option-maxValue -->
+            <div class="option option-precision">
+              <p>
+                <b>Precision:</b>
+                <code>number, default: 1</code>
+                <p>The precision of rating.</p>
+              </p>
+              <div class="option-content">
+                <div class="clearfix">
+                  <div class="pull-left rating-container">
+                    <div class="rating" data-precision="2"></div>
+                    <div class="counter"></div>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <pre class="brush: js">
+                    &lt;-- HTML --&gt;
+                    &lt;div id="rateYo"&gt;&lt;/div&gt;
+                  </pre>
+                  <pre class="brush: js">
+                    /* Javascript */
+
+                    $(function () {
+
+                      $("#rateYo").rateYo({
+                        precision: 2,
+                      });
+                    });
+                  </pre>
+                </div>
+              </div><!-- End Option Content -->
+            </div><!-- End option-precision -->
+            <div class="option option-rating">
+              <p>
+                <b>rating:</b>
+                <code>number/string, default: 0</code>
+                <p>The rating can be given in either percentage or number<br/>
+                   The rating should be given in a <code>string</code>, if it is a percentage.</p>
+              </p>
+              <div class="option-content">
+                <div class="clearfix">
+                  <div class="pull-left rating-container">
+                    <div class="rating" data-rating="50%"></div>
+                    <div class="counter"></div>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <pre class="brush: js">
+                    &lt;-- HTML --&gt;
+                    &lt;div id="rateYo"&gt;&lt;/div&gt;
+                  </pre>
+                  <pre class="brush: js">
+                    /* Javascript */
+
+                    $(function () {
+
+                      $("#rateYo").rateYo({
+                        rating: "50%",
+                        precision: 0
+                      });
+                    });
+                  </pre>
+                </div>
+              </div><!-- End Option Content -->
+            </div><!-- End option-rating -->
+            <div class="option option-onSet">
+              <p>
+                <b>onSet:</b>
+                <code>function, default: null</code>
+                <p>This function is called whenever the rating is set,<br/>
+                   It is called after initialization as the rating would be set for the
+                   first time.</p>
+                <p><i>Params:</i><br/>
+                   This function will be called with two parameters,<br/>
+                   1)<code>rating:</code> the number representing rating,<br/>
+                   2)<code>rateYoInstance:</code> an instance of the plugin containing
+                     some public functions</p>
+                <p><i>Context:</i><br/>
+                   The context( <code>this</code> ) of the function will be set to
+                   the HTML element on which the plugin is initialized.
+                </p>
+              </p>
+              <div class="option-content">
+                <div class="clearfix">
+                  <div class="pull-left">
+                    <div class="rating"></div>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <pre class="brush: js">
+                    &lt;-- HTML --&gt;
+                    &lt;div id="rateYo"&gt;&lt;/div&gt;
+                  </pre>
+                  <pre class="brush: js">
+                    /* Javascript */
+
+                    $(function () {
+
+                      $("#rateYo").rateYo({
+
+                        onSet: function (rating, rateYoInstance) {
+
+                          alert("Rating is set to: " + rating);
+                        }
+                      });
+                    });
+                  </pre>
+                </div>
+              </div><!-- End Option Content -->
+            </div><!-- End option-onSet -->
+            <div class="option option-onChange">
+              <p>
+                <b>onChange:</b>
+                <code>function, default: null</code>
+                <p>This function is called whenever the rating is changed (not set),<br/>
+                </p>
+                <p>The <i>Params</i> and <i>Context</i> for the function would be exactly
+                   same as that of <a href="#option-onSet">onSet</a> callback.
+                </p>
+              </p>
+              <div class="option-content">
+                <div class="clearfix">
+                  <div class="pull-left rating-container">
+                    <div class="rating"></div>
+                    <div class="counter"></div>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <pre class="brush: js">
+                    &lt;-- HTML --&gt;
+                    &lt;div id="rateYo"&gt;&lt;/div&gt;
+                    &lt;div class="counter"&gt;&lt;/div&gt;
+                  </pre>
+                  <pre class="brush: js">
+                    /* Javascript */
+
+                    $(function () {
+
+                      $("#rateYo").rateYo({
+
+                        onChange: function (rating, rateYoInstance) {
+
+                          $(this).next().text(rating);
+                        }
+                      });
+                    });
+                  </pre>
+                </div>
+              </div><!-- End Option Content -->
+            </div><!-- End option-onSet -->
+          </div><!-- End options-content -->
+        </div><!-- End row -->
+        <div class="row">
+          <div class="col-md-12 methods-content">
           </div>
         </div>
       </div><!-- End Container Fluid -->
