@@ -78,3 +78,27 @@ div.rating-container div.counter ::before {
 div.rating-container:hover div.counter {
   display: block;
 }
+div.method-rating div.rating-actions,
+div.method-destroy div.rating-actions {
+  margin-top: 10px;
+}
+div.option,
+div.method,
+div.event {
+  margin-bottom: 20px;
+}
+div.sidebar > a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+div.sidebar > a:hover {
+  background-color: #eee;
+  color: #428bca;
+}
+div.sidebar ul.nav > li > a {
+  color: #555;
+}
+div.sidebar ul.nav > li > a:hover {
+  color: #428bca;
+}

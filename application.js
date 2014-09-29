@@ -135,5 +135,53 @@ $(function () {
     },
     rating: getRandomRating()
   });
+
+  var $methods = $("div.methods-content div.method");
+
+  var $ratingMethodDemo = $methods.filter(".method-rating")
+                                  .find("div.rating");
+
+  var $ratingActions = $ratingMethodDemo.rateYo().nextAll("div");
+
+  $ratingActions.on("click", "button.get-rating", function () {
+
+    var rating = $ratingMethodDemo.rateYo("method", "rating");
+    window.alert("its " + rating + " Yo!");
+  }).on("click", "button.set-rating", function () {
+
+    var rating = getRandomRating();
+    $ratingMethodDemo.rateYo("method", "rating", rating);
+  });
+
+  var $destroyMethodDemo = $methods.filter(".method-destroy")
+                                   .find("div.rating");
+
+  var $ratingActions = $destroyMethodDemo.rateYo().nextAll("div");
+
+  $ratingActions.on("click", "button.destroy", function () {
+
+    $destroyMethodDemo.rateYo("method", "destroy");
+  }).on("click", "button.initialize", function () {
+
+    $destroyMethodDemo.rateYo();
+  });
+
+  var $events = $("div.events-content div.event");
+
+  var $setDemo = $events.filter(".event-set")
+                        .find("div.rating");
+
+  $setDemo.rateYo().on("rateyo.set", function (e, data) {
+
+    alert("The rating is set to " + data.rating + "!");
+  });
+
+  var $changeDemo = $events.filter(".event-change")
+                           .find("div.rating");
+
+  $changeDemo.rateYo().on("rateyo.change", function (e, data) {
+
+    $(this).next().text(data.rating);
+  });
 });
 

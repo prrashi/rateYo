@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="jquery.rateyo.min.css"/>
 
   </head>
-  <body>
+  <body data-spy="scroll">
 
     <div class="sidebar">
 
@@ -129,10 +129,10 @@
             </pre>
           </div>
         </div><!-- End Row -->
-        <div class="row">
+        <div id="options" class="row">
           <div class="col-md-12 options-content">
             <h3>Options</h3>
-            <div class="option option-starWidth">
+            <div id="option-starWidth" class="option option-starWidth">
               <p><b>starWidth:</b><code>string, default: 18px</code></p>
               <p>The width of each star, the width of a star is always equal
                  to its height</p>
@@ -159,7 +159,7 @@
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-starWidth-->
-            <div class="option option-normalFill">
+            <div id="option-normalFill" class="option option-normalFill">
               <p>
                 <b>normalFill:</b>
                 <code>string, default: #808080
@@ -192,7 +192,7 @@
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-normalFill-->
-            <div class="option option-ratedFill">
+            <div id="option-ratedFill" class="option option-ratedFill">
               <p>
                 <b>ratedFill:</b>
                 <code>string, default: #F39C12
@@ -225,11 +225,11 @@
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-ratedFill -->
-            <div class="option option-numStars">
+            <div id="option-numStars" class="option option-numStars">
               <p>
                 <b>numStars:</b>
                 <code>number, default: 5</code>
-                <p>Number of stars to use, for displaying the rating</p>
+                <p>Number of stars to use, to display the rating</p>
               </p>
               <div class="option-content">
                 <div class="clearfix">
@@ -256,7 +256,7 @@
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-numStars -->
-            <div class="option option-minValue">
+            <div id="option-minValue" class="option option-minValue">
               <p>
                 <b>minValue:</b>
                 <code>number, default: 0</code>
@@ -288,7 +288,7 @@
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-minValue -->
-            <div class="option option-maxValue">
+            <div id="option-maxValue" class="option option-maxValue">
               <p>
                 <b>maxValue:</b>
                 <code>number, default: 5</code>
@@ -321,7 +321,7 @@
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-maxValue -->
-            <div class="option option-precision">
+            <div id="option-precision" class="option option-precision">
               <p>
                 <b>Precision:</b>
                 <code>number, default: 1</code>
@@ -352,12 +352,12 @@
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-precision -->
-            <div class="option option-rating">
+            <div id="option-rating" class="option option-rating">
               <p>
                 <b>rating:</b>
                 <code>number/string, default: 0</code>
-                <p>The rating can be given in either percentage or number<br/>
-                   The rating should be given in a <code>string</code>, if it is a percentage.</p>
+                <p>The rating can be given in either percentage or number,<br/>
+                   it should be given in a <code>string</code>, if it is a percentage.</p>
               </p>
               <div class="option-content">
                 <div class="clearfix">
@@ -385,12 +385,12 @@
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-rating -->
-            <div class="option option-onSet">
+            <div id="option-onSet" class="option option-onSet">
               <p>
                 <b>onSet:</b>
                 <code>function, default: null</code>
                 <p>This function is called whenever the rating is set,<br/>
-                   It is called after initialization as the rating would be set for the
+                   It is called after initialization, as the rating would be set for the
                    first time.</p>
                 <p><i>Params:</i><br/>
                    This function will be called with two parameters,<br/>
@@ -430,7 +430,7 @@
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-onSet -->
-            <div class="option option-onChange">
+            <div id="option-onChange" class="option option-onChange">
               <p>
                 <b>onChange:</b>
                 <code>function, default: null</code>
@@ -473,9 +473,173 @@
           </div><!-- End options-content -->
         </div><!-- End row -->
         <div class="row">
-          <div class="col-md-12 methods-content">
-          </div>
-        </div>
+          <div id="methods" class="col-md-12 methods-content">
+            <h3>Methods</h3>
+            <p>All methods follow a common signature.</p>
+            <p>A method of the plugin can be called by passing the string
+               &quot;method&quot; as the first parameter,<br/>
+               <i>name</i> of the method as second parameter,
+               followed by arguments to the method.
+            </p>
+            <p>If no arguments are passed after the method name,
+               it is considered as a <i>getter</i>, else it is considered as a
+              <i>setter</i></p>
+            <div id="method-rating" class="method method-rating">
+              <p><b>rating:</b></p>
+              <div class="method-content">
+                <div class="clearfix">
+                  <div class="rating"></div>
+                  <div class="clearfix rating-actions">
+                    <button class="btn btn-primary pull-left get-rating">Get Rating</button>
+                    <div class="pull-left">&nbsp;</div>
+                    <button class="btn btn-primary pull-left set-rating">Set Random Rating</button>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <pre class="brush: js">
+                    &lt;!-- HTML --&gt;
+                    &lt;div id="rateYo"&gt;&lt;/div&gt;
+                    &lt;div&gt;
+                      &lt;button id="getRating" &gt;Get Rating&lt;/button&gt;
+                      &lt;button id="setRating" &gt;Set Random Rating&lt;/button&gt;
+                    &lt;/div&gt;
+                  </pre>
+                  <pre class="brush: js">
+                    /* Javascript */
+
+                    $(function () {
+
+                      var $rateYo = $("#rateYo").rateYo();
+
+                      $("#getRating").click(function () {
+
+                        /* get rating */
+                        var rating = $rateYo.rateYo("method", "rating");
+
+                        window.alert("Its " + rating + " Yo!");
+                      });
+
+                      $("#setRating").click(function () {
+
+                        /* set rating */
+                        var rating = getRandomRating();
+                        $rateYo.rateYo("method", "rating", rating);
+                      });
+                    });
+                  </pre>
+                </div>
+              </div><!-- End method-content -->
+            </div><!-- End method-rating -->
+            <div id="method-destroy" class="method method-destroy">
+              <p><b>destroy:</b></p>
+              <div class="method-content">
+                <div class="clearfix">
+                  <div class="rating"></div>
+                  <div class="clearfix rating-actions">
+                    <button class="btn btn-primary pull-left destroy">Destroy</button>
+                    <div class="pull-left">&nbsp;</div>
+                    <button class="btn btn-primary pull-left initialize">Initialize</button>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <pre class="brush: js">
+                    &lt;!-- HTML --&gt;
+                    &lt;div id="rateYo"&gt;&lt;/div&gt;
+                    &lt;div&gt;
+                      &lt;button id="destroy"&gt;Destroy&lt;/button&gt;
+                      &lt;button id="initialize"&gt;Initialize&lt;/button&gt;
+                    &lt;/div&gt;
+                  </pre>
+                  <pre class="brush: js">
+                    /* Javascript */
+
+                    $(function () {
+
+                      var $rateYo = $("#rateYo").rateYo();
+
+                      $("#destroy").click(function () {
+
+                        $rateYo.rateYo("method", "destroy");
+                      });
+
+                      $("#initialize").click(function () {
+
+                        $rateYo.rateYo();
+                      });
+                    });
+                  </pre>
+                </div>
+              </div><!-- End method-content -->
+            </div><!-- End method-rating -->
+          </div><!-- End Methods-content -->
+        </div><!-- End Row -->
+        <div class="row">
+          <div id="events" class="col-md-12 events-content">
+            <h3>Events</h3>
+            <div id="event-set" class="event event-set">
+              <div class="event-content">
+                <p><b>rateyo.set</b></p>
+                <p>This event shall be fired when ever the rating is set.</p>
+                <p>This new rating shall be passed in the second parameter
+                   to the event handler</p>
+                <div class="clearfix">
+                  <div class="rating"></div>
+                </div>
+                <div class="clearfix">
+                  <pre class="brush: js">
+                    &lt;!-- HTML --&gt;
+                    &lt;div id="rateYo"&gt;&lt;/div&gt;
+                  </pre>
+                  <pre class="brush: js">
+                    /* javascript */
+
+                    $(function () {
+
+                      $("#rateYo").rateYo()
+                                  .on("rateyo.set", function (e, data) {
+
+                                      alert("The rating is set to " + data.rating + "!");
+                                  });
+                    });
+                  </pre>
+                </div>
+              </div><!-- End event-content -->
+            </div><!-- End event-set -->
+            <div id="event-change" class="event event-change">
+              <div class="event-content">
+                <p><b>rateyo.change</b></p>
+                <p>This event will be fired when ever the rating is change.</p>
+                <p>This new rating shall be passed in the second parameter
+                   to the event handler</p>
+                <div class="clearfix">
+                  <div class="pull-left rating-container">
+                    <div class="rating"></div>
+                    <div class="counter"></div>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <pre class="brush: js">
+                    &lt;!-- HTML --&gt;
+                    &lt;div id="rateYo"&gt;&lt;/div&gt;
+                  </pre>
+                  <pre class="brush: js">
+                    /* javascript */
+
+                    $(function () {
+
+                      $("#rateYo").rateYo()
+                                  .on("rateyo.change", function (e, data) {
+
+                                    var rating = data.rating;
+                                    $(this).next().text(rating);
+                                  });
+                    });
+                  </pre>
+                </div>
+              </div><!-- End event-content -->
+            </div><!-- End event-set -->
+          </div><!-- End events-content -->
+        </div><!-- End row -->
       </div><!-- End Container Fluid -->
     </div><!-- End Main Content -->
     <script src='libs/shCore.js' type='text/javascript'></script>
