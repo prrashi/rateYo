@@ -1,4 +1,4 @@
-/*! rateYo - v1.0
+/*! rateYo - v1.0.1
 * http://prrashi.github.io/rateyo/
 * Copyright (c) 2014 Prashanth Pamidi; Licensed MIT */
 ;(function ($) {
@@ -226,8 +226,9 @@
         calculatedRating = maxValue;
       }else {
 
-        calculatedRating = ((pageX - nodeStartX)/(nodeEndX - nodeStartX))*(maxValue - minValue);
-        calculatedRating = minValue + calculatedRating;
+        calculatedRating = ((pageX - nodeStartX)/(nodeEndX - nodeStartX));
+        calculatedRating *= (maxValue - minValue);
+        calculatedRating += minValue;
       }
 
       return calculatedRating;
