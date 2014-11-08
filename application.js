@@ -106,35 +106,43 @@ $(function () {
     precision: 0
   });
 
-  var $onSetDemo = $options.filter(".option-onSet")
-                           .find("div.rating"),
-      initialized = false;
+  (function () {
 
-  $onSetDemo.rateYo({
-    onSet: function (rating) {
+    var $onSetDemo = $options.filter(".option-onSet")
+                             .find("div.rating"),
+        initialized = false;
 
-      if (!initialized) {
+    $onSetDemo.rateYo({
+      onSet: function (rating) {
 
-        initialized = true;
-        return;
+        if (!initialized) {
+
+          initialized = true;
+          return;
+        }
+
+        window.alert("Rating is set to: " + rating);
       }
+    });
 
-      window.alert("Rating is set to: " + rating);
-    }
-  });
+  }());
 
-  var $onChangeDemo = $options.filter(".option-onChange")
-                              .find("div.rating"),
-      initialized = false;
+  (function () {
 
-  $onChangeDemo.rateYo({
+    var $onChangeDemo = $options.filter(".option-onChange")
+                                .find("div.rating"),
+        initialized = false;
 
-    onChange: function (rating) {
+    $onChangeDemo.rateYo({
 
-      $(this).next().text(rating);
-    },
-    rating: getRandomRating()
-  });
+      onChange: function (rating) {
+
+        $(this).next().text(rating);
+      },
+      rating: getRandomRating()
+    });
+
+  }());
 
   var $methods = $("div.methods-content div.method");
 
