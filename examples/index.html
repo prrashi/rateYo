@@ -20,6 +20,7 @@
     <div class="rateyo-widg"></div>
     <div class="rateyo-widg"></div>
     <div class="rateyo-widg"></div>
+    <div class="rateyo-readonly-widg"></div>
     <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="../min/jquery.rateyo.min.js"></script>
 
@@ -53,6 +54,12 @@
         $(".rateyo-widg").rateYo({
 
           rating: 4.2
+        });
+
+        $(".rateyo-readonly-widg").rateYo({
+
+          rating: 3,
+          readOnly: true
         });
       });
     </script>

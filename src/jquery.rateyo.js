@@ -1,4 +1,4 @@
-/*! rateYo - v1.0.1
+/*! rateYo - v1.1.1
 * http://prrashi.github.io/rateyo/
 * Copyright (c) 2014 Prashanth Pamidi; Licensed MIT */
 ;(function ($) {
@@ -30,6 +30,7 @@
     maxValue: 5,
     precision: 1,
     rating: 0,
+    readOnly: false,
     onChange: null,
     onSet: null
   };
@@ -299,7 +300,9 @@
 
     this.destroy = function () {
 
-      unbindEvents();
+      if (!options.readOnly) {
+        unbindEvents();
+      }
 
       RateYo.prototype.collection = deleteInstance($node.get(0),
                                                    this.collection);
@@ -309,7 +312,10 @@
       return $node;
     };
 
-    bindEvents();
+    if (!options.readOnly) {
+      bindEvents();
+    }
+
     this.setRating(rating);
   }
 
