@@ -106,6 +106,14 @@ $(function () {
     precision: 0
   });
 
+  var $readOnlyDemo = $options.filter(".option-readonly")
+                              .find("div.rating");
+
+  $readOnlyDemo.rateYo({
+    rating: 3.2,
+    readOnly: true
+  });
+
   (function () {
 
     var $onSetDemo = $options.filter(".option-onSet")

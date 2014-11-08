@@ -17,7 +17,8 @@
 
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="application.css"/>
-    <link rel="stylesheet" href="jquery.rateyo.min.css"/>
+
+    <link rel="stylesheet" href="bower_components/jquery-rateyo/min/jquery.rateyo.min.css"/>
 
   </head>
   <body data-spy="scroll">
@@ -66,6 +67,9 @@
         </li>
         <li>
           <a href="#option-rating">rating</a>
+        </li>
+        <li>
+          <a href="#option-readonly">readOnly</a>
         </li>
         <li>
           <a href="#option-onSet">onSet</a>
@@ -118,7 +122,18 @@
             </div>
             <pre class="brush: js">
               &lt;-- HTML --&gt;
-              &lt;div id="rateYo"&gt;&lt;/div&gt;
+
+              &lt;head&gt;
+                &lt;-- Basic styles of the plugin --&gt;  
+                &lt;link rel="stylesheet" href="jquery.rateyo.css"/&gt;
+              &lt;/head&gt;
+
+              &lt;body&gt;
+                &lt;div id="rateYo"&gt;&lt;/div&gt;
+
+                &lt;script src="jquery.js"&gt;&lt;/script&gt;
+                &lt;script src="jquery.rateyo.js"&gt;&lt;/script&gt;
+              &lt;/body&gt;
             </pre>
             <pre class="brush: js">
               /* Javascript */
@@ -135,11 +150,18 @@
           </div>
         </div><!-- End Row -->
         <div class="row">
+          <div id="using-bower" class="col-md-12">
+            <h3>Using Bower</h3>
+            <code>bower install jquery-rateyo</code>
+          </div>
+        </div>
+        <div class="row">
           <div id="downloads" class="col-md-12">
+            <h3></h3>
             <div class="clearfix">
               <a class="btn btn-primary btn-lg pull-left"
-                 href="https://github.com/prrashi/rateYo/releases/download/V1.0/V1.0.rar">
-                 Download V1.0
+                 href="https://github.com/prrashi/rateYo/releases/download/1.1.1/V1.1.1.rar">
+                 Download V1.1.1
               </a>
             </div>
           </div>
@@ -394,6 +416,39 @@
                       $("#rateYo").rateYo({
                         rating: "50%",
                         precision: 0
+                      });
+                    });
+                  </pre>
+                </div>
+              </div><!-- End Option Content -->
+            </div><!-- End option-rating -->
+            <div id="option-readonly" class="option option-readonly">
+              <p>
+                <b>readOnly:</b>
+                <code>boolean, default: false</code>
+                <p>Set <code>readOnly: true</code>,
+                   if you want the rating to be non-editable
+                </p>
+              </p>
+              <div class="option-content">
+                <div class="clearfix">
+                  <div class="pull-left rating-container">
+                    <div class="rating"></div>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <pre class="brush: js">
+                    &lt;-- HTML --&gt;
+                    &lt;div id="rateYo"&gt;&lt;/div&gt;
+                  </pre>
+                  <pre class="brush: js">
+                    /* Javascript */
+
+                    $(function () {
+
+                      $("#rateYo").rateYo({
+                        rating: 3.2,
+                        readOnly: true
                       });
                     });
                   </pre>
@@ -668,7 +723,8 @@
     <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
-    <script type="text/javascript" src="jquery.rateyo.min.js"></script>
+    <script type="text/javascript" src="bower_components/jquery-rateyo/min/jquery.rateyo.min.js"></script>
+
     <script type="text/javascript" src="application.js"></script>
 
     <script type="text/javascript">

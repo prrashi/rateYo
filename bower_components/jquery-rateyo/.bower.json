@@ -30,8 +30,16 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "~2.1.1",
-    "bootstrap": "~3.3.0",
-    "jquery-rateyo": "~1.1.1"
-  }
+    "jquery": "~2.1.1"
+  },
+  "_release": "1.1.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.1.1",
+    "commit": "9623947c2c3628081a1174405520c67b63046d78"
+  },
+  "_source": "git://github.com/prrashi/rateYo.git",
+  "_target": "~1.1.1",
+  "_originalSource": "jquery-rateyo",
+  "_direct": true
 }
