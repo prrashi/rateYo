@@ -102,3 +102,7 @@ div.sidebar ul.nav > li > a {
 div.sidebar ul.nav > li > a:hover {
   color: #428bca;
 }
+/* DISCUS COMMENTS */
+#disqus_thread {
+  padding: 20px;
+}
