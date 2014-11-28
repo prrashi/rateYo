@@ -113,8 +113,6 @@
 
     var that = this;
 
-    var rating = options.rating;
-
     $node.addClass("jq-ry-container");
 
     var $groupWrapper = $("<div/>").addClass("jq-ry-group-wrapper")
@@ -128,23 +126,19 @@
                                  .addClass("jq-ry-group")
                                  .appendTo($groupWrapper);
 
-    function setNumStars (newValue) {
+    function showRating (ratingVal) {
 
-      if (!isDefined(newValue)) {
+      if(!isDefined(ratingVal)){
 
-        return options.numStars;
+        ratingVal = options.rating;
       }
 
-      options.numStars = newValue;
+      var minValue = options.minValue,
+          maxValue = options.maxValue;
+  
+      var percent = ((ratingVal - minValue)/(maxValue - minValue))*100;
 
-      $normalGroup.empty();
-      $ratedGroup.empty();
-
-      for (var i=0; i<options.numStars; i++) {
-
-        $normalGroup.append($(BASICSTAR));
-        $ratedGroup.append($(BASICSTAR));
-      }
+      $ratedGroup.css("width", percent + "%");
     }
 
     function setStarWidth (newWidth) {
@@ -197,6 +191,31 @@
       $ratedGroup.find("svg").attr({fill: options.ratedFill});
     }
 
+    function setNumStars (newValue) {
+
+      if (!isDefined(newValue)) {
+
+        return options.numStars;
+      }
+
+      options.numStars = newValue;
+
+      $normalGroup.empty();
+      $ratedGroup.empty();
+
+      for (var i=0; i<options.numStars; i++) {
+
+        $normalGroup.append($(BASICSTAR));
+        $ratedGroup.append($(BASICSTAR));
+      }
+
+      setStarWidth(options.starWidth);
+      setRatedFill(options.ratedFill);
+      setNormalFill(options.normalFill);
+
+      showRating();
+    }
+
     function setMinValue (newValue) {
 
       if (!isDefined(newValue)) {
@@ -205,6 +224,8 @@
       }
 
       options.minValue = newValue;
+
+      showRating();
 
       return newValue;
     }
@@ -218,6 +239,8 @@
 
       options.maxValue = newValue;
 
+      showRating();
+
       return newValue;
     }
 
@@ -229,6 +252,8 @@
       }
 
       options.precision = newValue;
+
+      showRating();
     }
 
     function calculateRating (e) {
@@ -260,21 +285,13 @@
       return calculatedRating;
     }
 
-    function showRating (ratingVal) {
-
-      if(!isDefined(ratingVal)){
-
-        ratingVal = rating;
-      }
-
-      var percent = ((ratingVal - minValue)/(maxValue - minValue))*100;
-
-      $ratedGroup.css("width", percent + "%");
-    }
-
     function onMouseEnter (e) {
 
       var rating = calculateRating(e).toFixed(options.precision);
+
+      var minValue = options.minValue,
+          maxValue = options.maxValue;
+
       rating = checkPercision(parseFloat(rating), minValue, maxValue);
 
       showRating(rating);
@@ -286,7 +303,7 @@
 
       showRating();
 
-      $node.trigger("rateyo.change", {rating: rating});
+      $node.trigger("rateyo.change", {rating: options.rating});
     }
 
     function onMouseClick (e) {
@@ -346,7 +363,7 @@
 
       unbindEvents();
 
-      if (newValue) {
+      if (!newValue) {
 
         bindEvents();
       }
@@ -356,10 +373,10 @@
 
       if (!isDefined(newValue)) {
 
-        return rating;
+        return options.rating;
       }
 
-      var rating = options.rating;
+      var rating = newValue;
 
       var maxValue = options.maxValue,
           minValue = options.minValue;
@@ -369,22 +386,24 @@
         if (rating[rating.length - 1] === "%") {
 
           rating = rating.substr(0, rating.length - 1);
-          maxValue = this.setMaxValue(100);
-          minValue = this.setMinValue(0);
+          maxValue = setMaxValue(100);
+          minValue = setMinValue(0);
         }
 
         rating = parseFloat(rating);
       }
 
-      checkBounds(newValue, minValue, maxValue);
+      checkBounds(rating, minValue, maxValue);
 
-      rating = parseFloat(newValue.toFixed(options.precision));
+      rating = parseFloat(rating.toFixed(options.precision));
 
       checkPercision(parseFloat(rating), minValue, maxValue);
 
       options.rating = rating;
 
-      return rating;
+      showRating();
+
+      $node.trigger("rateyo.set", {rating: rating});
     }
 
     function setOnSet (method) {
@@ -397,15 +416,21 @@
       options.onSet = method;
     }
 
+    function setOnChange (method) {
+    
+      if (!isDefined(method)) {
+      
+        return options.onChange;
+      }
+
+      options.onChange = method;
+    }
+
     this.setRating = function (newValue) {
 
-      var rating  = setRating(newValue);
-
-      showRating();
-
-      $node.trigger("rateyo.set", {rating: rating});
-
-      return this;
+      setRating(newValue);
+      
+      return $node;
     };
 
     this.destroy = function () {
@@ -469,17 +494,25 @@
 
           method = setReadOnly;
           break;
-        case ""
+        case "setOnSet":
+
+          method = setOnSet;
+          break;
+        case "setOnChange":
+
+          method = setOnChange;
+          break;
+        default:
+
+          throw Error("No such option as " + optionName);
       }
+
+      method(param);
+
+      return options[optionName];
     };
 
     setNumStars(options.numStars);
-    setStarWidth(options.starWidth);
-    setNormalFill(optons.normalFill);
-    setRatedFill(options.ratedFill);
-    setMinValue(options.minValue);
-    setMaxValue(options.maxValue);
-    setPrecision(options.precision);
     setReadOnly(options.readOnly);
     this.setRating(options.rating);
   }
@@ -515,21 +548,21 @@
 
       var result = [];
 
-      var isGetter = params.length === 0;
-
       var existingInstance;
 
       var method; //Method of the RateYo that is to be called
 
-      if(isGetter) {
+      existingInstance = getInstance($nodes.get($nodes.length - 1),
+                                     rateYoInstances);
 
-        // Getting the last instance
-        existingInstance = getInstance($nodes.get($nodes.length - 1),
-                                       rateYoInstances);
+      $.each($nodes, function (i, node) {
+
+        var existingInstance = getInstance($(node).get(0),
+                                           rateYoInstances);
 
         if(!existingInstance) {
 
-          throw Error("Trying to get options before even initialization");
+          throw Error("Trying to set options before even initialization");
         }
 
         method = existingInstance[methodName];
@@ -539,33 +572,14 @@
           throw Error("Method " + methodName + " does not exist!");
         }
 
-        return method();
-      } else {
+        var returnVal = method.apply(existingInstance, params);
 
-        $.each($nodes, function (i, node) {
+        result.push(returnVal);
+      });
 
-          var existingInstance = getInstance($(node).get(0),
-                                             rateYoInstances);
+      result = result.length === 1? result[0]: $(result);
 
-          if(!existingInstance) {
-
-            throw Error("Trying to set options before even initialization");
-          }
-
-          method = existingInstance[methodName];
-
-          if (!method) {
-
-            throw Error("Method " + methodName + " does not exist!");
-          }
-
-          method.apply(existingInstance, params);
-
-          result.push(existingInstance.node);
-        });
-
-        return $(result);
-      }
+      return result;
     }else {
 
       throw Error("Invalid Arguments");
