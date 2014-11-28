@@ -97,6 +97,11 @@
     return collection;
   }
 
+  function isDefined(value) {
+
+    return typeof value !== "undefined";
+  }
+
   /* The Contructor, whose instances are used by plugin itself,
    * to set and get values
    */
@@ -110,35 +115,7 @@
 
     var rating = options.rating;
 
-    // In the current version, the width and height of the star
-    // should be the same
-    options.starHeight = options.starWidth;
-
-    var isPercentage = false,
-        maxValue = options.maxValue,
-        minValue = options.minValue;
-
-    if (typeof rating === "string") {
-
-      if (rating[rating.length - 1] === "%") {
-
-        isPercentage = true;
-        rating = rating.substr(0, rating.length - 1);
-        maxValue=100;
-        minValue = 0;
-      }
-
-      rating = parseInt(rating);
-
-      checkBounds(rating, minValue, maxValue);
-    }
-
-    var containerWidth = parseInt(options.starWidth.replace("px","").trim());
-
-    containerWidth = containerWidth*options.numStars;
-
-    $node.addClass("jq-ry-container")
-         .width(containerWidth);
+    $node.addClass("jq-ry-container");
 
     var $groupWrapper = $("<div/>").addClass("jq-ry-group-wrapper")
                                    .appendTo($node);
@@ -151,62 +128,107 @@
                                  .addClass("jq-ry-group")
                                  .appendTo($groupWrapper);
 
-    for (var i=0; i<options.numStars; i++) {
+    function setNumStars (newValue) {
 
-      $normalGroup.append($(BASICSTAR));
-      $ratedGroup.append($(BASICSTAR));
+      if (!isDefined(newValue)) {
+
+        return options.numStars;
+      }
+
+      options.numStars = newValue;
+
+      $normalGroup.empty();
+      $ratedGroup.empty();
+
+      for (var i=0; i<options.numStars; i++) {
+
+        $normalGroup.append($(BASICSTAR));
+        $ratedGroup.append($(BASICSTAR));
+      }
     }
 
-    $normalGroup.find("svg")
-                .attr({width: options.starWidth,
-                       height: options.starHeight,
-                       fill: options.normalFill});
+    function setStarWidth (newWidth) {
 
-    $ratedGroup.find("svg")
-               .attr({width: options.starWidth,
-                      height: options.starHeight,
-                      fill: options.ratedFill});
+      if (!isDefined(newWidth)) {
 
-    this.getRating = function () {
-
-      return rating;
-    };
-
-    this.setRating = function (newValue) {
-
-      if (typeof newValue === "string") {
-
-        if (newValue[newValue.length - 1] === "%") {
-
-          newValue = newValue.substr(0, newValue.length - 1);
-        }
-
-        newValue = parseFloat(newValue);
+        return options.starWidth;
       }
 
-      checkBounds(newValue, minValue, maxValue);
+      // In the current version, the width and height of the star
+      // should be the same
+      options.starWidth = options.starHeight = newWidth;
 
-      rating = parseFloat(newValue.toFixed(options.precision));
+      var containerWidth = parseInt(options.starWidth.replace("px","").trim());
 
-      checkPercision(parseFloat(rating), minValue, maxValue);
+      containerWidth = containerWidth*options.numStars;
 
-      showRating();
+      $node.width(containerWidth);
 
-      $node.trigger("rateyo.set", {rating: rating});
+      $normalGroup.find("svg")
+                  .attr({width: options.starWidth,
+                         height: options.starHeight});
 
-      return this;
-    };
+      $ratedGroup.find("svg")
+                 .attr({width: options.starWidth,
+                        height: options.starHeight});
+    }
 
-    function showRating (ratingVal) {
+    function setNormalFill (newFill) {
 
-      if(ratingVal === undefined){
+      if (!isDefined(newFill)) {
 
-        ratingVal = rating;
+        return options.normalFill;
       }
 
-      var percent = ((ratingVal - minValue)/(maxValue - minValue))*100;
+      options.normalFill = newFill;
 
-      $ratedGroup.css("width", percent + "%");
+      $normalGroup.find("svg").attr({fill: options.normalFill});
+    }
+
+    function setRatedFill (newFill) {
+
+      if (!isDefined(newFill)) {
+
+        return options.ratedFill;
+      }
+
+      options.ratedFill = newFill;
+
+      $ratedGroup.find("svg").attr({fill: options.ratedFill});
+    }
+
+    function setMinValue (newValue) {
+
+      if (!isDefined(newValue)) {
+
+        return options.minValue;
+      }
+
+      options.minValue = newValue;
+
+      return newValue;
+    }
+
+    function setMaxValue (newValue) {
+
+      if (!isDefined(newValue)) {
+
+        return options.maxValue;
+      }
+
+      options.maxValue = newValue;
+
+      return newValue;
+    }
+
+    function setPrecision (newValue) {
+
+      if (!isDefined(newValue)) {
+
+        return options.precision;
+      }
+
+      options.precision = newValue;
     }
 
     function calculateRating (e) {
@@ -214,6 +236,9 @@
       var position = $normalGroup.offset(),
         nodeStartX = position.left,
         nodeEndX = nodeStartX + $normalGroup.width();
+
+      var minValue = options.minValue,
+          maxValue = options.maxValue;
 
       var pageX = e.pageX;
 
@@ -233,6 +258,18 @@
       }
 
       return calculatedRating;
+    }
+
+    function showRating (ratingVal) {
+
+      if(!isDefined(ratingVal)){
+
+        ratingVal = rating;
+      }
+
+      var percent = ((ratingVal - minValue)/(maxValue - minValue))*100;
+
+      $ratedGroup.css("width", percent + "%");
     }
 
     function onMouseEnter (e) {
@@ -298,6 +335,79 @@
            .on("rateyo.set", onSet);
     }
 
+    function setReadOnly (newValue) {
+
+      if (!isDefined(newValue)) {
+
+        return options.readOnly;
+      }
+
+      options.readOnly = newValue;
+
+      unbindEvents();
+
+      if (newValue) {
+
+        bindEvents();
+      }
+    }
+
+    function setRating (newValue) {
+
+      if (!isDefined(newValue)) {
+
+        return rating;
+      }
+
+      var rating = options.rating;
+
+      var maxValue = options.maxValue,
+          minValue = options.minValue;
+
+      if (typeof rating === "string") {
+
+        if (rating[rating.length - 1] === "%") {
+
+          rating = rating.substr(0, rating.length - 1);
+          maxValue = this.setMaxValue(100);
+          minValue = this.setMinValue(0);
+        }
+
+        rating = parseFloat(rating);
+      }
+
+      checkBounds(newValue, minValue, maxValue);
+
+      rating = parseFloat(newValue.toFixed(options.precision));
+
+      checkPercision(parseFloat(rating), minValue, maxValue);
+
+      options.rating = rating;
+
+      return rating;
+    }
+
+    function setOnSet (method) {
+    
+      if (!isDefined(method)) {
+      
+        return options.onSet;
+      }
+
+      options.onSet = method;
+    }
+
+    this.setRating = function (newValue) {
+
+      var rating  = setRating(newValue);
+
+      showRating();
+
+      $node.trigger("rateyo.set", {rating: rating});
+
+      return this;
+    };
+
     this.destroy = function () {
 
       if (!options.readOnly) {
@@ -312,11 +422,66 @@
       return $node;
     };
 
-    if (!options.readOnly) {
-      bindEvents();
-    }
+    this.option = function (optionName, param) {
+    
+      if (!isDefined(optionName)) {
+      
+        return options;
+      }
 
-    this.setRating(rating);
+      var method;
+
+      switch (optionName) {
+      
+        case "starWidth":
+
+          method = setStarWidth;
+          break;
+        case "numStars":
+
+          method = setNumStars;
+          break;
+        case "normalFill":
+
+          method = setNormalFill;
+          break;
+        case "ratedFill":
+
+          method = setRatedFill;
+          break;
+        case "minValue":
+
+          method = setMinValue;
+          break;
+        case "maxValue":
+
+          method = setMaxValue;
+          break;
+        case "precision":
+
+          method = setPrecision;
+          break;
+        case "rating":
+
+          method = setRating;
+          break;
+        case "readOnly":
+
+          method = setReadOnly;
+          break;
+        case ""
+      }
+    };
+
+    setNumStars(options.numStars);
+    setStarWidth(options.starWidth);
+    setNormalFill(optons.normalFill);
+    setRatedFill(options.ratedFill);
+    setMinValue(options.minValue);
+    setMaxValue(options.maxValue);
+    setPrecision(options.precision);
+    setReadOnly(options.readOnly);
+    this.setRating(options.rating);
   }
 
   RateYo.prototype.collection = [];
@@ -324,19 +489,6 @@
   function _rateYo (options) {
 
     var rateYoInstances = RateYo.prototype.collection;
-
-    var optionsMap = {
-
-      "rating": {
-
-        "getter": "getRating",
-        "setter": "setRating"
-      },
-      "destroy": {
-
-        "getter": "destroy"
-      }
-    };
 
     /* jshint validthis:true */
     var $nodes = $(this);
@@ -356,18 +508,14 @@
 
       //Setting options to first argument
       options = args[0];
-    }else if (args.length > 1 && args[0] === "method") {
+    }else if (args.length >= 1 && typeof args[0] === "string") {
 
-      var option = args[1];
-
-      if (!optionsMap[option]) {
-
-        throw Error("Invalid Option!");
-      }
+      var methodName = args[0],
+          params = args.slice(1);
 
       var result = [];
 
-      var isGetter = args.length === 2;
+      var isGetter = params.length === 0;
 
       var existingInstance;
 
@@ -384,17 +532,15 @@
           throw Error("Trying to get options before even initialization");
         }
 
-        method = existingInstance[optionsMap[option].getter];
+        method = existingInstance[methodName];
 
         if (!method) {
 
-          throw Error("Method " + option + " does not exist!");
+          throw Error("Method " + methodName + " does not exist!");
         }
 
-        return method.apply(existingInstance, []);
+        return method();
       } else {
-
-        var value=args[2];
 
         $.each($nodes, function (i, node) {
 
@@ -406,14 +552,14 @@
             throw Error("Trying to set options before even initialization");
           }
 
-          method = existingInstance[optionsMap[option].setter];
+          method = existingInstance[methodName];
 
           if (!method) {
 
-            throw Error("Method " + option + " does not exist!");
+            throw Error("Method " + methodName + " does not exist!");
           }
 
-          method.apply(existingInstance, [value]);
+          method.apply(existingInstance, params);
 
           result.push(existingInstance.node);
         });
