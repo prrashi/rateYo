@@ -135,7 +135,7 @@
 
       var minValue = options.minValue,
           maxValue = options.maxValue;
-  
+
       var percent = ((ratingVal - minValue)/(maxValue - minValue))*100;
 
       $ratedGroup.css("width", percent + "%");
@@ -407,9 +407,9 @@
     }
 
     function setOnSet (method) {
-    
+
       if (!isDefined(method)) {
-      
+
         return options.onSet;
       }
 
@@ -417,9 +417,9 @@
     }
 
     function setOnChange (method) {
-    
+
       if (!isDefined(method)) {
-      
+
         return options.onChange;
       }
 
@@ -429,7 +429,7 @@
     this.setRating = function (newValue) {
 
       setRating(newValue);
-      
+
       return $node;
     };
 
@@ -447,17 +447,36 @@
       return $node;
     };
 
+    this.method = function (methodName) {
+
+      if (!methodName) {
+
+        throw Error("Method name not specified!");
+      }
+
+      if (!isDefined(this[methodName])) {
+
+        throw Error("Method " + methodName + " doesn't exist!");
+      }
+
+      var args = Array.prototype.slice.apply(arguments, []),
+          params = args.slice(1),
+          method = this[methodName];
+
+      return method.apply(this, params);
+    };
+
     this.option = function (optionName, param) {
-    
+
       if (!isDefined(optionName)) {
-      
+
         return options;
       }
 
       var method;
 
       switch (optionName) {
-      
+
         case "starWidth":
 
           method = setStarWidth;
@@ -514,6 +533,8 @@
 
     setNumStars(options.numStars);
     setReadOnly(options.readOnly);
+
+    this.collection.push(this);
     this.setRating(options.rating);
   }
 
@@ -548,24 +569,16 @@
 
       var result = [];
 
-      var existingInstance;
-
-      var method; //Method of the RateYo that is to be called
-
-      existingInstance = getInstance($nodes.get($nodes.length - 1),
-                                     rateYoInstances);
-
       $.each($nodes, function (i, node) {
 
-        var existingInstance = getInstance($(node).get(0),
-                                           rateYoInstances);
+        var existingInstance = getInstance(node, rateYoInstances);
 
         if(!existingInstance) {
 
           throw Error("Trying to set options before even initialization");
         }
 
-        method = existingInstance[methodName];
+        var method = existingInstance[methodName];
 
         if (!method) {
 
@@ -591,12 +604,10 @@
 
                var existingInstance = getInstance(this, rateYoInstances);
 
-               if (existingInstance) {
+               if (!existingInstance) {
 
-                 return;
+                 return new RateYo($(this), options);
                }
-
-               rateYoInstances.push(new RateYo($(this), options));
            });
   }
 
