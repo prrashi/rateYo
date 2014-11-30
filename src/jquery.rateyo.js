@@ -349,7 +349,7 @@
            .off("mouseleave", onMouseLeave)
            .off("click", onMouseClick)
            .off("rateyo.change", onChange)
-           .on("rateyo.set", onSet);
+           .off("rateyo.set", onSet);
     }
 
     function setReadOnly (newValue) {
@@ -494,11 +494,11 @@
 
           method = setReadOnly;
           break;
-        case "setOnSet":
+        case "onSet":
 
           method = setOnSet;
           break;
-        case "setOnChange":
+        case "onChange":
 
           method = setOnChange;
           break;
