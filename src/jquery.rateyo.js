@@ -314,7 +314,7 @@
       var resultantRating = calculateRating(e).toFixed(options.precision);
       resultantRating = parseFloat(resultantRating);
 
-      that.setRating(resultantRating);
+      that.rating(resultantRating);
     }
 
     function onChange (e, data) {
