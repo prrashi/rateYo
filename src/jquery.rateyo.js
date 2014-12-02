@@ -1,6 +1,9 @@
-/*! rateYo - v1.1.1
+/*****
+* rateYo - v1.2.0
 * http://prrashi.github.io/rateyo/
-* Copyright (c) 2014 Prashanth Pamidi; Licensed MIT */
+* Copyright (c) 2014 Prashanth Pamidi; Licensed MIT
+*****/
+
 ;(function ($) {
   "use strict";
 
@@ -426,7 +429,12 @@
       options.onChange = method;
     }
 
-    this.setRating = function (newValue) {
+    this.rating = function (newValue) {
+
+      if (!isDefined(newValue)) {
+
+        return options.rating;
+      }
 
       setRating(newValue);
 
@@ -535,7 +543,7 @@
     setReadOnly(options.readOnly);
 
     this.collection.push(this);
-    this.setRating(options.rating);
+    this.rating(options.rating);
   }
 
   RateYo.prototype.collection = [];
