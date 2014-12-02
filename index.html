@@ -82,6 +82,9 @@
       <a href="#methods">Methods</a>
       <ul class="nav">
         <li>
+          <a href="#method-option">option</a>
+        </li>
+        <li>
           <a href="#method-rating">rating</a>
         </li>
         <li>
@@ -546,14 +549,59 @@
           <div id="methods" class="col-md-12 methods-content">
             <h3>Methods</h3>
             <p>All methods follow a common signature.</p>
-            <p>A method of the plugin can be called by passing the string
-               &quot;method&quot; as the first parameter,<br/>
-               <i>name</i> of the method as second parameter,
-               followed by arguments to the method.
+            <p>A method of the plugin can be called by passing the name of the
+               method as the first parameter
             </p>
             <p>If no arguments are passed after the method name,
                it is considered as a <i>getter</i>, else it is considered as a
               <i>setter</i></p>
+            <div id="method-option" class="method method-option">
+              <p><b>option:</b></p>
+              <div class="method-content">
+                <div class="rating"></div>
+                <div class="clearfix" style="margin: 10px 0px 0px 10px">
+                  <div class="pull-left">
+                    <i style="width: 16px;height:16px;display: inline-block; background: #c0392b; vertical-align: middle"></i>
+                    &nbsp;Low
+                  </div>
+                  <div class="pull-left">&nbsp;</div>
+                  <div class="pull-left" style="margin-left: 15px;">
+                    <i style="width: 16px;height:16px;display: inline-block; background: #f1c40f; vertical-align: middle"></i>
+                    &nbsp;High
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <pre class="brush: js">
+                    &lt;!-- HTML --&gt;
+                    &lt;div id="rateYo"&gt;&lt;/div&gt;
+                  </pre>
+                  <pre class="brush: js">
+                    /* Javascript */
+
+                    $(function () {
+
+                      var $rateYo = $("#rateYo").rateYo({
+
+                          ratedFill: getColor()
+                      }.rateYo("option", "onChange", function () {
+
+                        /* get all options of the plugin */
+                        var options = $rateYo.rateYo("option");
+
+                        /* get color according to rating */
+                        $rateYo.rateYo("option", "ratedFill", getColor(options));
+                      }).rateYo("option", "onSet", function () {
+
+                        /* get all options of the plugin */
+                        var options = $rateYo.rateYo("option");
+
+                        /* set rating and color */
+                        $rateYo.rateYo("option", "ratedFill", getColor(options));
+                      });
+                    });
+
+              </div>
+            </div>
             <div id="method-rating" class="method method-rating">
               <p><b>rating:</b></p>
               <div class="method-content">
@@ -747,6 +795,7 @@
     <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
     <script type="text/javascript" src="bower_components/jquery-rateyo/min/jquery.rateyo.min.js"></script>
+    <script type="text/javascript" src="bower_components/jquery-rateyo/examples/color.js"></script>
 
     <script type="text/javascript" src="application.js"></script>
 

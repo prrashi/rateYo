@@ -17,12 +17,10 @@
       <div style="clear: both"></div>
     </div>
 
-    <div class="rateyo-widg"></div>
-    <div class="rateyo-widg"></div>
-    <div class="rateyo-widg"></div>
     <div class="rateyo-readonly-widg"></div>
     <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="../min/jquery.rateyo.min.js"></script>
+    <script type="text/javascript" src="../src/jquery.rateyo.js"></script>
+    <script type="text/javascript" src="color.js"></script>
 
     <script>
 
@@ -34,26 +32,35 @@
 
         var changeRating = function (rating) {
 
+          var options = $(this).rateYo("option"),
+              minValue = options.minValue,
+              maxValue = options.maxValue,
+              halfValue = (options.maxValue - options.minValue)/2,
+              startColor = "#c0392b",
+              endColor = "#f1c40f";
+
+          var perentageCovered = ((rating - minValue)/maxValue)*100;
+
+          var newColor = window.coolColor.pickColor(startColor,
+                                                    endColor, perentageCovered);
+
+          $(this).rateYo("option", "ratedFill", newColor);
+
           $(this).next().text(rating);
         };
 
         $("#rateYo1").rateYo({
           rating: rating,
-          numStars: 1,
+          numStars: 5,
           precision: 2,
           minValue: 0,
-          maxValue: 1
+          maxValue: 5
         }).on("rateyo.change", function (e, data) {
 
           changeRating.apply(this, [data.rating]);
         }).on("rateyo.set", function (e, data) {
 
           changeRating.apply(this, [data.rating]);
-        });
-
-        $(".rateyo-widg").rateYo({
-
-          rating: 4.2
         });
 
         $(".rateyo-readonly-widg").rateYo({

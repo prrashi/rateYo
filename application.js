@@ -154,6 +154,49 @@ $(function () {
 
   var $methods = $("div.methods-content div.method");
 
+  var $optionMethodDemo = $methods.filter(".method-option")
+                                  .find("div.rating");
+
+  var getColor = function (options, rating) {
+
+    var minValue = options.minValue,
+        maxValue = options.maxValue,
+        halfValue = (options.maxValue - options.minValue)/2,
+        startColor = "#c0392b",
+        endColor = "#f1c40f";
+
+    var perentageCovered = ((rating - minValue)/maxValue)*100;
+
+    var newColor = window.coolColor.pickColor(startColor,
+                                              endColor, perentageCovered);
+    return newColor;
+  };
+
+  var changeRating = function (rating) {
+    var options = $(this).rateYo("option");
+
+    var newColor = getColor(options, rating);
+
+    $(this).rateYo("option", "ratedFill", newColor);
+  };
+
+  var options = {
+    rating: 0.5,
+    numStars: 5,
+    precision: 2,
+    minValue: 0,
+    maxValue: 5
+  };
+
+  options.ratedFill = getColor(options, options.rating);
+
+  $optionMethodDemo.rateYo(options)
+  .on("rateyo.change", function (e, data) {
+    changeRating.apply(this, [data.rating]);
+  }).on("rateyo.set", function (e, data) {
+    changeRating.apply(this, [data.rating]);
+  });
+
   var $ratingMethodDemo = $methods.filter(".method-rating")
                                   .find("div.rating");
 
