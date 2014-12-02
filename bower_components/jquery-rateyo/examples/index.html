@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8"></meta>
+    <link rel="stylesheet" href="../min/jquery.rateyo.min.css"/>
+  </head>
+  <body>
+
+    <div>
+      <div id="rateYo1" style="float: left"></div>
+      <div class="counter" style="float: left;
+                            font-weight: bold;
+                            margin-left: 10px;
+                            margin-top: 7px;"></div>
+      <div style="clear: both"></div>
+    </div>
+
+    <div class="rateyo-readonly-widg"></div>
+    <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="../src/jquery.rateyo.js"></script>
+    <script type="text/javascript" src="color.js"></script>
+
+    <script>
+
+      $(function () {
+
+        var rating = 0.8;
+
+        $(".counter").text(rating);
+
+        var changeRating = function (rating) {
+
+          var options = $(this).rateYo("option"),
+              minValue = options.minValue,
+              maxValue = options.maxValue,
+              halfValue = (options.maxValue - options.minValue)/2,
+              startColor = "#c0392b",
+              endColor = "#f1c40f";
+
+          var perentageCovered = ((rating - minValue)/maxValue)*100;
+
+          var newColor = window.coolColor.pickColor(startColor,
+                                                    endColor, perentageCovered);
+
+          $(this).rateYo("option", "ratedFill", newColor);
+
+          $(this).next().text(rating);
+        };
+
+        $("#rateYo1").rateYo({
+          rating: rating,
+          numStars: 5,
+          precision: 2,
+          minValue: 0,
+          maxValue: 5
+        }).on("rateyo.change", function (e, data) {
+
+          changeRating.apply(this, [data.rating]);
+        }).on("rateyo.set", function (e, data) {
+
+          changeRating.apply(this, [data.rating]);
+        });
+
+        $(".rateyo-readonly-widg").rateYo({
+
+          rating: 3,
+          readOnly: true
+        });
+      });
+    </script>
+  </body>
+</html>

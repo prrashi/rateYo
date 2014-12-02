@@ -190,8 +190,7 @@ $(function () {
 
   options.ratedFill = getColor(options, options.rating);
 
-  $optionMethodDemo.rateYo(options)
-  .on("rateyo.change", function (e, data) {
+  $optionMethodDemo.rateYo(options).on("rateyo.change", function (e, data) {
     changeRating.apply(this, [data.rating]);
   }).on("rateyo.set", function (e, data) {
     changeRating.apply(this, [data.rating]);
