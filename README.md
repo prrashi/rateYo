@@ -12,5 +12,5 @@ just create a div, throw some styles, initialize and thats it!.
 **Documentation**:
 http://prrashi.github.io/rateYo/
 
-**Browser Support**"
+**Browser Support**:
 Supported by all modern browsers from IE9
