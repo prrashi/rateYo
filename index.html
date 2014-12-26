@@ -127,7 +127,7 @@
               &lt;-- HTML --&gt;
 
               &lt;head&gt;
-                &lt;-- Basic styles of the plugin --&gt;  
+                &lt;-- Basic styles of the plugin --&gt;
                 &lt;link rel="stylesheet" href="jquery.rateyo.css"/&gt;
               &lt;/head&gt;
 
@@ -557,8 +557,10 @@
               <i>setter</i></p>
             <div id="method-option" class="method method-option">
               <p><b>option:</b></p>
+	      <p>All the options of plugin specified in the previous section can be get or set using the <code>'option'</code> method</p>
+	      <p>eg: <code>$("#rateYo").rateYo('option', 'numStars', 10)</code> would display 10 stars in the plugin instead of default 5.</p>
               <p>In the following demo, the color of the rating is set based on the value of the rating</p>
-              <p>Enjoy!, the multicolor rating demo :)</p>
+              <p>Enjoy!, the multi color rating demo :)</p>
               <div class="method-content">
                 <div class="rating"></div>
                 <div class="clearfix" style="margin: 10px 0px 0px 10px">
@@ -591,13 +593,16 @@
                         var options = $rateYo.rateYo("option");
 
                         /* get color according to rating */
-                        $rateYo.rateYo("option", "ratedFill", getColor(options));
+                        var color = getColor(options);
+
+                        /* set the 'ratedFill' of the plugin dynamically */
+                        $rateYo.rateYo("option", "ratedFill", color);
                       }).rateYo("option", "onSet", function () {
 
                         /* get all options of the plugin */
                         var options = $rateYo.rateYo("option");
 
-                        /* set rating and color */
+                        /* set the 'ratedFill' of the plugin dynamically */
                         $rateYo.rateYo("option", "ratedFill", getColor(options));
                       });
                     });
@@ -607,6 +612,10 @@
             </div>
             <div id="method-rating" class="method method-rating">
               <p><b>rating:</b></p>
+	      <p>A method to get or set the rating of plugin.</p>
+	      <p>eg: <code>$("#rateYo").rateYo("rating")</code> would return the currently displayed rating.</p>
+	      <p>eg: <code>$("#rateYo").rateYo("rating", 4.5)</code> would set the rating to 4.5.</p>
+	      <p>The same result can also be achieved through <code>'option'</code> method <code>$("#rateYo").rating('option', 'rating', 4.5)</code>.</p>
               <div class="method-content">
                 <div class="clearfix">
                   <div class="rating"></div>
@@ -635,7 +644,7 @@
                       $("#getRating").click(function () {
 
                         /* get rating */
-                        var rating = $rateYo.rateYo("method", "rating");
+                        var rating = $rateYo.rateYo("rating");
 
                         window.alert("Its " + rating + " Yo!");
                       });
@@ -644,7 +653,7 @@
 
                         /* set rating */
                         var rating = getRandomRating();
-                        $rateYo.rateYo("method", "rating", rating);
+                        $rateYo.rateYo("rating", rating);
                       });
                     });
                   </pre>
@@ -653,6 +662,7 @@
             </div><!-- End method-rating -->
             <div id="method-destroy" class="method method-destroy">
               <p><b>destroy:</b></p>
+	      <p>Destroys the plugin and return the container to the original state before initialization.</p>
               <div class="method-content">
                 <div class="clearfix">
                   <div class="rating"></div>
@@ -680,7 +690,7 @@
 
                       $("#destroy").click(function () {
 
-                        $rateYo.rateYo("method", "destroy");
+                        $rateYo.rateYo("destroy");
                       });
 
                       $("#initialize").click(function () {
@@ -761,8 +771,8 @@
             </div><!-- End event-set -->
           </div><!-- End events-content -->
         </div><!-- End row -->
-        
-        
+
+
         <!-- DISCUS COMMENTS -->
         <div class="row">
           <div class="span12">
@@ -782,11 +792,11 @@
           </div>
         </div>
         <!-- END DISCUS -->
-        
-        
+
+
       </div><!-- End Container Fluid -->
     </div><!-- End Main Content -->
-    
+
     <!-- Git hub ribbon -->
     <a href="https://github.com/prrashi/rateYo"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
 
