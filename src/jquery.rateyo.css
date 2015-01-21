@@ -29,3 +29,6 @@
   left: 0;
   overflow: hidden;
 }
+.rateyo-readonly-widg {
+  cursor: default;
+}
