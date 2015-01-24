@@ -1,5 +1,5 @@
 /*****
-* rateYo - v1.2.0
+* rateYo - v1.2.1
 * http://prrashi.github.io/rateyo/
 * Copyright (c) 2014 Prashanth Pamidi; Licensed MIT
 *****/
@@ -38,7 +38,7 @@
     onSet: null
   };
 
-  function checkPercision (value, minValue, maxValue) {
+  function checkPrecision (value, minValue, maxValue) {
 
     /* its like comparing 0.00 with 0 which is true*/
     if (value === minValue) {
@@ -168,6 +168,8 @@
       $ratedGroup.find("svg")
                  .attr({width: options.starWidth,
                         height: options.starHeight});
+
+      return $node;
     }
 
     function setNormalFill (newFill) {
@@ -180,6 +182,8 @@
       options.normalFill = newFill;
 
       $normalGroup.find("svg").attr({fill: options.normalFill});
+
+      return $node;
     }
 
     function setRatedFill (newFill) {
@@ -192,6 +196,8 @@
       options.ratedFill = newFill;
 
       $ratedGroup.find("svg").attr({fill: options.ratedFill});
+
+      return $node;
     }
 
     function setNumStars (newValue) {
@@ -217,6 +223,8 @@
       setNormalFill(options.normalFill);
 
       showRating();
+
+      return $node;
     }
 
     function setMinValue (newValue) {
@@ -230,7 +238,7 @@
 
       showRating();
 
-      return newValue;
+      return $node;
     }
 
     function setMaxValue (newValue) {
@@ -244,7 +252,7 @@
 
       showRating();
 
-      return newValue;
+      return $node;
     }
 
     function setPrecision (newValue) {
@@ -257,6 +265,8 @@
       options.precision = newValue;
 
       showRating();
+
+      return $node;
     }
 
     function calculateRating (e) {
@@ -295,7 +305,7 @@
       var minValue = options.minValue,
           maxValue = options.maxValue;
 
-      rating = checkPercision(parseFloat(rating), minValue, maxValue);
+      rating = checkPrecision(parseFloat(rating), minValue, maxValue);
 
       showRating(rating);
 
@@ -364,12 +374,18 @@
 
       options.readOnly = newValue;
 
+      $node.attr("readonly", true);
+
       unbindEvents();
 
       if (!newValue) {
 
+        $node.removeAttr("readonly");
+
         bindEvents();
       }
+
+      return $node;
     }
 
     function setRating (newValue) {
@@ -389,8 +405,11 @@
         if (rating[rating.length - 1] === "%") {
 
           rating = rating.substr(0, rating.length - 1);
-          maxValue = setMaxValue(100);
-          minValue = setMinValue(0);
+          maxValue = 100;
+          minValue = 0;
+
+          setMaxValue(maxValue);
+          setMinValue(minValue);
         }
 
         rating = parseFloat(rating);
@@ -400,13 +419,15 @@
 
       rating = parseFloat(rating.toFixed(options.precision));
 
-      checkPercision(parseFloat(rating), minValue, maxValue);
+      checkPrecision(parseFloat(rating), minValue, maxValue);
 
       options.rating = rating;
 
       showRating();
 
       $node.trigger("rateyo.set", {rating: rating});
+
+      return $node;
     }
 
     function setOnSet (method) {
@@ -417,6 +438,8 @@
       }
 
       options.onSet = method;
+
+      return $node;
     }
 
     function setOnChange (method) {
@@ -427,6 +450,8 @@
       }
 
       options.onChange = method;
+
+      return $node;
     }
 
     this.rating = function (newValue) {
@@ -534,9 +559,7 @@
           throw Error("No such option as " + optionName);
       }
 
-      method(param);
-
-      return options[optionName];
+      return method(param);
     };
 
     setNumStars(options.numStars);
