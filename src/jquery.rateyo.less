@@ -6,6 +6,11 @@
   display: block;
   cursor: pointer;
 
+  &[readonly="readonly"] {
+
+    cursor: default;
+  }
+
   &> .jq-ry-group-wrapper {
 
     position: relative;

@@ -5,6 +5,9 @@
   display: block;
   cursor: pointer;
 }
+.jq-ry-container[readonly="readonly"] {
+  cursor: default;
+}
 .jq-ry-container > .jq-ry-group-wrapper {
   position: relative;
   width: 100%;
