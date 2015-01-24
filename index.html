@@ -196,6 +196,14 @@
 
                     });
                   </pre>
+		  <p>Get or set the 'starWidth' option after initialization</p>
+		  <pre class="brush: js">
+		  // Getter
+		  var starWidth = $("#rateYo").rateYo("option", "starWidth"); //returns 40px
+
+		  // Setter
+		  $("#rateYo").rateYo("option", "starWidth", "40px"); //returns a jQuery Element
+		  </pre>
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-starWidth-->
@@ -229,6 +237,14 @@
 
                     });
                   </pre>
+		  <p>Get or set the 'normalFill' option after initialization</p>
+		  <pre class="brush: js">
+		  // Getter
+		  var normalFill = $("#rateYo").rateYo("option", "normalFill"); //returns "#A0A0A0"
+
+		  // Setter
+		  $("#rateYo").rateYo("option", "normalFill", "#B0B0B0"); //returns a jQuery Element
+		  </pre>
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-normalFill-->
@@ -262,6 +278,14 @@
 
                     });
                   </pre>
+		  <p>Get or set the 'ratedFill' option after initialization</p>
+		  <pre class="brush: js">
+		  // Getter
+		  var ratedFill = $("#rateYo").rateYo("option", "ratedFill"); //returns "#E74C3C"
+
+		  // Setter
+		  $("#rateYo").rateYo("option", "ratedFill", "#E74C3C"); //returns a jQuery Element
+		  </pre>
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-ratedFill -->
@@ -293,6 +317,14 @@
 
                     });
                   </pre>
+		  <p>Get or set the 'numStars' option after initialization</p>
+		  <pre class="brush: js">
+		  // Getter
+		  var numStars = $("#rateYo").rateYo("option", "numStars"); //returns 10
+
+		  // Setter
+		  $("#rateYo").rateYo("option", "numStars", 10); //returns a jQuery Element
+		  </pre>
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-numStars -->
@@ -325,6 +357,14 @@
 
                     });
                   </pre>
+		  <p>Get or set the 'minValue' option after initialization</p>
+		  <pre class="brush: js">
+		  // Getter
+		  var minValue = $("#rateYo").rateYo("option", "minValue"); //returns 1
+
+		  // Setter
+		  $("#rateYo").rateYo("option", "minValue", 1); //returns a jQuery Element
+		  </pre>
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-minValue -->
@@ -358,6 +398,14 @@
                       });
                     });
                   </pre>
+		  <p>Get or set the 'maxValue' option after initialization</p>
+		  <pre class="brush: js">
+		  // Getter
+		  var maxValue = $("#rateYo").rateYo("option", "maxValue"); //returns 1
+
+		  // Setter
+		  $("#rateYo").rateYo("option", "maxValue", 1); //returns a jQuery Element
+		  </pre>
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-maxValue -->
@@ -389,6 +437,14 @@
                       });
                     });
                   </pre>
+		  <p>Get or set the 'precision' option after initialization</p>
+		  <pre class="brush: js">
+		  // Getter
+		  var normalFill = $("#rateYo").rateYo("option", "precision"); //returns 2
+
+		  // Setter
+		  $("#rateYo").rateYo("option", "precision", 3); //returns a jQuery Element
+		  </pre>
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-precision -->
@@ -422,6 +478,14 @@
                       });
                     });
                   </pre>
+		  <p>Get or set the 'rating' option after initialization</p>
+		  <pre class="brush: js">
+		  // Getter
+		  var normalFill = $("#rateYo").rateYo("option", "rating"); //returns 50
+
+		  // Setter
+		  $("#rateYo").rateYo("option", "rating", 5); //returns a jQuery Element
+		  </pre>
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-rating -->
@@ -455,6 +519,14 @@
                       });
                     });
                   </pre>
+		  <p>Get or set the 'readOnly' option after initialization</p>
+		  <pre class="brush: js">
+		  // Getter
+		  var readOnly = $("#rateYo").rateYo("option", "readOnly"); //returns true
+
+		  // Setter
+		  $("#rateYo").rateYo("option", "readOnly", false); //returns a jQuery Element
+		  </pre>
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-rating -->
@@ -500,6 +572,17 @@
                       });
                     });
                   </pre>
+		  <p>Get or set the 'onSet' option after initialization</p>
+		  <pre class="brush: js">
+		  // Getter
+		  var onSet = $("#rateYo").rateYo("option", "onSet"); //returns the function
+
+		  // Setter
+		  $("#rateYo").rateYo("option", "onSet", function () {
+
+					console.log("This is a new function");
+				     }); //returns a jQuery Element
+		  </pre>
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-onSet -->
@@ -540,6 +623,17 @@
                       });
                     });
                   </pre>
+		  <p>Get or set the 'onChange' option after initialization</p>
+		  <pre class="brush: js">
+		  // Getter
+		  var onChange = $("#rateYo").rateYo("option", "onChange"); //returns the function
+
+		  // Setter
+		  $("#rateYo").rateYo("option", "onChange", function () {
+
+					console.log("this is a new function");
+				     }); //returns a jQuery Element
+		  </pre>
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-onSet -->
@@ -807,10 +901,10 @@
     <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
-    <script type="text/javascript" src="bower_components/jquery-rateyo/min/jquery.rateyo.min.js"></script>
+    <script type="text/javascript" src="jquery.rateyo.js"></script>
     <script type="text/javascript" src="bower_components/jquery-rateyo/examples/color.js"></script>
 
-    <script type="text/javascript" src="application.js"></script>
+    <script type="text/javascript" src="bower_components/jquery-rateyo/min/jquery.rateyo.min.js"></script>
 
     <script type="text/javascript">
 
