@@ -271,6 +271,30 @@
       return $node;
     }
 
+    function setHalfStar (newValue) {
+
+      if (!isDefined(newValue)) {
+      
+        return options.halfStar;  
+      }
+
+      options.halfStar = newValue;
+
+      return $node;
+    }
+
+    function setFullStar (newValue) {
+    
+      if (!isDefined(newValue))   {
+      
+        return options.fullStar;  
+      }
+
+      options.fullStar = newValue;
+
+      return $node;
+    }
+
     function calculateRating (e) {
 
       var position = $normalGroup.offset(),
@@ -559,6 +583,14 @@
         case "rating":
 
           method = setRating;
+          break;
+        case "halfStar":
+
+          method = setHalfStar;
+          break;
+        case "fullStar":
+        
+          method = setFullStar;
           break;
         case "readOnly":
 
