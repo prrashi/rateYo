@@ -1,5 +1,5 @@
 /*****
-* rateYo - v1.2.1
+* rateYo - v1.2.2
 * http://prrashi.github.io/rateyo/
 * Copyright (c) 2014 Prashanth Pamidi; Licensed MIT
 *****/
@@ -33,6 +33,8 @@
     maxValue: 5,
     precision: 1,
     rating: 0,
+    fullStar: false,
+    halfStar: false,
     readOnly: false,
     onChange: null,
     onSet: null
@@ -269,6 +271,30 @@
       return $node;
     }
 
+    function setHalfStar (newValue) {
+
+      if (!isDefined(newValue)) {
+      
+        return options.halfStar;  
+      }
+
+      options.halfStar = newValue;
+
+      return $node;
+    }
+
+    function setFullStar (newValue) {
+    
+      if (!isDefined(newValue))   {
+      
+        return options.fullStar;  
+      }
+
+      options.fullStar = newValue;
+
+      return $node;
+    }
+
     function calculateRating (e) {
 
       var position = $normalGroup.offset(),
@@ -293,6 +319,22 @@
         calculatedRating = ((pageX - nodeStartX)/(nodeEndX - nodeStartX));
         calculatedRating *= (maxValue - minValue);
         calculatedRating += minValue;
+      }
+
+      if (options.halfStar) {
+
+        if (calculatedRating > (Math.ceil(calculatedRating) - 0.5)) {
+
+          calculatedRating = Math.ceil(calculatedRating);
+        }else {
+
+          calculatedRating = Math.ceil(calculatedRating) - 0.5;
+        }
+      }
+
+      if (options.fullStar) {
+
+        calculatedRating = Math.ceil(calculatedRating);
       }
 
       return calculatedRating;
@@ -541,6 +583,14 @@
         case "rating":
 
           method = setRating;
+          break;
+        case "halfStar":
+
+          method = setHalfStar;
+          break;
+        case "fullStar":
+        
+          method = setFullStar;
           break;
         case "readOnly":
 

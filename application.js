@@ -106,6 +106,22 @@ $(function () {
     precision: 0
   });
 
+  var $halfStarDemo = $options.filter(".option-halfStar")
+                             .find("div.rating");
+
+  $halfStarDemo.rateYo({
+    rating: 1.5,
+    halfStar: true  
+  });
+
+  var $fullStarDemo = $options.filter(".option-fullStar")
+                             .find("div.rating");
+
+  $fullStarDemo.rateYo({
+    rating: 2,
+    fullStar: true  
+  });
+
   var $readOnlyDemo = $options.filter(".option-readonly")
                               .find("div.rating");
 

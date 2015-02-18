@@ -6,7 +6,7 @@
     <meta charset="utf-8"></meta>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="RateYo!, A jQuery star rating plugin">
-    <meta name="keywords" content="RateYo, Star Rating Plugin, Jquery plugin, JS, jQuery, Multicolored Rating">
+    <meta name="keywords" content="RateYo, Star Rating Plugin, Jquery plugin, JS, jQuery, Multicolored Rating, Half Star Rating, Full Star Rating">
     <meta name="author" content="Prashanth Pamidi">
 
     <title>RateYo!, A jQuery Star Rating Plugin</title>
@@ -67,6 +67,12 @@
         </li>
         <li>
           <a href="#option-rating">rating</a>
+        </li>
+        <li>
+          <a href="#option-halfStar">halfStar</a>
+        </li>
+        <li>
+          <a href="#option-fullStar">fullStar</a>
         </li>
         <li>
           <a href="#option-readonly">readOnly</a>
@@ -163,8 +169,8 @@
             <h3></h3>
             <div class="clearfix">
               <a class="btn btn-primary btn-lg pull-left"
-                 href="https://github.com/prrashi/rateYo/releases/download/1.2.1/v1.2.1.rar">
-                 Download V1.2.1
+                 href="https://github.com/prrashi/rateYo/releases/download/1.2.2/v1.2.2.zip">
+                 Download V1.2.2
               </a>
             </div>
           </div>
@@ -196,14 +202,14 @@
 
                     });
                   </pre>
-		  <p>Get or set the 'starWidth' option after initialization</p>
-		  <pre class="brush: js">
-		  // Getter
-		  var starWidth = $("#rateYo").rateYo("option", "starWidth"); //returns 40px
+                  <p>Get or set the 'starWidth' option after initialization</p>
+                  <pre class="brush: js">
+                  // Getter
+                  var starWidth = $("#rateYo").rateYo("option", "starWidth"); //returns 40px
 
-		  // Setter
-		  $("#rateYo").rateYo("option", "starWidth", "40px"); //returns a jQuery Element
-		  </pre>
+                  // Setter
+                  $("#rateYo").rateYo("option", "starWidth", "40px"); //returns a jQuery Element
+                  </pre>
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-starWidth-->
@@ -237,14 +243,14 @@
 
                     });
                   </pre>
-		  <p>Get or set the 'normalFill' option after initialization</p>
-		  <pre class="brush: js">
-		  // Getter
-		  var normalFill = $("#rateYo").rateYo("option", "normalFill"); //returns "#A0A0A0"
+                  <p>Get or set the 'normalFill' option after initialization</p>
+                  <pre class="brush: js">
+                  // Getter
+                  var normalFill = $("#rateYo").rateYo("option", "normalFill"); //returns "#A0A0A0"
 
-		  // Setter
-		  $("#rateYo").rateYo("option", "normalFill", "#B0B0B0"); //returns a jQuery Element
-		  </pre>
+                  // Setter
+                  $("#rateYo").rateYo("option", "normalFill", "#B0B0B0"); //returns a jQuery Element
+                  </pre>
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-normalFill-->
@@ -278,14 +284,14 @@
 
                     });
                   </pre>
-		  <p>Get or set the 'ratedFill' option after initialization</p>
-		  <pre class="brush: js">
-		  // Getter
-		  var ratedFill = $("#rateYo").rateYo("option", "ratedFill"); //returns "#E74C3C"
+                  <p>Get or set the 'ratedFill' option after initialization</p>
+                  <pre class="brush: js">
+                  // Getter
+                  var ratedFill = $("#rateYo").rateYo("option", "ratedFill"); //returns "#E74C3C"
 
-		  // Setter
-		  $("#rateYo").rateYo("option", "ratedFill", "#E74C3C"); //returns a jQuery Element
-		  </pre>
+                  // Setter
+                  $("#rateYo").rateYo("option", "ratedFill", "#E74C3C"); //returns a jQuery Element
+                  </pre>
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-ratedFill -->
@@ -317,14 +323,14 @@
 
                     });
                   </pre>
-		  <p>Get or set the 'numStars' option after initialization</p>
-		  <pre class="brush: js">
-		  // Getter
-		  var numStars = $("#rateYo").rateYo("option", "numStars"); //returns 10
+                  <p>Get or set the 'numStars' option after initialization</p>
+                  <pre class="brush: js">
+                  // Getter
+                  var numStars = $("#rateYo").rateYo("option", "numStars"); //returns 10
 
-		  // Setter
-		  $("#rateYo").rateYo("option", "numStars", 10); //returns a jQuery Element
-		  </pre>
+                  // Setter
+                  $("#rateYo").rateYo("option", "numStars", 10); //returns a jQuery Element
+                  </pre>
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-numStars -->
@@ -357,14 +363,14 @@
 
                     });
                   </pre>
-		  <p>Get or set the 'minValue' option after initialization</p>
-		  <pre class="brush: js">
-		  // Getter
-		  var minValue = $("#rateYo").rateYo("option", "minValue"); //returns 1
+                  <p>Get or set the 'minValue' option after initialization</p>
+                  <pre class="brush: js">
+                  // Getter
+                  var minValue = $("#rateYo").rateYo("option", "minValue"); //returns 1
 
-		  // Setter
-		  $("#rateYo").rateYo("option", "minValue", 1); //returns a jQuery Element
-		  </pre>
+                  // Setter
+                  $("#rateYo").rateYo("option", "minValue", 1); //returns a jQuery Element
+                  </pre>
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-minValue -->
@@ -398,14 +404,14 @@
                       });
                     });
                   </pre>
-		  <p>Get or set the 'maxValue' option after initialization</p>
-		  <pre class="brush: js">
-		  // Getter
-		  var maxValue = $("#rateYo").rateYo("option", "maxValue"); //returns 1
+                  <p>Get or set the 'maxValue' option after initialization</p>
+                  <pre class="brush: js">
+                  // Getter
+                  var maxValue = $("#rateYo").rateYo("option", "maxValue"); //returns 1
 
-		  // Setter
-		  $("#rateYo").rateYo("option", "maxValue", 1); //returns a jQuery Element
-		  </pre>
+                  // Setter
+                  $("#rateYo").rateYo("option", "maxValue", 1); //returns a jQuery Element
+                  </pre>
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-maxValue -->
@@ -437,14 +443,14 @@
                       });
                     });
                   </pre>
-		  <p>Get or set the 'precision' option after initialization</p>
-		  <pre class="brush: js">
-		  // Getter
-		  var normalFill = $("#rateYo").rateYo("option", "precision"); //returns 2
+                  <p>Get or set the 'precision' option after initialization</p>
+                  <pre class="brush: js">
+                  // Getter
+                  var normalFill = $("#rateYo").rateYo("option", "precision"); //returns 2
 
-		  // Setter
-		  $("#rateYo").rateYo("option", "precision", 3); //returns a jQuery Element
-		  </pre>
+                  // Setter
+                  $("#rateYo").rateYo("option", "precision", 3); //returns a jQuery Element
+                  </pre>
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-precision -->
@@ -478,17 +484,95 @@
                       });
                     });
                   </pre>
-		  <p>Get or set the 'rating' option after initialization</p>
-		  <pre class="brush: js">
-		  // Getter
-		  var normalFill = $("#rateYo").rateYo("option", "rating"); //returns 50
+                  <p>Get or set the 'rating' option after initialization</p>
+                  <pre class="brush: js">
+                  // Getter
+                  var normalFill = $("#rateYo").rateYo("option", "rating"); //returns 50
 
-		  // Setter
-		  $("#rateYo").rateYo("option", "rating", 5); //returns a jQuery Element
-		  </pre>
+                  // Setter
+                  $("#rateYo").rateYo("option", "rating", 5); //returns a jQuery Element
+                  </pre>
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-rating -->
+            <div id="option-halfStar" class="option option-halfStar">
+              <p>
+                <b>halfStar:</b>
+                <code>boolean, default: false</code>
+                <p>When set to <code>true</code>, rating will be displayed in the steps of <code>0.5</code>
+              </p>
+              <div class="option-content">
+                <div class="clearfix">
+                  <div class="pull-left rating-container">
+                    <div class="rating"></div>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <pre class="brush: js">
+                    &lt;-- HTML --&gt;
+                    &lt;div id="rateYo"&gt;&lt;/div&gt;
+                  </pre>
+                  <pre class="brush: js">
+                    /* Javascript */
+
+                    $(function () {
+
+                      $("#rateYo").rateYo({
+                        rating: 1.5,
+                        halfStar: true
+                      });
+                    });
+                  </pre>
+                  <p>Get or set the 'halfStar' option after initialization</p>
+                  <pre class="brush: js">
+                  // Getter
+                  var normalFill = $("#rateYo").rateYo("option", "halfStar"); //returns true
+
+                  // Setter
+                  $("#rateYo").rateYo("option", "halfStar", true); //returns a jQuery Element
+                  </pre>
+                </div>
+              </div><!-- End Option Content -->
+            </div><!-- End option-halfStar -->
+            <div id="option-fullStar" class="option option-fullStar">
+              <p>
+                <b>fullStar:</b>
+                <code>boolean, default: false</code>
+                <p>When set to <code>true</code>, rating will be displayed in the steps of <code>1</code>
+              </p>
+              <div class="option-content">
+                <div class="clearfix">
+                  <div class="pull-left rating-container">
+                    <div class="rating"></div>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <pre class="brush: js">
+                    &lt;-- HTML --&gt;
+                    &lt;div id="rateYo"&gt;&lt;/div&gt;
+                  </pre>
+                  <pre class="brush: js">
+                    /* Javascript */
+
+                    $(function () {
+
+                      $("#rateYo").rateYo({
+                        rating: 2,
+                        fullStar: true
+                      });
+                    });
+                  </pre>
+                  <p>Get or set the 'fullStar' option after initialization</p>
+                  <pre class="brush: js">
+                  // Getter
+                  var normalFill = $("#rateYo").rateYo("option", "fullStar"); //returns true
+
+                  // Setter
+                  $("#rateYo").rateYo("option", "fullStar", true); //returns a jQuery Element
+                  </pre>
+                </div>
+              </div><!-- End Option Content -->
+            </div><!-- End option-fullStar -->
             <div id="option-readonly" class="option option-readonly">
               <p>
                 <b>readOnly:</b>
@@ -519,14 +603,14 @@
                       });
                     });
                   </pre>
-		  <p>Get or set the 'readOnly' option after initialization</p>
-		  <pre class="brush: js">
-		  // Getter
-		  var readOnly = $("#rateYo").rateYo("option", "readOnly"); //returns true
+                  <p>Get or set the 'readOnly' option after initialization</p>
+                  <pre class="brush: js">
+                  // Getter
+                  var readOnly = $("#rateYo").rateYo("option", "readOnly"); //returns true
 
-		  // Setter
-		  $("#rateYo").rateYo("option", "readOnly", false); //returns a jQuery Element
-		  </pre>
+                  // Setter
+                  $("#rateYo").rateYo("option", "readOnly", false); //returns a jQuery Element
+                  </pre>
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-rating -->
@@ -572,17 +656,17 @@
                       });
                     });
                   </pre>
-		  <p>Get or set the 'onSet' option after initialization</p>
-		  <pre class="brush: js">
-		  // Getter
-		  var onSet = $("#rateYo").rateYo("option", "onSet"); //returns the function
+                  <p>Get or set the 'onSet' option after initialization</p>
+                  <pre class="brush: js">
+                  // Getter
+                  var onSet = $("#rateYo").rateYo("option", "onSet"); //returns the function
 
-		  // Setter
-		  $("#rateYo").rateYo("option", "onSet", function () {
+                  // Setter
+                  $("#rateYo").rateYo("option", "onSet", function () {
 
-					console.log("This is a new function");
-				     }); //returns a jQuery Element
-		  </pre>
+                      console.log("This is a new function");
+                         }); //returns a jQuery Element
+                  </pre>
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-onSet -->
@@ -623,17 +707,17 @@
                       });
                     });
                   </pre>
-		  <p>Get or set the 'onChange' option after initialization</p>
-		  <pre class="brush: js">
-		  // Getter
-		  var onChange = $("#rateYo").rateYo("option", "onChange"); //returns the function
+                  <p>Get or set the 'onChange' option after initialization</p>
+                  <pre class="brush: js">
+                  // Getter
+                  var onChange = $("#rateYo").rateYo("option", "onChange"); //returns the function
 
-		  // Setter
-		  $("#rateYo").rateYo("option", "onChange", function () {
+                  // Setter
+                  $("#rateYo").rateYo("option", "onChange", function () {
 
-					console.log("this is a new function");
-				     }); //returns a jQuery Element
-		  </pre>
+                      console.log("this is a new function");
+                         }); //returns a jQuery Element
+                  </pre>
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-onSet -->
@@ -651,10 +735,9 @@
               <i>setter</i></p>
             <div id="method-option" class="method method-option">
               <p><b>option:</b></p>
-	      <p>All the options of plugin specified in the previous section can be get or set using the <code>'option'</code> method</p>
-	      <p>eg: <code>$("#rateYo").rateYo('option', 'numStars', 10)</code> would display 10 stars in the plugin instead of default 5.</p>
+              <p>All the options of plugin specified in the previous section can be get or set using the <code>'option'</code> method</p>
+              <p>eg: <code>$("#rateYo").rateYo('option', 'numStars', 10)</code> would display 10 stars in the plugin instead of default 5.</p>
               <p>In the following demo, the color of the rating is set based on the value of the rating</p>
-              <p>Enjoy!, the multi color rating demo :)</p>
               <div class="method-content">
                 <div class="rating"></div>
                 <div class="clearfix" style="margin: 10px 0px 0px 10px">
@@ -706,10 +789,10 @@
             </div>
             <div id="method-rating" class="method method-rating">
               <p><b>rating:</b></p>
-	      <p>A method to get or set the rating of plugin.</p>
-	      <p>eg: <code>$("#rateYo").rateYo("rating")</code> would return the currently displayed rating.</p>
-	      <p>eg: <code>$("#rateYo").rateYo("rating", 4.5)</code> would set the rating to 4.5.</p>
-	      <p>The same result can also be achieved through <code>'option'</code> method <code>$("#rateYo").rating('option', 'rating', 4.5)</code>.</p>
+              <p>A method to get or set the rating of plugin.</p>
+              <p>eg: <code>$("#rateYo").rateYo("rating")</code> would return the currently displayed rating.</p>
+              <p>eg: <code>$("#rateYo").rateYo("rating", 4.5)</code> would set the rating to 4.5.</p>
+              <p>The same result can also be achieved through <code>'option'</code> method <code>$("#rateYo").rating('option', 'rating', 4.5)</code>.</p>
               <div class="method-content">
                 <div class="clearfix">
                   <div class="rating"></div>
@@ -756,7 +839,7 @@
             </div><!-- End method-rating -->
             <div id="method-destroy" class="method method-destroy">
               <p><b>destroy:</b></p>
-	      <p>Destroys the plugin and return the container to the original state before initialization.</p>
+              <p>Destroys the plugin and return the container to the original state before initialization.</p>
               <div class="method-content">
                 <div class="clearfix">
                   <div class="rating"></div>
