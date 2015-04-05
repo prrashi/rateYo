@@ -88,6 +88,41 @@
 
     return collection;
   }
+
+  function getOffset(elem) {
+
+    var docElem, doc,
+        offset = {top: 0, left: 0};
+
+    if (!elem) {
+
+      return offset;
+    }
+
+    doc = elem.ownerDocument;
+    docElem = doc.documentElement;
+
+    if (isDefined(elem.getBoundingClientRect)) {
+
+      var box = elem.getBoundingClientRect();
+
+      offset.top = box.top;
+      offset.left = boz.left;
+    }
+
+    offset.top += window.pageYOffset - docElem.clientTop;
+    offset.left += window.pageXOffset - docElem.clientLeft;
+
+    return offset;
+  }
+
+  function getStyle(el, name) {
+
+    var styles = window.getComputedStyle(el);
+
+    return styles.getPropertyValue(name) || styles[name];
+  }
+
   /* End Utitlities */
 
   function checkPrecision (value, minValue, maxValue) {
@@ -150,6 +185,16 @@
     });
 
     return collection;
+  }
+
+  var parser;
+
+  try { 
+
+    parser = new DOMParser();
+  }catch() {
+
+    throw new Error("SVG Parser not found!");
   }
 
   function RateYo (node, options) {
@@ -259,10 +304,15 @@
       normalGroup.innerHTML = "";
       ratedGroup.innerHTML = "";
 
+      var star;
+
       for (var i=0; i<options.numStars; i++) {
 
-        normalGroup.append($(BASICSTAR));
-        $ratedGroup.append($(BASICSTAR));
+        star = parser.parseFromString(BASICSTAR, "image/svg+xml");
+        normalGroup.appendChild(star);
+
+        star = parser.parseFromString(BASICSTAR, "image/svg+xml");
+        ratedGroup.appendChild(star);
       }
 
       setStarWidth(options.starWidth);
@@ -271,7 +321,7 @@
 
       showRating();
 
-      return $node;
+      return node;
     }
 
     function setMinValue (newValue) {
@@ -285,7 +335,7 @@
 
       showRating();
 
-      return $node;
+      return node;
     }
 
     function setMaxValue (newValue) {
@@ -299,7 +349,7 @@
 
       showRating();
 
-      return $node;
+      return node;
     }
 
     function setPrecision (newValue) {
@@ -313,7 +363,7 @@
 
       showRating();
 
-      return $node;
+      return node;
     }
 
     function setHalfStar (newValue) {
@@ -325,7 +375,7 @@
 
       options.halfStar = newValue;
 
-      return $node;
+      return node;
     }
 
     function setFullStar (newValue) {
@@ -337,19 +387,23 @@
 
       options.fullStar = newValue;
 
-      return $node;
+      return node;
     }
 
     function calculateRating (e) {
 
-      var position = $normalGroup.offset(),
-        nodeStartX = position.left,
-        nodeEndX = nodeStartX + $normalGroup.width();
+      var position = getOffset(normalGroup),
+          nodeStartX = position.left,
+          width = getStyle(normalGroup, "width").replace("px", "");
+
+      width = parseInt(width);
+
+      var nodeEndX = nodeStartX + width;
 
       var minValue = options.minValue,
           maxValue = options.maxValue;
 
-      var pageX = e.pageX;
+      var pageX = e.clientX + window.pageXOffset;
 
       var calculatedRating;
 
