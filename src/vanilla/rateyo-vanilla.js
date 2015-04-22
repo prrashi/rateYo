@@ -4,17 +4,8 @@
 * Copyright (c) 2014 Prashanth Pamidi; Licensed MIT
 *****/
 
-
-
-/*****
-* WORK IN PROGRESS
-* THIS VANILLA VERSION OF THE PLUGIN IS INCOMPLETE
-* DO NOT USE THIS IN PROJECTS
-*****/
-
-
-
 ;(function (document) {
+  "use strict";
   
   /* The basic svg string required to generate stars
    */
@@ -49,81 +40,8 @@
     onSet: null
   };
 
-  /* Utilities */
-  function isDefined(value) {
-
-    return typeof value !== "undefined";
-  }
-
-  function each(collection, callback) {
-  
-    var key, item, result;
-
-    if (!isDefined(collection)) {
-    
-      return collection;  
-    }
-
-    if (!isDefined(callback) || typeof callback !== "function") {
-    
-      return collection;  
-    }
-
-    for (key in collection) {
-    
-      if (!collection.hasOwnProperty(key)) {
-      
-        continue;  
-      }
-
-      item = collection[key];
-
-      result = callback.apply(item, [key, item]);
-
-      if (typeof result === "boolean" && result.toString() === "false") {
-      
-        break;  
-      }
-    }
-
-    return collection;
-  }
-
-  function getOffset(elem) {
-
-    var docElem, doc,
-        offset = {top: 0, left: 0};
-
-    if (!elem) {
-
-      return offset;
-    }
-
-    doc = elem.ownerDocument;
-    docElem = doc.documentElement;
-
-    if (isDefined(elem.getBoundingClientRect)) {
-
-      var box = elem.getBoundingClientRect();
-
-      offset.top = box.top;
-      offset.left = boz.left;
-    }
-
-    offset.top += window.pageYOffset - docElem.clientTop;
-    offset.left += window.pageXOffset - docElem.clientLeft;
-
-    return offset;
-  }
-
-  function getStyle(el, name) {
-
-    var styles = window.getComputedStyle(el);
-
-    return styles.getPropertyValue(name) || styles[name];
-  }
-
-  /* End Utitlities */
+  /* utils for plugin */
+  var utils = window.rateYoUtils;
 
   function checkPrecision (value, minValue, maxValue) {
 
@@ -157,7 +75,7 @@
 
     var instance;
 
-    each(collection, function () {
+    utils.each(collection, function () {
 
       if(node === this.node){
 
@@ -171,7 +89,7 @@
 
   function deleteInstance (node, collection) {
 
-    each(collection, function (index) {
+    utils.each(collection, function (index) {
 
       if (node === this.node) {
 
@@ -192,7 +110,7 @@
   try { 
 
     parser = new DOMParser();
-  }catch() {
+  }catch(err) {
 
     throw new Error("SVG Parser not found!");
   }
@@ -221,7 +139,7 @@
 
     function showRating (ratingVal) {
 
-      if(!isDefined(ratingVal)){
+      if(!utils.isDefined(ratingVal)){
 
         ratingVal = options.rating;
       }
@@ -236,7 +154,7 @@
 
     function setStarWidth (newWidth) {
 
-      if (!isDefined(newWidth)) {
+      if (!utils.isDefined(newWidth)) {
 
         return options.starWidth;
       }
@@ -264,7 +182,7 @@
 
     function setNormalFill (newFill) {
 
-      if (!isDefined(newFill)) {
+      if (!utils.isDefined(newFill)) {
 
         return options.normalFill;
       }
@@ -279,7 +197,7 @@
 
     function setRatedFill (newFill) {
 
-      if (!isDefined(newFill)) {
+      if (!utils.isDefined(newFill)) {
 
         return options.ratedFill;
       }
@@ -294,7 +212,7 @@
 
     function setNumStars (newValue) {
 
-      if (!isDefined(newValue)) {
+      if (!utils.isDefined(newValue)) {
 
         return options.numStars;
       }
@@ -326,7 +244,7 @@
 
     function setMinValue (newValue) {
 
-      if (!isDefined(newValue)) {
+      if (!utils.isDefined(newValue)) {
 
         return options.minValue;
       }
@@ -340,7 +258,7 @@
 
     function setMaxValue (newValue) {
 
-      if (!isDefined(newValue)) {
+      if (!utils.isDefined(newValue)) {
 
         return options.maxValue;
       }
@@ -354,7 +272,7 @@
 
     function setPrecision (newValue) {
 
-      if (!isDefined(newValue)) {
+      if (!utils.isDefined(newValue)) {
 
         return options.precision;
       }
@@ -368,7 +286,7 @@
 
     function setHalfStar (newValue) {
 
-      if (!isDefined(newValue)) {
+      if (!utils.isDefined(newValue)) {
       
         return options.halfStar;  
       }
@@ -380,7 +298,7 @@
 
     function setFullStar (newValue) {
     
-      if (!isDefined(newValue))   {
+      if (!utils.isDefined(newValue))   {
       
         return options.fullStar;  
       }
@@ -392,9 +310,9 @@
 
     function calculateRating (e) {
 
-      var position = getOffset(normalGroup),
+      var position = utils.getOffset(normalGroup),
           nodeStartX = position.left,
-          width = getStyle(normalGroup, "width").replace("px", "");
+          width = utils.getStyle(normalGroup, "width").replace("px", "");
 
       width = parseInt(width);
 
@@ -449,15 +367,11 @@
       rating = checkPrecision(parseFloat(rating), minValue, maxValue);
 
       showRating(rating);
-
-      $node.trigger("rateyo.change", {rating: rating});
     }
 
     function onMouseLeave () {
 
       showRating();
-
-      $node.trigger("rateyo.change", {rating: options.rating});
     }
 
     function onMouseClick (e) {
@@ -468,70 +382,48 @@
       that.rating(resultantRating);
     }
 
-    function onChange (e, data) {
-
-      if(options.onChange && typeof options.onChange === "function") {
-
-        /* jshint validthis:true */
-        options.onChange.apply(this, [data.rating, that]);
-      }
-    }
-
-    function onSet (e, data) {
-
-      if(options.onSet && typeof options.onSet === "function") {
-
-        /* jshint validthis:true */
-        options.onSet.apply(this, [data.rating, that]);
-      }
-    }
-
     function bindEvents () {
 
-      $node.on("mousemove", onMouseEnter)
-           .on("mouseenter", onMouseEnter)
-           .on("mouseleave", onMouseLeave)
-           .on("click", onMouseClick)
-           .on("rateyo.change", onChange)
-           .on("rateyo.set", onSet);
+      node.addEventListener("mousemove", onMouseEnter)
+          .addEventListener("mouseenter", onMouseEnter)
+          .addEventListener("mouseleave", onMouseLeave)
+          .addEventListener("click", onMouseClick);
     }
 
     function unbindEvents () {
 
-      $node.off("mousemove", onMouseEnter)
-           .off("mouseenter", onMouseEnter)
-           .off("mouseleave", onMouseLeave)
-           .off("click", onMouseClick)
-           .off("rateyo.change", onChange)
-           .off("rateyo.set", onSet);
+      node.removeEventListener("mousemove", onMouseEnter)
+          .removeEventListener("mouseenter", onMouseEnter)
+          .removeEventListener("mouseleave", onMouseLeave)
+          .removeEventListener("click", onMouseClick);
     }
 
     function setReadOnly (newValue) {
 
-      if (!isDefined(newValue)) {
+      if (!utils.isDefined(newValue)) {
 
         return options.readOnly;
       }
 
       options.readOnly = newValue;
 
-      $node.attr("readonly", true);
+      node.setAttribute("readonly", true);
 
       unbindEvents();
 
       if (!newValue) {
 
-        $node.removeAttr("readonly");
+        node.removeAttribute("readonly");
 
         bindEvents();
       }
 
-      return $node;
+      return node;
     }
 
     function setRating (newValue) {
 
-      if (!isDefined(newValue)) {
+      if (!utils.isDefined(newValue)) {
 
         return options.rating;
       }
@@ -566,45 +458,43 @@
 
       showRating();
 
-      $node.trigger("rateyo.set", {rating: rating});
-
-      return $node;
+      return node;
     }
 
     function setOnSet (method) {
 
-      if (!isDefined(method)) {
+      if (!utils.isDefined(method)) {
 
         return options.onSet;
       }
 
       options.onSet = method;
 
-      return $node;
+      return node;
     }
 
     function setOnChange (method) {
 
-      if (!isDefined(method)) {
+      if (!utils.isDefined(method)) {
 
         return options.onChange;
       }
 
       options.onChange = method;
 
-      return $node;
+      return node;
     }
 
     this.rating = function (newValue) {
 
-      if (!isDefined(newValue)) {
+      if (!utils.isDefined(newValue)) {
 
         return options.rating;
       }
 
       setRating(newValue);
 
-      return $node;
+      return node;
     };
 
     this.destroy = function () {
@@ -613,12 +503,21 @@
         unbindEvents();
       }
 
-      RateYo.prototype.collection = deleteInstance($node.get(0),
+      RateYo.prototype.collection = deleteInstance(node,
                                                    this.collection);
 
-      $node.removeClass("jq-ry-container").children().remove();
+      var classNames = node.className;
 
-      return $node;
+      classNames = classNames.replace("jq-ry-container", "");
+
+      node.className = classNames;
+      
+      utils.each(node.childNodes, function () {
+        
+        this.remove();
+      });
+
+      return node;
     };
 
     this.method = function (methodName) {
@@ -628,7 +527,7 @@
         throw Error("Method name not specified!");
       }
 
-      if (!isDefined(this[methodName])) {
+      if (!utils.isDefined(this[methodName])) {
 
         throw Error("Method " + methodName + " doesn't exist!");
       }
@@ -642,7 +541,7 @@
 
     this.option = function (optionName, param) {
 
-      if (!isDefined(optionName)) {
+      if (!utils.isDefined(optionName)) {
 
         return options;
       }
