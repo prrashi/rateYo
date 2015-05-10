@@ -4,6 +4,10 @@
 * Copyright (c) 2014 Prashanth Pamidi; Licensed MIT
 *****/
 
+/*****
+* WORK IN PROGRESS, DO NOT USE IN YOUR PROJECTS
+******/
+
 ;(function ($) {
   "use strict";
 
@@ -36,6 +40,7 @@
     fullStar: false,
     halfStar: false,
     readOnly: false,
+    spacing: "0px",
     onChange: null,
     onSet: null
   };
@@ -131,6 +136,9 @@
                                  .addClass("jq-ry-group")
                                  .appendTo($groupWrapper);
 
+    var step, starWidth, percentOfStar, spacing,
+        percentOfSpacing, containerWidth;
+
     function showRating (ratingVal) {
 
       if(!isDefined(ratingVal)){
@@ -138,12 +146,31 @@
         ratingVal = options.rating;
       }
 
-      var minValue = options.minValue,
-          maxValue = options.maxValue;
+      var minValue = options.minValue;
 
-      var percent = ((ratingVal - minValue)/(maxValue - minValue))*100;
+      var numStarsToShow = (ratingVal - minValue)/step;
+
+      var percent = numStarsToShow*percentOfStar;
+
+      if (numStarsToShow > 1) {
+
+        percent += (Math.ceil(numStarsToShow) - 1)*percentOfSpacing;
+      }
 
       $ratedGroup.css("width", percent + "%");
+    }
+
+    function setContainerWidth () {
+
+      containerWidth = starWidth*options.numStars;
+
+      containerWidth += spacing*(options.numStars - 1);
+
+      percentOfStar = (starWidth/containerWidth)*100;
+
+      percentOfSpacing = (spacing/containerWidth)*100;
+
+      $node.width(containerWidth);
     }
 
     function setStarWidth (newWidth) {
@@ -157,12 +184,8 @@
       // should be the same
       options.starWidth = options.starHeight = newWidth;
 
-      var containerWidth = parseInt(options.starWidth.replace("px","").trim());
-
-      containerWidth = containerWidth*options.numStars;
-
-      $node.width(containerWidth);
-
+      setContainerWidth();
+   
       $normalGroup.find("svg")
                   .attr({width: options.starWidth,
                          height: options.starHeight});
@@ -170,6 +193,30 @@
       $ratedGroup.find("svg")
                  .attr({width: options.starWidth,
                         height: options.starHeight});
+
+      starWidth = parseFloat(options.starWidth.replace("px", ""));
+
+      return $node;
+    }
+
+    function setSpacing (newSpacing) {
+      
+      if (!isDefined(newSpacing)) {
+      
+        return options.spacing;  
+      }
+
+      spacing = parseFloat(options.spacing.replace("px", ""));
+
+      options.spacing = newSpacing;
+
+      $normalGroup.find("svg:not(:first-child)")
+                  .css({"margin-left": newSpacing});
+
+      $ratedGroup.find("svg:not(:first-child)")
+                 .css({"margin-left": newSpacing}); 
+
+      setContainerWidth();
 
       return $node;
     }
@@ -211,6 +258,8 @@
 
       options.numStars = newValue;
 
+      step = (options.maxValue - options.minValue)/options.numStars;
+
       $normalGroup.empty();
       $ratedGroup.empty();
 
@@ -223,6 +272,7 @@
       setStarWidth(options.starWidth);
       setRatedFill(options.ratedFill);
       setNormalFill(options.normalFill);
+      setSpacing(options.spacing);
 
       showRating();
 
@@ -298,15 +348,15 @@
     function calculateRating (e) {
 
       var position = $normalGroup.offset(),
-        nodeStartX = position.left,
-        nodeEndX = nodeStartX + $normalGroup.width();
+          nodeStartX = position.left,
+          nodeEndX = nodeStartX + $normalGroup.width();
 
       var minValue = options.minValue,
           maxValue = options.maxValue;
 
       var pageX = e.pageX;
 
-      var calculatedRating;
+      var calculatedRating = 0;
 
       if(pageX < nodeStartX) {
 
@@ -316,8 +366,25 @@
         calculatedRating = maxValue;
       }else {
 
-        calculatedRating = ((pageX - nodeStartX)/(nodeEndX - nodeStartX));
-        calculatedRating *= (maxValue - minValue);
+        var calcPernt = ((pageX - nodeStartX)/(nodeEndX - nodeStartX))*100;
+
+        var remPernt = calcPernt;
+
+        while ( remPernt > 0) {
+          
+          if (remPernt > percentOfStar) {
+
+            calculatedRating += step;
+            remPernt -= percentOfStar;
+          }else {
+
+            calculatedRating += remPernt/percentOfStar;
+            remPernt = 0;
+          } 
+          
+          remPernt -= percentOfSpacing;
+        }
+
         calculatedRating += minValue;
       }
 
@@ -595,6 +662,10 @@
         case "readOnly":
 
           method = setReadOnly;
+          break;
+        case "spacing":
+        
+          method = setSpacing;
           break;
         case "onSet":
 
