@@ -5,7 +5,7 @@
 *****/
 
 /*****
-* WORK IN PROGRESS, DO NOT USE IN YOUR PROJECTS
+* TESTING IN PROGRESS, USE AT YOUR OWN RISK
 ******/
 
 ;(function ($) {
@@ -171,6 +171,8 @@
       percentOfSpacing = (spacing/containerWidth)*100;
 
       $node.width(containerWidth);
+
+      showRating();
     }
 
     function setStarWidth (newWidth) {
@@ -184,8 +186,8 @@
       // should be the same
       options.starWidth = options.starHeight = newWidth;
 
-      setContainerWidth();
-   
+      starWidth = parseFloat(options.starWidth.replace("px", ""));
+ 
       $normalGroup.find("svg")
                   .attr({width: options.starWidth,
                          height: options.starHeight});
@@ -194,8 +196,8 @@
                  .attr({width: options.starWidth,
                         height: options.starHeight});
 
-      starWidth = parseFloat(options.starWidth.replace("px", ""));
-
+      setContainerWidth();
+       
       return $node;
     }
 
@@ -206,9 +208,9 @@
         return options.spacing;  
       }
 
-      spacing = parseFloat(options.spacing.replace("px", ""));
-
       options.spacing = newSpacing;
+
+      spacing = parseFloat(options.spacing.replace("px", ""));
 
       $normalGroup.find("svg:not(:first-child)")
                   .css({"margin-left": newSpacing});
@@ -288,6 +290,8 @@
 
       options.minValue = newValue;
 
+      step = (options.maxValue - options.minValue)/options.numStars;
+
       showRating();
 
       return $node;
@@ -301,6 +305,8 @@
       }
 
       options.maxValue = newValue;
+
+      step = (options.maxValue - options.minValue)/options.numStars;
 
       showRating();
 
@@ -366,23 +372,23 @@
         calculatedRating = maxValue;
       }else {
 
-        var calcPernt = ((pageX - nodeStartX)/(nodeEndX - nodeStartX))*100;
+        var calcPrcnt = ((pageX - nodeStartX)/(nodeEndX - nodeStartX))*100;
 
-        var remPernt = calcPernt;
+        var remPrcnt = calcPrcnt;
 
-        while ( remPernt > 0) {
+        while (remPrcnt > 0) {
           
-          if (remPernt > percentOfStar) {
+          if (remPrcnt > percentOfStar) {
 
             calculatedRating += step;
-            remPernt -= percentOfStar;
+            remPrcnt -= percentOfStar;
           }else {
 
-            calculatedRating += remPernt/percentOfStar;
-            remPernt = 0;
+            calculatedRating += remPrcnt/percentOfStar*step;
+            remPrcnt = 0;
           } 
           
-          remPernt -= percentOfSpacing;
+          remPrcnt -= percentOfSpacing;
         }
 
         calculatedRating += minValue;
