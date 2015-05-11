@@ -33,7 +33,6 @@
     normalFill: "gray",
     ratedFill: "#f39c12",
     numStars: 5,
-    minValue: 0,
     maxValue: 5,
     precision: 1,
     rating: 0,
@@ -137,7 +136,7 @@
                                  .appendTo($groupWrapper);
 
     var step, starWidth, percentOfStar, spacing,
-        percentOfSpacing, containerWidth;
+        percentOfSpacing, containerWidth, minValue = 0;
 
     function showRating (ratingVal) {
 
@@ -146,9 +145,7 @@
         ratingVal = options.rating;
       }
 
-      var minValue = options.minValue;
-
-      var numStarsToShow = (ratingVal - minValue)/step;
+      var numStarsToShow = ratingVal/step;
 
       var percent = numStarsToShow*percentOfStar;
 
@@ -260,7 +257,7 @@
 
       options.numStars = newValue;
 
-      step = (options.maxValue - options.minValue)/options.numStars;
+      step = options.maxValue/options.numStars;
 
       $normalGroup.empty();
       $ratedGroup.empty();
@@ -281,22 +278,6 @@
       return $node;
     }
 
-    function setMinValue (newValue) {
-
-      if (!isDefined(newValue)) {
-
-        return options.minValue;
-      }
-
-      options.minValue = newValue;
-
-      step = (options.maxValue - options.minValue)/options.numStars;
-
-      showRating();
-
-      return $node;
-    }
-
     function setMaxValue (newValue) {
 
       if (!isDefined(newValue)) {
@@ -306,7 +287,12 @@
 
       options.maxValue = newValue;
 
-      step = (options.maxValue - options.minValue)/options.numStars;
+      step = options.maxValue/options.numStars;
+
+      if (options.rating > newValue) {
+      
+        setRating(newValue); 
+      }
 
       showRating();
 
@@ -351,14 +337,41 @@
       return $node;
     }
 
+    function round (value) {
+      
+      var remainder = value%step,
+          halfStep = step/2,
+          isHalfStar = options.halfStar,
+          isFullStar = options.fullStar;
+
+      if (!isFullStar && !isHalfStar) {
+      
+        return value;  
+      }
+
+      if (isFullStar || (isHalfStar && remainder > halfStep)) {
+      
+        value += step - remainder;
+      } else {
+      
+        value = value - remainder;
+        
+        if (remainder > 0) {
+          
+          value += halfStep;
+        }
+      }
+
+      return value;
+    }
+
     function calculateRating (e) {
 
       var position = $normalGroup.offset(),
           nodeStartX = position.left,
           nodeEndX = nodeStartX + $normalGroup.width();
 
-      var minValue = options.minValue,
-          maxValue = options.maxValue;
+      var maxValue = options.maxValue;
 
       var pageX = e.pageX;
 
@@ -372,42 +385,35 @@
         calculatedRating = maxValue;
       }else {
 
-        var calcPrcnt = ((pageX - nodeStartX)/(nodeEndX - nodeStartX))*100;
+        var calcPrcnt = ((pageX - nodeStartX)/(nodeEndX - nodeStartX));
 
-        var remPrcnt = calcPrcnt;
+        if (spacing > 0) {
 
-        while (remPrcnt > 0) {
-          
-          if (remPrcnt > percentOfStar) {
+          calcPrcnt *= 100;
 
-            calculatedRating += step;
-            remPrcnt -= percentOfStar;
-          }else {
+          var remPrcnt = calcPrcnt;
 
-            calculatedRating += remPrcnt/percentOfStar*step;
-            remPrcnt = 0;
-          } 
-          
-          remPrcnt -= percentOfSpacing;
+          while (remPrcnt > 0) {
+            
+            if (remPrcnt > percentOfStar) {
+
+              calculatedRating += step;
+              remPrcnt -= percentOfStar;
+            }else {
+
+              calculatedRating += remPrcnt/percentOfStar*step;
+              remPrcnt = 0;
+            } 
+            
+            remPrcnt -= percentOfSpacing;
+
+          }
+        } else {
+        
+          calculatedRating = calcPrcnt * (options.maxValue);  
         }
 
-        calculatedRating += minValue;
-      }
-
-      if (options.halfStar) {
-
-        if (calculatedRating > (Math.ceil(calculatedRating) - 0.5)) {
-
-          calculatedRating = Math.ceil(calculatedRating);
-        }else {
-
-          calculatedRating = Math.ceil(calculatedRating) - 0.5;
-        }
-      }
-
-      if (options.fullStar) {
-
-        calculatedRating = Math.ceil(calculatedRating);
+        calculatedRating = round(calculatedRating);
       }
 
       return calculatedRating;
@@ -417,8 +423,7 @@
 
       var rating = calculateRating(e).toFixed(options.precision);
 
-      var minValue = options.minValue,
-          maxValue = options.maxValue;
+      var maxValue = options.maxValue;
 
       rating = checkPrecision(parseFloat(rating), minValue, maxValue);
 
@@ -512,8 +517,7 @@
 
       var rating = newValue;
 
-      var maxValue = options.maxValue,
-          minValue = options.minValue;
+      var maxValue = options.maxValue;
 
       if (typeof rating === "string") {
 
@@ -521,10 +525,8 @@
 
           rating = rating.substr(0, rating.length - 1);
           maxValue = 100;
-          minValue = 0;
 
           setMaxValue(maxValue);
-          setMinValue(minValue);
         }
 
         rating = parseFloat(rating);
@@ -640,10 +642,6 @@
         case "ratedFill":
 
           method = setRatedFill;
-          break;
-        case "minValue":
-
-          method = setMinValue;
           break;
         case "maxValue":
 

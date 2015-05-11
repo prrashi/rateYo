@@ -53,38 +53,31 @@
           rating: rating,
           numStars: 5,
           precision: 2,
-          minValue: 1,
-          maxValue: 5
+          minValue: 0,
+          maxValue: 5,
+          halfStar: true,
+          spacing: "64px",
+          fullStar: true
         }).on("rateyo.change", function (e, data) {
 
           changeRating.apply(this, [data.rating]);
         }).on("rateyo.set", function (e, data) {
 
           changeRating.apply(this, [data.rating]);
-        }).on("mouseleave", function () {
-
-            if ($(this).hasClass("spaced")) {
-
-              $(this).rateYo("option", "spacing", "0px")
-                     .rateYo("option", "starWidth", "32px")
-                     .removeClass("spaced");
-            }
-        }).on("mouseenter", function () {
-
-            if (!$(this).hasClass("spaced")) {
-
-              $(this).rateYo("option", "spacing", "32px")
-                     .rateYo("option", "starWidth", "64px")
-                     .addClass("spaced");
-            }
         });
 
         changeRating.apply($("#rateYo1").get(0), [rating]);
 
         $(".rateyo-readonly-widg").rateYo({
 
-          rating: 3,
-          readOnly: true
+          rating: rating,
+          numStars: 5,
+          precision: 2,
+          minValue: 1,
+          maxValue: 5
+        }).on("rateyo.change", function (e, data) {
+        
+          console.log(data.rating);
         });
       });
     </script>
