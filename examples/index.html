@@ -18,6 +18,11 @@
     </div>
 
     <div class="rateyo-readonly-widg"></div>
+
+    <div class="rateyo"></div>
+    <div class="rateyo"></div>
+    <div class="rateyo"></div>
+    <div class="rateyo"></div>
     <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="../src/jquery.rateyo.js"></script>
     <script type="text/javascript" src="color.js"></script>
@@ -55,9 +60,8 @@
           precision: 2,
           minValue: 0,
           maxValue: 5,
-          halfStar: true,
-          spacing: "64px",
-          fullStar: true
+          starWidth: "16px",
+          spacing: "5px"
         }).on("rateyo.change", function (e, data) {
 
           changeRating.apply(this, [data.rating]);
@@ -65,6 +69,8 @@
 
           changeRating.apply(this, [data.rating]);
         });
+
+        $(".rateyo").rateYo();
 
         changeRating.apply($("#rateYo1").get(0), [rating]);
 

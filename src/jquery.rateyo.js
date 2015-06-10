@@ -398,15 +398,12 @@
             if (remPrcnt > percentOfStar) {
 
               calculatedRating += step;
-              remPrcnt -= percentOfStar;
-            }else {
+              remPrcnt -= (percentOfStar + percentOfSpacing);
+            } else {
 
               calculatedRating += remPrcnt/percentOfStar*step;
               remPrcnt = 0;
-            } 
-            
-            remPrcnt -= percentOfSpacing;
-
+            }  
           }
         } else {
         
@@ -696,6 +693,8 @@
 
   RateYo.prototype.collection = [];
 
+  window.RateYo = RateYo;
+
   function _rateYo (options) {
 
     var rateYoInstances = RateYo.prototype.collection;
@@ -762,7 +761,8 @@
 
                if (!existingInstance) {
 
-                 return new RateYo($(this), options);
+                 return new RateYo($(this),
+                                    JSON.parse(JSON.stringify(options)));
                }
            });
   }
