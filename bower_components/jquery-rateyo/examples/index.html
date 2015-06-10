@@ -2,14 +2,14 @@
 <html lang="en">
 
   <head>
-
+    <title>RateYo - Scratchpad</title>
     <meta charset="utf-8"></meta>
     <link rel="stylesheet" href="../min/jquery.rateyo.min.css"/>
   </head>
   <body>
 
     <div>
-      <div id="rateYo1" style="float: left"></div>
+      <div id="rateYo1" style="margin: 10px auto"></div>
       <div class="counter" style="float: left;
                             font-weight: bold;
                             margin-left: 10px;
@@ -18,6 +18,11 @@
     </div>
 
     <div class="rateyo-readonly-widg"></div>
+
+    <div class="rateyo"></div>
+    <div class="rateyo"></div>
+    <div class="rateyo"></div>
+    <div class="rateyo"></div>
     <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="../src/jquery.rateyo.js"></script>
     <script type="text/javascript" src="color.js"></script>
@@ -26,7 +31,7 @@
 
       $(function () {
 
-        var rating = 0.8;
+        var rating = 1.6;
 
         $(".counter").text(rating);
 
@@ -55,7 +60,8 @@
           precision: 2,
           minValue: 0,
           maxValue: 5,
-          halfStar: true
+          starWidth: "16px",
+          spacing: "5px"
         }).on("rateyo.change", function (e, data) {
 
           changeRating.apply(this, [data.rating]);
@@ -64,12 +70,20 @@
           changeRating.apply(this, [data.rating]);
         });
 
+        $(".rateyo").rateYo();
+
         changeRating.apply($("#rateYo1").get(0), [rating]);
 
         $(".rateyo-readonly-widg").rateYo({
 
-          rating: 3,
-          readOnly: true
+          rating: rating,
+          numStars: 5,
+          precision: 2,
+          minValue: 1,
+          maxValue: 5
+        }).on("rateyo.change", function (e, data) {
+        
+          console.log(data.rating);
         });
       });
     </script>

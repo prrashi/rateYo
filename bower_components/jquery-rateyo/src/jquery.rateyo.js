@@ -1,5 +1,5 @@
 /*****
-* rateYo - v1.2.2
+* rateYo - v2.0.0
 * http://prrashi.github.io/rateyo/
 * Copyright (c) 2014 Prashanth Pamidi; Licensed MIT
 *****/
@@ -29,13 +29,13 @@
     normalFill: "gray",
     ratedFill: "#f39c12",
     numStars: 5,
-    minValue: 0,
     maxValue: 5,
     precision: 1,
     rating: 0,
     fullStar: false,
     halfStar: false,
     readOnly: false,
+    spacing: "0px",
     onChange: null,
     onSet: null
   };
@@ -131,6 +131,9 @@
                                  .addClass("jq-ry-group")
                                  .appendTo($groupWrapper);
 
+    var step, starWidth, percentOfStar, spacing,
+        percentOfSpacing, containerWidth, minValue = 0;
+
     function showRating (ratingVal) {
 
       if(!isDefined(ratingVal)){
@@ -138,12 +141,31 @@
         ratingVal = options.rating;
       }
 
-      var minValue = options.minValue,
-          maxValue = options.maxValue;
+      var numStarsToShow = ratingVal/step;
 
-      var percent = ((ratingVal - minValue)/(maxValue - minValue))*100;
+      var percent = numStarsToShow*percentOfStar;
+
+      if (numStarsToShow > 1) {
+
+        percent += (Math.ceil(numStarsToShow) - 1)*percentOfSpacing;
+      }
 
       $ratedGroup.css("width", percent + "%");
+    }
+
+    function setContainerWidth () {
+
+      containerWidth = starWidth*options.numStars;
+
+      containerWidth += spacing*(options.numStars - 1);
+
+      percentOfStar = (starWidth/containerWidth)*100;
+
+      percentOfSpacing = (spacing/containerWidth)*100;
+
+      $node.width(containerWidth);
+
+      showRating();
     }
 
     function setStarWidth (newWidth) {
@@ -157,12 +179,8 @@
       // should be the same
       options.starWidth = options.starHeight = newWidth;
 
-      var containerWidth = parseInt(options.starWidth.replace("px","").trim());
-
-      containerWidth = containerWidth*options.numStars;
-
-      $node.width(containerWidth);
-
+      starWidth = parseFloat(options.starWidth.replace("px", ""));
+ 
       $normalGroup.find("svg")
                   .attr({width: options.starWidth,
                          height: options.starHeight});
@@ -170,6 +188,30 @@
       $ratedGroup.find("svg")
                  .attr({width: options.starWidth,
                         height: options.starHeight});
+
+      setContainerWidth();
+       
+      return $node;
+    }
+
+    function setSpacing (newSpacing) {
+      
+      if (!isDefined(newSpacing)) {
+      
+        return options.spacing;  
+      }
+
+      options.spacing = newSpacing;
+
+      spacing = parseFloat(options.spacing.replace("px", ""));
+
+      $normalGroup.find("svg:not(:first-child)")
+                  .css({"margin-left": newSpacing});
+
+      $ratedGroup.find("svg:not(:first-child)")
+                 .css({"margin-left": newSpacing}); 
+
+      setContainerWidth();
 
       return $node;
     }
@@ -211,6 +253,8 @@
 
       options.numStars = newValue;
 
+      step = options.maxValue/options.numStars;
+
       $normalGroup.empty();
       $ratedGroup.empty();
 
@@ -223,20 +267,7 @@
       setStarWidth(options.starWidth);
       setRatedFill(options.ratedFill);
       setNormalFill(options.normalFill);
-
-      showRating();
-
-      return $node;
-    }
-
-    function setMinValue (newValue) {
-
-      if (!isDefined(newValue)) {
-
-        return options.minValue;
-      }
-
-      options.minValue = newValue;
+      setSpacing(options.spacing);
 
       showRating();
 
@@ -251,6 +282,13 @@
       }
 
       options.maxValue = newValue;
+
+      step = options.maxValue/options.numStars;
+
+      if (options.rating > newValue) {
+      
+        setRating(newValue); 
+      }
 
       showRating();
 
@@ -295,18 +333,45 @@
       return $node;
     }
 
+    function round (value) {
+      
+      var remainder = value%step,
+          halfStep = step/2,
+          isHalfStar = options.halfStar,
+          isFullStar = options.fullStar;
+
+      if (!isFullStar && !isHalfStar) {
+      
+        return value;  
+      }
+
+      if (isFullStar || (isHalfStar && remainder > halfStep)) {
+      
+        value += step - remainder;
+      } else {
+      
+        value = value - remainder;
+        
+        if (remainder > 0) {
+          
+          value += halfStep;
+        }
+      }
+
+      return value;
+    }
+
     function calculateRating (e) {
 
       var position = $normalGroup.offset(),
-        nodeStartX = position.left,
-        nodeEndX = nodeStartX + $normalGroup.width();
+          nodeStartX = position.left,
+          nodeEndX = nodeStartX + $normalGroup.width();
 
-      var minValue = options.minValue,
-          maxValue = options.maxValue;
+      var maxValue = options.maxValue;
 
       var pageX = e.pageX;
 
-      var calculatedRating;
+      var calculatedRating = 0;
 
       if(pageX < nodeStartX) {
 
@@ -316,25 +381,32 @@
         calculatedRating = maxValue;
       }else {
 
-        calculatedRating = ((pageX - nodeStartX)/(nodeEndX - nodeStartX));
-        calculatedRating *= (maxValue - minValue);
-        calculatedRating += minValue;
-      }
+        var calcPrcnt = ((pageX - nodeStartX)/(nodeEndX - nodeStartX));
 
-      if (options.halfStar) {
+        if (spacing > 0) {
 
-        if (calculatedRating > (Math.ceil(calculatedRating) - 0.5)) {
+          calcPrcnt *= 100;
 
-          calculatedRating = Math.ceil(calculatedRating);
-        }else {
+          var remPrcnt = calcPrcnt;
 
-          calculatedRating = Math.ceil(calculatedRating) - 0.5;
+          while (remPrcnt > 0) {
+            
+            if (remPrcnt > percentOfStar) {
+
+              calculatedRating += step;
+              remPrcnt -= (percentOfStar + percentOfSpacing);
+            } else {
+
+              calculatedRating += remPrcnt/percentOfStar*step;
+              remPrcnt = 0;
+            }  
+          }
+        } else {
+        
+          calculatedRating = calcPrcnt * (options.maxValue);  
         }
-      }
 
-      if (options.fullStar) {
-
-        calculatedRating = Math.ceil(calculatedRating);
+        calculatedRating = round(calculatedRating);
       }
 
       return calculatedRating;
@@ -344,8 +416,7 @@
 
       var rating = calculateRating(e).toFixed(options.precision);
 
-      var minValue = options.minValue,
-          maxValue = options.maxValue;
+      var maxValue = options.maxValue;
 
       rating = checkPrecision(parseFloat(rating), minValue, maxValue);
 
@@ -439,8 +510,7 @@
 
       var rating = newValue;
 
-      var maxValue = options.maxValue,
-          minValue = options.minValue;
+      var maxValue = options.maxValue;
 
       if (typeof rating === "string") {
 
@@ -448,10 +518,8 @@
 
           rating = rating.substr(0, rating.length - 1);
           maxValue = 100;
-          minValue = 0;
 
           setMaxValue(maxValue);
-          setMinValue(minValue);
         }
 
         rating = parseFloat(rating);
@@ -568,10 +636,6 @@
 
           method = setRatedFill;
           break;
-        case "minValue":
-
-          method = setMinValue;
-          break;
         case "maxValue":
 
           method = setMaxValue;
@@ -595,6 +659,10 @@
         case "readOnly":
 
           method = setReadOnly;
+          break;
+        case "spacing":
+        
+          method = setSpacing;
           break;
         case "onSet":
 
@@ -620,6 +688,8 @@
   }
 
   RateYo.prototype.collection = [];
+
+  window.RateYo = RateYo;
 
   function _rateYo (options) {
 
@@ -687,7 +757,8 @@
 
                if (!existingInstance) {
 
-                 return new RateYo($(this), options);
+                 return new RateYo($(this),
+                                    JSON.parse(JSON.stringify(options)));
                }
            });
   }

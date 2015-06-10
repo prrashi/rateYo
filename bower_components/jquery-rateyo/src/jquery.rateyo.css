@@ -19,7 +19,7 @@
   white-space: nowrap;
 }
 .jq-ry-container > .jq-ry-group-wrapper > .jq-ry-group > svg {
-  display: inline;
+  display: inline-block;
 }
 .jq-ry-container > .jq-ry-group-wrapper > .jq-ry-group.jq-ry-normal-group {
   width: 100%;

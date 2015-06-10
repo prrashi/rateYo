@@ -57,9 +57,6 @@
           <a href="#option-numStars">numStars</a>
         </li>
         <li>
-          <a href="#option-minValue">minValue</a>
-        </li>
-        <li>
           <a href="#option-maxValue">maxValue</a>
         </li>
         <li>
@@ -76,6 +73,9 @@
         </li>
         <li>
           <a href="#option-readonly">readOnly</a>
+        </li>
+        <li>
+          <a href="#option-spacing">spacing</a>
         </li>
         <li>
           <a href="#option-onSet">onSet</a>
@@ -334,46 +334,6 @@
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-numStars -->
-            <div id="option-minValue" class="option option-minValue">
-              <p>
-                <b>minValue:</b>
-                <code>number, default: 0</code>
-                <p>The Minimum value, you want the rating to start with.</p>
-              </p>
-              <div class="option-content">
-                <div class="clearfix">
-                  <div class="pull-left rating-container">
-                    <div class="rating" data-value="1"></div>
-                    <div class="counter"></div>
-                  </div>
-                </div>
-                <div class="clearfix">
-                  <pre class="brush: js">
-                    &lt;-- HTML --&gt;
-                    &lt;div id="rateYo"&gt;&lt;/div&gt;
-                  </pre>
-                  <pre class="brush: js">
-                    /* Javascript */
-
-                    $(function () {
-
-                      $("#rateYo").rateYo({
-                        minValue: 1
-                      });
-
-                    });
-                  </pre>
-                  <p>Get or set the 'minValue' option after initialization</p>
-                  <pre class="brush: js">
-                  // Getter
-                  var minValue = $("#rateYo").rateYo("option", "minValue"); //returns 1
-
-                  // Setter
-                  $("#rateYo").rateYo("option", "minValue", 1); //returns a jQuery Element
-                  </pre>
-                </div>
-              </div><!-- End Option Content -->
-            </div><!-- End option-minValue -->
             <div id="option-maxValue" class="option option-maxValue">
               <p>
                 <b>maxValue:</b>
@@ -614,6 +574,46 @@
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-rating -->
+            <div id="option-spacing" class="option option-spacing">
+              <p>
+                <b>spacing:</b>
+                <code>string, default: "0px"</code>
+                <p>The amount of space between stars in pixels.</p>
+              </p>
+              <div class="option-content">
+                <div class="clearfix">
+                  <div class="pull-left rating-container">
+                    <div class="rating" data-value="10px"></div>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <pre class="brush: js">
+                    &lt;-- HTML --&gt;
+                    &lt;div id="rateYo"&gt;&lt;/div&gt;
+                  </pre>
+                  <pre class="brush: js">
+                    /* Javascript */
+
+                    $(function () {
+
+                      $("#rateYo").rateYo({
+                        rating: 3.2,
+                        spacing: "10px"
+                      });
+                    });
+                  </pre>
+                  <p>Get or set the 'spacing' option after initialization</p>
+                  <pre class="brush: js">
+                  // Getter
+                  var readOnly = $("#rateYo").rateYo("option", "spacing"); //returns 10px
+
+                  // Setter
+                  $("#rateYo").rateYo("option", "spacing", "5px"); //returns a jQuery Element
+                  </pre>
+                </div>
+              </div><!-- End Option Content -->
+            </div><!-- End option-spacing -->
+
             <div id="option-onSet" class="option option-onSet">
               <p>
                 <b>onSet:</b>

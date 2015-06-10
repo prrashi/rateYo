@@ -59,16 +59,14 @@ $(function () {
     $(this).next(".counter").text(rating);
   };
 
-  /* Option - minValue */
-  var $minValueDemo = $options.filter(".option-minValue")
+  /* Option - spacing*/
+  var $spacingDemo = $options.filter(".option-spacing")
                               .find("div.rating"),
-      minValue = parseInt($minValueDemo.attr("data-value"));
+      spacing = $spacingDemo.attr("data-value");
 
-  $minValueDemo.rateYo({
-    minValue: minValue,
-    rating: getRandomRating(minValue),
-    onSet: updateCounter,
-    onChange: updateCounter
+  $spacingDemo.rateYo({
+    rating: getRandomRating(0, 1),
+    spacing: spacing
   });
 
   /* Option - maxValue */
