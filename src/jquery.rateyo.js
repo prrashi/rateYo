@@ -757,8 +757,7 @@
 
                if (!existingInstance) {
 
-                 return new RateYo($(this),
-                                    JSON.parse(JSON.stringify(options)));
+                 return new RateYo($(this), $.extend({}, options));
                }
            });
   }
