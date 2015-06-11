@@ -66,7 +66,9 @@ $(function () {
 
   $spacingDemo.rateYo({
     rating: getRandomRating(0, 1),
-    spacing: spacing
+    spacing: spacing,
+    onSet: updateCounter,
+    onChange: updateCounter
   });
 
   /* Option - maxValue */

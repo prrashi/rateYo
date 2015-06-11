@@ -1,5 +1,5 @@
 /*****
-* rateYo - v2.0.0
+* rateYo - v2.0.1
 * http://prrashi.github.io/rateyo/
 * Copyright (c) 2014 Prashanth Pamidi; Licensed MIT
 *****/
@@ -757,8 +757,7 @@
 
                if (!existingInstance) {
 
-                 return new RateYo($(this),
-                                    JSON.parse(JSON.stringify(options)));
+                 return new RateYo($(this), $.extend({}, options));
                }
            });
   }
