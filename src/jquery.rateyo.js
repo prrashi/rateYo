@@ -36,6 +36,7 @@
     halfStar: false,
     readOnly: false,
     spacing: "0px",
+    onInit: null,
     onChange: null,
     onSet: null
   };
@@ -439,6 +440,15 @@
 
       that.rating(resultantRating);
     }
+    
+    function onInit(e, data) {
+      
+      if(options.onInit && typeof options.onInit === "function") {
+        
+        /* jshint validthis:true */
+        options.onInit.apply(this, [data.rating, that]);
+      }
+    }
 
     function onChange (e, data) {
 
@@ -464,6 +474,7 @@
            .on("mouseenter", onMouseEnter)
            .on("mouseleave", onMouseLeave)
            .on("click", onMouseClick)
+           .on("rateyo.init", onInit)
            .on("rateyo.change", onChange)
            .on("rateyo.set", onSet);
     }
@@ -474,6 +485,7 @@
            .off("mouseenter", onMouseEnter)
            .off("mouseleave", onMouseLeave)
            .off("click", onMouseClick)
+           .off("rateyo.init", onInit)
            .off("rateyo.change", onChange)
            .off("rateyo.set", onSet);
     }
@@ -501,7 +513,7 @@
       return $node;
     }
 
-    function setRating (newValue) {
+    function setRating (newValue, fromInit) {
 
       if (!isDefined(newValue)) {
 
@@ -535,7 +547,25 @@
 
       showRating();
 
-      $node.trigger("rateyo.set", {rating: rating});
+      if (!!fromInit) {
+
+        $node.trigger("rateyo.init", {rating: rating});
+      } else {
+
+        $node.trigger("rateyo.set", {rating: rating});
+      }
+
+      return $node;
+    }
+
+    function setOnInit (method) {
+
+      if (!isDefined(method)) {
+
+        return options.onInit;
+      }
+
+      options.onInit = method;
 
       return $node;
     }
@@ -564,14 +594,14 @@
       return $node;
     }
 
-    this.rating = function (newValue) {
+    this.rating = function (newValue, fromInit) {
 
       if (!isDefined(newValue)) {
 
         return options.rating;
       }
 
-      setRating(newValue);
+      setRating(newValue, fromInit);
 
       return $node;
     };
@@ -664,6 +694,10 @@
         
           method = setSpacing;
           break;
+        case "onInit":
+          
+          method = setOnInit;
+          break;
         case "onSet":
 
           method = setOnSet;
@@ -684,7 +718,7 @@
     setReadOnly(options.readOnly);
 
     this.collection.push(this);
-    this.rating(options.rating);
+    this.rating(options.rating, true);
   }
 
   RateYo.prototype.collection = [];
