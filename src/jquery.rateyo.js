@@ -135,6 +135,8 @@
     var step, starWidth, percentOfStar, spacing,
         percentOfSpacing, containerWidth, minValue = 0;
 
+    var isInitialized = false;
+
     function showRating (ratingVal) {
 
       if(!isDefined(ratingVal)){
@@ -513,7 +515,7 @@
       return $node;
     }
 
-    function setRating (newValue, fromInit) {
+    function setRating (newValue) {
 
       if (!isDefined(newValue)) {
 
@@ -547,10 +549,7 @@
 
       showRating();
 
-      if (!!fromInit) {
-
-        $node.trigger("rateyo.init", {rating: rating});
-      } else {
+      if (isInitialized) {
 
         $node.trigger("rateyo.set", {rating: rating});
       }
@@ -594,14 +593,14 @@
       return $node;
     }
 
-    this.rating = function (newValue, fromInit) {
+    this.rating = function (newValue) {
 
       if (!isDefined(newValue)) {
 
         return options.rating;
       }
 
-      setRating(newValue, fromInit);
+      setRating(newValue);
 
       return $node;
     };
@@ -719,6 +718,9 @@
 
     this.collection.push(this);
     this.rating(options.rating, true);
+
+    isInitialized = true;
+    $node.trigger("rateyo.init", {rating: options.rating});
   }
 
   RateYo.prototype.collection = [];
