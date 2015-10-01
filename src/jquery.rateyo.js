@@ -10,12 +10,12 @@
   /* The basic svg string required to generate stars
    */
   var BASICSTAR = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"+
-                  "<svg version=\"1.1\" id=\"Layer_1\""+
+                  "<svg version=\"1.1\""+
                         "xmlns=\"http://www.w3.org/2000/svg\""+
                         "viewBox=\"0 12.705 512 486.59\""+
                         "x=\"0px\" y=\"0px\""+
                         "xml:space=\"preserve\">"+
-                    "<polygon id=\"star-icon\""+
+                    "<polygon"+
                               "points=\"256.814,12.705 317.205,198.566"+
                                       " 512.631,198.566 354.529,313.435 "+
                                       "414.918,499.295 256.814,384.427 "+
