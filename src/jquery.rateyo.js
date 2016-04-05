@@ -15,7 +15,7 @@
                         "viewBox=\"0 12.705 512 486.59\""+
                         "x=\"0px\" y=\"0px\""+
                         "xml:space=\"preserve\">"+
-                    "<polygon"+
+                    "<polygon "+
                               "points=\"256.814,12.705 317.205,198.566"+
                                       " 512.631,198.566 354.529,313.435 "+
                                       "414.918,499.295 256.814,384.427 "+
@@ -25,20 +25,28 @@
 
   var DEFAULTS = {
 
-    starWidth: "32px",
+    starWidth : "32px",
     normalFill: "gray",
-    ratedFill: "#f39c12",
-    numStars: 5,
-    maxValue: 5,
-    precision: 1,
-    rating: 0,
-    fullStar: false,
-    halfStar: false,
-    readOnly: false,
-    spacing: "0px",
-    onInit: null,
-    onChange: null,
-    onSet: null
+    ratedFill : "#f39c12",
+    numStars  : 5,
+    maxValue  : 5,
+    precision : 1,
+    rating    : 0,
+    fullStar  : false,
+    halfStar  : false,
+    readOnly  : false,
+    spacing   : "0px",
+    multiColor: null,
+    onInit    : null,
+    onChange  : null,
+    onSet     : null
+  };
+
+  //Default colors for multi-color rating
+  var MULTICOLOR_OPTIONS = {
+
+    startColor: "#c0392b", //red
+    endColor  : "#f1c40f" //yellow
   };
 
   function checkPrecision (value, minValue, maxValue) {
@@ -108,6 +116,56 @@
     return typeof value !== "undefined";
   }
 
+  var hexRegex = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/;
+
+  var hexToRGB = function (hex) {
+
+    if (!hexRegex.test(hex)) {
+
+      return null;
+    }
+
+    var hexValues = hexRegex.exec(hex),
+	r = parseInt(hexValues[1], 16),
+	g = parseInt(hexValues[2], 16),
+	b = parseInt(hexValues[3], 16);
+
+    return {r:r, g:g, b:b};
+  };
+
+  function getPick(startVal, endVal, pick) {
+
+    var newVal = (endVal - startVal)*(pick/100);
+ 
+    newVal = Math.round(startVal + newVal).toString(16);
+
+    if (newVal.length === 1) {
+
+	newVal = "0" + newVal;
+    }
+
+    return newVal;
+  }
+
+  function pickColor (startColor, endColor, pick) {
+
+    if (!startColor || !endColor) {
+
+      return null;
+    }
+
+    pick = isDefined(pick)? pick : 0;
+
+    startColor = hexToRGB(startColor);
+    endColor = hexToRGB(endColor);
+
+    var r = getPick(startColor.r, endColor.r, pick),
+        b = getPick(startColor.b, endColor.b, pick),
+        g = getPick(startColor.g, endColor.g, pick);
+
+    return "#" + r + g + b;
+  }
+
   /* The Contructor, whose instances are used by plugin itself,
    * to set and get values
    */
@@ -135,14 +193,18 @@
     var step, starWidth, percentOfStar, spacing,
         percentOfSpacing, containerWidth, minValue = 0;
 
+    var currentRating = options.rating;
+
     var isInitialized = false;
 
     function showRating (ratingVal) {
 
-      if(!isDefined(ratingVal)){
+      if (!isDefined(ratingVal)) {
 
         ratingVal = options.rating;
       }
+
+      currentRating = ratingVal;
 
       var numStarsToShow = ratingVal/step;
 
@@ -152,6 +214,8 @@
 
         percent += (Math.ceil(numStarsToShow) - 1)*percentOfSpacing;
       }
+
+      setRatedFill(options.ratedFill);
 
       $ratedGroup.css("width", percent + "%");
     }
@@ -172,11 +236,6 @@
     }
 
     function setStarWidth (newWidth) {
-
-      if (!isDefined(newWidth)) {
-
-        return options.starWidth;
-      }
 
       // In the current version, the width and height of the star
       // should be the same
@@ -199,11 +258,6 @@
 
     function setSpacing (newSpacing) {
       
-      if (!isDefined(newSpacing)) {
-      
-        return options.spacing;  
-      }
-
       options.spacing = newSpacing;
 
       spacing = parseFloat(options.spacing.replace("px", ""));
@@ -221,11 +275,6 @@
 
     function setNormalFill (newFill) {
 
-      if (!isDefined(newFill)) {
-
-        return options.normalFill;
-      }
-
       options.normalFill = newFill;
 
       $normalGroup.find("svg").attr({fill: options.normalFill});
@@ -235,9 +284,16 @@
 
     function setRatedFill (newFill) {
 
-      if (!isDefined(newFill)) {
+      if (options.multiColor) {
 
-        return options.ratedFill;
+        var percentCovered = currentRating - options.minValue;
+        percentCovered = (percentCovered/options.maxValue)*100;
+
+        var colorOpts  = options.multiColor,
+            startColor = colorOpts.startColor || MULTICOLOR_OPTIONS.startColor,
+            endColor   = colorOpts.endColor || MULTICOLOR_OPTIONS.endColor;
+
+        newFill = pickColor(startColor, endColor, percentCovered);
       }
 
       options.ratedFill = newFill;
@@ -247,12 +303,12 @@
       return $node;
     }
 
+    function setMultiColor (options) {
+
+      options.multiColor = options;
+    }
+
     function setNumStars (newValue) {
-
-      if (!isDefined(newValue)) {
-
-        return options.numStars;
-      }
 
       options.numStars = newValue;
 
@@ -268,7 +324,6 @@
       }
 
       setStarWidth(options.starWidth);
-      setRatedFill(options.ratedFill);
       setNormalFill(options.normalFill);
       setSpacing(options.spacing);
 
@@ -278,11 +333,6 @@
     }
 
     function setMaxValue (newValue) {
-
-      if (!isDefined(newValue)) {
-
-        return options.maxValue;
-      }
 
       options.maxValue = newValue;
 
@@ -300,11 +350,6 @@
 
     function setPrecision (newValue) {
 
-      if (!isDefined(newValue)) {
-
-        return options.precision;
-      }
-
       options.precision = newValue;
 
       showRating();
@@ -314,11 +359,6 @@
 
     function setHalfStar (newValue) {
 
-      if (!isDefined(newValue)) {
-      
-        return options.halfStar;  
-      }
-
       options.halfStar = newValue;
 
       return $node;
@@ -326,11 +366,6 @@
 
     function setFullStar (newValue) {
     
-      if (!isDefined(newValue))   {
-      
-        return options.fullStar;  
-      }
-
       options.fullStar = newValue;
 
       return $node;
@@ -494,11 +529,6 @@
 
     function setReadOnly (newValue) {
 
-      if (!isDefined(newValue)) {
-
-        return options.readOnly;
-      }
-
       options.readOnly = newValue;
 
       $node.attr("readonly", true);
@@ -516,11 +546,6 @@
     }
 
     function setRating (newValue) {
-
-      if (!isDefined(newValue)) {
-
-        return options.rating;
-      }
 
       var rating = newValue;
 
@@ -559,11 +584,6 @@
 
     function setOnInit (method) {
 
-      if (!isDefined(method)) {
-
-        return options.onInit;
-      }
-
       options.onInit = method;
 
       return $node;
@@ -571,22 +591,12 @@
 
     function setOnSet (method) {
 
-      if (!isDefined(method)) {
-
-        return options.onSet;
-      }
-
       options.onSet = method;
 
       return $node;
     }
 
     function setOnChange (method) {
-
-      if (!isDefined(method)) {
-
-        return options.onChange;
-      }
 
       options.onChange = method;
 
@@ -608,6 +618,7 @@
     this.destroy = function () {
 
       if (!options.readOnly) {
+
         unbindEvents();
       }
 
@@ -665,6 +676,10 @@
 
           method = setRatedFill;
           break;
+        case "multiColor":
+
+          method = setMultiColor;
+          break;
         case "maxValue":
 
           method = setMaxValue;
@@ -710,7 +725,7 @@
           throw Error("No such option as " + optionName);
       }
 
-      return method(param);
+      return isDefined(param) ? method(param) : options[optionName];
     };
 
     setNumStars(options.numStars);
@@ -785,7 +800,7 @@
       throw Error("Invalid Arguments");
     }
 
-    options = $.extend(JSON.parse(JSON.stringify(DEFAULTS)), options);
+    options = $.extend({}, DEFAULTS, options);
 
     return $.each($nodes, function () {
 

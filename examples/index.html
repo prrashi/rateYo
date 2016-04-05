@@ -60,19 +60,12 @@
           precision: 2,
           minValue: 0,
           maxValue: 5,
-          starWidth: "16px",
-          spacing: "5px"
-        }).on("rateyo.change", function (e, data) {
-
-          changeRating.apply(this, [data.rating]);
-        }).on("rateyo.set", function (e, data) {
-
-          changeRating.apply(this, [data.rating]);
+          starWidth: "64px",
+          spacing: "5px",
+          multiColor: true
         });
 
         $(".rateyo").rateYo();
-
-        changeRating.apply($("#rateYo1").get(0), [rating]);
 
         $(".rateyo-readonly-widg").rateYo({
 
