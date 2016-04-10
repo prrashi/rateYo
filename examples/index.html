@@ -25,7 +25,6 @@
     <div class="rateyo"></div>
     <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="../src/jquery.rateyo.js"></script>
-    <script type="text/javascript" src="color.js"></script>
 
     <script>
 
@@ -34,25 +33,6 @@
         var rating = 1.6;
 
         $(".counter").text(rating);
-
-        var changeRating = function (rating) {
-
-          var options = $(this).rateYo("option"),
-              minValue = options.minValue,
-              maxValue = options.maxValue,
-              halfValue = (options.maxValue - options.minValue)/2,
-              startColor = "#c0392b",
-              endColor = "#f1c40f";
-
-          var perentageCovered = ((rating - minValue)/maxValue)*100;
-
-          var newColor = window.coolColor.pickColor(startColor,
-                                                    endColor, perentageCovered);
-
-          $(this).rateYo("option", "ratedFill", newColor);
-
-          $(this).next().text(rating);
-        };
 
         $("#rateYo1").on("rateyo.init", function () { console.log("rateyo.init"); });
 
