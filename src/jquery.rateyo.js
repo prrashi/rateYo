@@ -1,5 +1,5 @@
 /*****
-* rateYo - v2.0.1
+* rateYo - v2.1.0
 * http://prrashi.github.io/rateyo/
 * Copyright (c) 2014 Prashanth Pamidi; Licensed MIT
 *****/
@@ -46,7 +46,7 @@
   var MULTICOLOR_OPTIONS = {
 
     startColor: "#c0392b", //red
-    endColor  : "#f1c40f" //yellow
+    endColor  : "#f1c40f"  //yellow
   };
 
   function checkPrecision (value, minValue, maxValue) {
@@ -116,7 +116,7 @@
     return typeof value !== "undefined";
   }
 
-  var hexRegex = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/;
+  var hexRegex = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i;
 
   var hexToRGB = function (hex) {
 
@@ -148,6 +148,11 @@
   }
 
   function pickColor (startColor, endColor, pick) {
+
+    /*
+     * @param: `pick` is the percentage of `endColor` to be
+     *         mixed with the `startColor`
+     */
 
     if (!startColor || !endColor) {
 
@@ -239,17 +244,17 @@
 
       // In the current version, the width and height of the star
       // should be the same
-      options.starWidth = options.starHeight = newWidth;
+      var starHeight = options.starWidth = newWidth;
 
       starWidth = parseFloat(options.starWidth.replace("px", ""));
  
       $normalGroup.find("svg")
-                  .attr({width: options.starWidth,
-                         height: options.starHeight});
+                  .attr({width : options.starWidth,
+                         height: starHeight});
 
       $ratedGroup.find("svg")
-                 .attr({width: options.starWidth,
-                        height: options.starHeight});
+                 .attr({width : options.starWidth,
+                        height: starHeight});
 
       setContainerWidth();
        
@@ -282,6 +287,12 @@
       return $node;
     }
 
+    /* Store the recent `ratedFill` option in a variable
+     * so that if multiColor is unset, we can use the color
+     * in this variable
+     */
+    var ratedFill = options.ratedFill;
+
     function setRatedFill (newFill) {
 
       if (options.multiColor) {
@@ -294,6 +305,9 @@
             endColor   = colorOpts.endColor || MULTICOLOR_OPTIONS.endColor;
 
         newFill = pickColor(startColor, endColor, percentCovered);
+      } else {
+
+        ratedFill = newFill;
       }
 
       options.ratedFill = newFill;
@@ -303,9 +317,14 @@
       return $node;
     }
 
-    function setMultiColor (options) {
+    function setMultiColor (colorOptions) {
 
-      options.multiColor = options;
+      options.multiColor = colorOptions;
+
+      /* set the recently set `ratedFill` option,
+       * if multiColor Options are unset
+       */
+      setRatedFill(colorOptions ? colorOptions : ratedFill);
     }
 
     function setNumStars (newValue) {
@@ -352,7 +371,7 @@
 
       options.precision = newValue;
 
-      showRating();
+      setRating(options.rating);
 
       return $node;
     }

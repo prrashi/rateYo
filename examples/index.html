@@ -54,6 +54,8 @@
           $(this).next().text(rating);
         };
 
+        $("#rateYo1").on("rateyo.init", function () { console.log("rateyo.init"); });
+
         $("#rateYo1").rateYo({
           rating: rating,
           numStars: 5,
@@ -62,8 +64,17 @@
           maxValue: 5,
           starWidth: "64px",
           spacing: "5px",
-          multiColor: true
-        });
+          multiColor: true,
+          onInit: function () {
+
+            console.log("On Init");
+          },
+          onSet: function () {
+
+            console.log("On Set");
+          }
+        }).on("rateyo.set", function () { console.log("rateyo.set"); })
+          .on("rateyo.change", function () { console.log("rateyo.change"); });
 
         $(".rateyo").rateYo();
 
