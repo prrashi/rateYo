@@ -32,6 +32,6 @@
   "dependencies": {
     "jquery": "~2.1.1",
     "bootstrap": "~3.3.0",
-    "jquery-rateyo": "~2.0.1"
+    "jquery-rateyo": "~2.1.0"
   }
 }

@@ -46,6 +46,22 @@ $(function () {
     ratedFill: $ratedFillDemo.attr("data-color")
   });
 
+  var $multiColorDemo = $options.filter(".option-multiColor")
+                                .find("div.rating");
+
+  $multiColorDemo.rateYo({
+
+    rating    : 1.6,
+    starWidth : "64px",
+    spacing   : "5px",
+    multiColor: {
+
+      "startColor": "#8e44ad",
+      "endColor"  : "#27ae60"
+    }
+  });
+
+
   /* Option - numStars */
   var $numStarsDemo = $options.filter(".option-numStars")
                               .find("div.rating");
@@ -204,13 +220,14 @@ $(function () {
     maxValue: 5
   };
 
-  options.ratedFill = getColor(options, options.rating);
+  //options.ratedFill = getColor(options, options.rating);
 
+  /*
   $optionMethodDemo.rateYo(options).on("rateyo.change", function (e, data) {
     changeRating.apply(this, [data.rating]);
   }).on("rateyo.set", function (e, data) {
     changeRating.apply(this, [data.rating]);
-  });
+  });*/
 
   var $ratingMethodDemo = $methods.filter(".method-rating")
                                   .find("div.rating");

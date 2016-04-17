@@ -1,5 +1,5 @@
 /*****
-* rateYo - v2.0.1
+* rateYo - v2.1.0
 * http://prrashi.github.io/rateyo/
 * Copyright (c) 2014 Prashanth Pamidi; Licensed MIT
 *****/
@@ -10,12 +10,12 @@
   /* The basic svg string required to generate stars
    */
   var BASICSTAR = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"+
-                  "<svg version=\"1.1\" id=\"Layer_1\""+
+                  "<svg version=\"1.1\""+
                         "xmlns=\"http://www.w3.org/2000/svg\""+
                         "viewBox=\"0 12.705 512 486.59\""+
                         "x=\"0px\" y=\"0px\""+
                         "xml:space=\"preserve\">"+
-                    "<polygon id=\"star-icon\""+
+                    "<polygon "+
                               "points=\"256.814,12.705 317.205,198.566"+
                                       " 512.631,198.566 354.529,313.435 "+
                                       "414.918,499.295 256.814,384.427 "+
@@ -25,19 +25,28 @@
 
   var DEFAULTS = {
 
-    starWidth: "32px",
+    starWidth : "32px",
     normalFill: "gray",
-    ratedFill: "#f39c12",
-    numStars: 5,
-    maxValue: 5,
-    precision: 1,
-    rating: 0,
-    fullStar: false,
-    halfStar: false,
-    readOnly: false,
-    spacing: "0px",
-    onChange: null,
-    onSet: null
+    ratedFill : "#f39c12",
+    numStars  : 5,
+    maxValue  : 5,
+    precision : 1,
+    rating    : 0,
+    fullStar  : false,
+    halfStar  : false,
+    readOnly  : false,
+    spacing   : "0px",
+    multiColor: null,
+    onInit    : null,
+    onChange  : null,
+    onSet     : null
+  };
+
+  //Default colors for multi-color rating
+  var MULTICOLOR_OPTIONS = {
+
+    startColor: "#c0392b", //red
+    endColor  : "#f1c40f"  //yellow
   };
 
   function checkPrecision (value, minValue, maxValue) {
@@ -107,6 +116,61 @@
     return typeof value !== "undefined";
   }
 
+  var hexRegex = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i;
+
+  var hexToRGB = function (hex) {
+
+    if (!hexRegex.test(hex)) {
+
+      return null;
+    }
+
+    var hexValues = hexRegex.exec(hex),
+	r = parseInt(hexValues[1], 16),
+	g = parseInt(hexValues[2], 16),
+	b = parseInt(hexValues[3], 16);
+
+    return {r:r, g:g, b:b};
+  };
+
+  function getPick(startVal, endVal, pick) {
+
+    var newVal = (endVal - startVal)*(pick/100);
+ 
+    newVal = Math.round(startVal + newVal).toString(16);
+
+    if (newVal.length === 1) {
+
+	newVal = "0" + newVal;
+    }
+
+    return newVal;
+  }
+
+  function pickColor (startColor, endColor, pick) {
+
+    /*
+     * @param: `pick` is the percentage of `endColor` to be
+     *         mixed with the `startColor`
+     */
+
+    if (!startColor || !endColor) {
+
+      return null;
+    }
+
+    pick = isDefined(pick)? pick : 0;
+
+    startColor = hexToRGB(startColor);
+    endColor = hexToRGB(endColor);
+
+    var r = getPick(startColor.r, endColor.r, pick),
+        b = getPick(startColor.b, endColor.b, pick),
+        g = getPick(startColor.g, endColor.g, pick);
+
+    return "#" + r + g + b;
+  }
+
   /* The Contructor, whose instances are used by plugin itself,
    * to set and get values
    */
@@ -134,12 +198,18 @@
     var step, starWidth, percentOfStar, spacing,
         percentOfSpacing, containerWidth, minValue = 0;
 
+    var currentRating = options.rating;
+
+    var isInitialized = false;
+
     function showRating (ratingVal) {
 
-      if(!isDefined(ratingVal)){
+      if (!isDefined(ratingVal)) {
 
         ratingVal = options.rating;
       }
+
+      currentRating = ratingVal;
 
       var numStarsToShow = ratingVal/step;
 
@@ -149,6 +219,8 @@
 
         percent += (Math.ceil(numStarsToShow) - 1)*percentOfSpacing;
       }
+
+      setRatedFill(options.ratedFill);
 
       $ratedGroup.css("width", percent + "%");
     }
@@ -170,24 +242,19 @@
 
     function setStarWidth (newWidth) {
 
-      if (!isDefined(newWidth)) {
-
-        return options.starWidth;
-      }
-
       // In the current version, the width and height of the star
       // should be the same
-      options.starWidth = options.starHeight = newWidth;
+      var starHeight = options.starWidth = newWidth;
 
       starWidth = parseFloat(options.starWidth.replace("px", ""));
  
       $normalGroup.find("svg")
-                  .attr({width: options.starWidth,
-                         height: options.starHeight});
+                  .attr({width : options.starWidth,
+                         height: starHeight});
 
       $ratedGroup.find("svg")
-                 .attr({width: options.starWidth,
-                        height: options.starHeight});
+                 .attr({width : options.starWidth,
+                        height: starHeight});
 
       setContainerWidth();
        
@@ -196,11 +263,6 @@
 
     function setSpacing (newSpacing) {
       
-      if (!isDefined(newSpacing)) {
-      
-        return options.spacing;  
-      }
-
       options.spacing = newSpacing;
 
       spacing = parseFloat(options.spacing.replace("px", ""));
@@ -218,11 +280,6 @@
 
     function setNormalFill (newFill) {
 
-      if (!isDefined(newFill)) {
-
-        return options.normalFill;
-      }
-
       options.normalFill = newFill;
 
       $normalGroup.find("svg").attr({fill: options.normalFill});
@@ -230,11 +287,27 @@
       return $node;
     }
 
+    /* Store the recent `ratedFill` option in a variable
+     * so that if multiColor is unset, we can use the color
+     * in this variable
+     */
+    var ratedFill = options.ratedFill;
+
     function setRatedFill (newFill) {
 
-      if (!isDefined(newFill)) {
+      if (options.multiColor) {
 
-        return options.ratedFill;
+        var percentCovered = currentRating - options.minValue;
+        percentCovered = (percentCovered/options.maxValue)*100;
+
+        var colorOpts  = options.multiColor,
+            startColor = colorOpts.startColor || MULTICOLOR_OPTIONS.startColor,
+            endColor   = colorOpts.endColor || MULTICOLOR_OPTIONS.endColor;
+
+        newFill = pickColor(startColor, endColor, percentCovered);
+      } else {
+
+        ratedFill = newFill;
       }
 
       options.ratedFill = newFill;
@@ -244,12 +317,17 @@
       return $node;
     }
 
+    function setMultiColor (colorOptions) {
+
+      options.multiColor = colorOptions;
+
+      /* set the recently set `ratedFill` option,
+       * if multiColor Options are unset
+       */
+      setRatedFill(colorOptions ? colorOptions : ratedFill);
+    }
+
     function setNumStars (newValue) {
-
-      if (!isDefined(newValue)) {
-
-        return options.numStars;
-      }
 
       options.numStars = newValue;
 
@@ -265,7 +343,6 @@
       }
 
       setStarWidth(options.starWidth);
-      setRatedFill(options.ratedFill);
       setNormalFill(options.normalFill);
       setSpacing(options.spacing);
 
@@ -275,11 +352,6 @@
     }
 
     function setMaxValue (newValue) {
-
-      if (!isDefined(newValue)) {
-
-        return options.maxValue;
-      }
 
       options.maxValue = newValue;
 
@@ -297,24 +369,14 @@
 
     function setPrecision (newValue) {
 
-      if (!isDefined(newValue)) {
-
-        return options.precision;
-      }
-
       options.precision = newValue;
 
-      showRating();
+      setRating(options.rating);
 
       return $node;
     }
 
     function setHalfStar (newValue) {
-
-      if (!isDefined(newValue)) {
-      
-        return options.halfStar;  
-      }
 
       options.halfStar = newValue;
 
@@ -323,11 +385,6 @@
 
     function setFullStar (newValue) {
     
-      if (!isDefined(newValue))   {
-      
-        return options.fullStar;  
-      }
-
       options.fullStar = newValue;
 
       return $node;
@@ -439,6 +496,15 @@
 
       that.rating(resultantRating);
     }
+    
+    function onInit(e, data) {
+      
+      if(options.onInit && typeof options.onInit === "function") {
+        
+        /* jshint validthis:true */
+        options.onInit.apply(this, [data.rating, that]);
+      }
+    }
 
     function onChange (e, data) {
 
@@ -464,6 +530,7 @@
            .on("mouseenter", onMouseEnter)
            .on("mouseleave", onMouseLeave)
            .on("click", onMouseClick)
+           .on("rateyo.init", onInit)
            .on("rateyo.change", onChange)
            .on("rateyo.set", onSet);
     }
@@ -474,16 +541,12 @@
            .off("mouseenter", onMouseEnter)
            .off("mouseleave", onMouseLeave)
            .off("click", onMouseClick)
+           .off("rateyo.init", onInit)
            .off("rateyo.change", onChange)
            .off("rateyo.set", onSet);
     }
 
     function setReadOnly (newValue) {
-
-      if (!isDefined(newValue)) {
-
-        return options.readOnly;
-      }
 
       options.readOnly = newValue;
 
@@ -502,11 +565,6 @@
     }
 
     function setRating (newValue) {
-
-      if (!isDefined(newValue)) {
-
-        return options.rating;
-      }
 
       var rating = newValue;
 
@@ -535,17 +593,22 @@
 
       showRating();
 
-      $node.trigger("rateyo.set", {rating: rating});
+      if (isInitialized) {
+
+        $node.trigger("rateyo.set", {rating: rating});
+      }
+
+      return $node;
+    }
+
+    function setOnInit (method) {
+
+      options.onInit = method;
 
       return $node;
     }
 
     function setOnSet (method) {
-
-      if (!isDefined(method)) {
-
-        return options.onSet;
-      }
 
       options.onSet = method;
 
@@ -553,11 +616,6 @@
     }
 
     function setOnChange (method) {
-
-      if (!isDefined(method)) {
-
-        return options.onChange;
-      }
 
       options.onChange = method;
 
@@ -579,6 +637,7 @@
     this.destroy = function () {
 
       if (!options.readOnly) {
+
         unbindEvents();
       }
 
@@ -636,6 +695,10 @@
 
           method = setRatedFill;
           break;
+        case "multiColor":
+
+          method = setMultiColor;
+          break;
         case "maxValue":
 
           method = setMaxValue;
@@ -664,6 +727,10 @@
         
           method = setSpacing;
           break;
+        case "onInit":
+          
+          method = setOnInit;
+          break;
         case "onSet":
 
           method = setOnSet;
@@ -677,14 +744,17 @@
           throw Error("No such option as " + optionName);
       }
 
-      return method(param);
+      return isDefined(param) ? method(param) : options[optionName];
     };
 
     setNumStars(options.numStars);
     setReadOnly(options.readOnly);
 
     this.collection.push(this);
-    this.rating(options.rating);
+    this.rating(options.rating, true);
+
+    isInitialized = true;
+    $node.trigger("rateyo.init", {rating: options.rating});
   }
 
   RateYo.prototype.collection = [];
@@ -749,7 +819,7 @@
       throw Error("Invalid Arguments");
     }
 
-    options = $.extend(JSON.parse(JSON.stringify(DEFAULTS)), options);
+    options = $.extend({}, DEFAULTS, options);
 
     return $.each($nodes, function () {
 

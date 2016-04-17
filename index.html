@@ -164,12 +164,12 @@
             <div class="well">
               <p>
                 <div>&lt;!-- Latest compiled and minified CSS --&gt;</div>
-                <code>&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.0.1/jquery.rateyo.min.css&quot;&gt;</code>
+                <code>&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.1.0/jquery.rateyo.min.css&quot;&gt;</code>
               </p>
 
               <p>
                 <div>&lt;!-- Latest compiled and minified JavaScript --&gt;</div>
-                <code>&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.0.1/jquery.rateyo.min.js&quot;&gt;&lt;/script&gt;</code>
+                <code>&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.1.0/jquery.rateyo.min.js&quot;&gt;&lt;/script&gt;</code>
               </p>
             </div>
           </div>
@@ -187,8 +187,8 @@
             <h3>Download</h3>
             <div class="clearfix">
               <a class="btn btn-primary btn-lg pull-left"
-                 href="https://github.com/prrashi/rateYo/releases/download/2.0.1/v2.0.1.zip">
-                 Download V2.0.1
+                 href="https://github.com/prrashi/rateYo/releases/download/2.1.0/v2.1.0.zip">
+                 Download V2.1.0
               </a>
             </div>
           </div>
@@ -314,6 +314,54 @@
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-ratedFill -->
+	    <div id="option-multiColor" class="option option-multiColor">
+	      <p>
+                <b>multiColor:</b>
+		<code>Boolean or Object, default: false</code>
+		<p>This option helps in changeing the color of the rating, as the rating value changes.</p>
+		<p>For the trasition of color with the rating, we need two colors, the color when rating is lowest (<code>startColor</code>) and 
+                   the color when rating is highest (<code>endColor</code>)</p>
+		<p>If you specify <code>true</code> as the value, the <code>startColor</code> would be <code>#c0392b</code> and the <code>endColor</code> would be <code>#f1c40f</code></p>
+		<p>You can ovveride that by specifying an Object as follows</p>
+                <code>
+                  {"multiColor": {"startColor": "#FF0000", "endColor": "#00FF00"}}
+                </code>
+              </p>
+	      <div class="option-content">
+	        <div class="clearfix">
+		  <div class="pull-left">
+		    <div class="rating"></div>
+		  </div>
+		</div>
+
+		<div class="clearfix">
+
+                  <pre class="brush: js">
+                    &lt;-- HTML --&gt;
+                    &lt;div id="rateYo"&gt;&lt;/div&gt;
+                  </pre>
+                  <pre class="brush: js">
+		/* Javascript */
+
+		$(function () {
+
+		  $("#rateYo").rateYo({
+
+		    rating    : 1.6,
+		    starWidth : "64px",
+		    spacing   : "5px",
+		    multiColor: {
+
+		      "startColor": "#8e44ad",
+		      "endColor"  : "#27ae60"
+		    }
+		  });
+
+		});
+                  </pre>
+		</div>
+	      </div>
+	    </div><!-- End option-multiColor -->
             <div id="option-numStars" class="option option-numStars">
               <p>
                 <b>numStars:</b>
@@ -1003,8 +1051,7 @@
 
     <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="bower_components/jquery-rateyo/examples/color.js"></script>
-    <script type="text/javascript" src="bower_components/jquery-rateyo/min/jquery.rateyo.min.js"></script>
+    <script type="text/javascript" src="bower_components/jquery-rateyo/src/jquery.rateyo.js"></script>
     <script type="text/javascript" src="application.js"></script>
 
     <script type="text/javascript">
