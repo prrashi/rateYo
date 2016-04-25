@@ -248,14 +248,7 @@
         percent += (Math.ceil(numStarsToShow) - 1)*percentOfSpacing;
       }
 
-      if (options.multiColor) {
-
-        /* 
-         * If multiColor rating, the color of the rating should be changed
-         * according the rating value
-         */
-        setRatedFill();
-      }
+      setRatedFill(options.ratedFill);
 
       $ratedGroup.css("width", percent + "%");
     }
