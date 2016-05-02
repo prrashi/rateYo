@@ -40,11 +40,13 @@
           rating: rating,
           numStars: 5,
           precision: 2,
-          minValue: 0,
-          maxValue: 5,
           starWidth: "64px",
           spacing: "5px",
-          multiColor: true,
+          multiColor: {
+
+            startColor: "#000000",
+            endColor  : "#ffffff"
+          },
           onInit: function () {
 
             console.log("On Init");
