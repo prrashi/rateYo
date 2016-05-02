@@ -52,12 +52,10 @@ $(function () {
   $multiColorDemo.rateYo({
 
     rating    : 1.6,
-    starWidth : "64px",
-    spacing   : "5px",
     multiColor: {
 
-      "startColor": "#8e44ad",
-      "endColor"  : "#27ae60"
+      "startColor": "#FF0000",
+      "endColor"  : "#00FF00"
     }
   });
 
@@ -148,18 +146,25 @@ $(function () {
 
   (function () {
 
+    var $onInitDemo = $options.filter(".option-onInit")
+                             .find("div.rating");
+
+    $onInitDemo.rateYo({
+      onInit: function (rating) {
+
+        window.console.log("RateYo initialized! with " + rating);
+      }
+    });
+
+  }());
+
+  (function () {
+
     var $onSetDemo = $options.filter(".option-onSet")
-                             .find("div.rating"),
-        initialized = false;
+                             .find("div.rating");
 
     $onSetDemo.rateYo({
       onSet: function (rating) {
-
-        if (!initialized) {
-
-          initialized = true;
-          return;
-        }
 
         window.alert("Rating is set to: " + rating);
       }
@@ -170,8 +175,7 @@ $(function () {
   (function () {
 
     var $onChangeDemo = $options.filter(".option-onChange")
-                                .find("div.rating"),
-        initialized = false;
+                                .find("div.rating");
 
     $onChangeDemo.rateYo({
 
@@ -189,45 +193,16 @@ $(function () {
   var $optionMethodDemo = $methods.filter(".method-option")
                                   .find("div.rating");
 
-  var getColor = function (options, rating) {
+  $optionMethodDemo.rateYo({"rating": 0.7});
+ 
+  $optionMethodDemo.rateYo("option", "onChange", function () {
+    
+    var ratedFill = $optionMethodDemo.rateYo("option", "ratedFill");
 
-    var minValue = options.minValue,
-        maxValue = options.maxValue,
-        halfValue = (options.maxValue - options.minValue)/2,
-        startColor = "#c0392b",
-        endColor = "#f1c40f";
+    window.console.log("The color of rating is " + ratedFill);
+  });
 
-    var perentageCovered = ((rating - minValue)/maxValue)*100;
-
-    var newColor = window.coolColor.pickColor(startColor,
-                                              endColor, perentageCovered);
-    return newColor;
-  };
-
-  var changeRating = function (rating) {
-    var options = $(this).rateYo("option");
-
-    var newColor = getColor(options, rating);
-
-    $(this).rateYo("option", "ratedFill", newColor);
-  };
-
-  var options = {
-    rating: 0.5,
-    numStars: 5,
-    precision: 2,
-    minValue: 0,
-    maxValue: 5
-  };
-
-  //options.ratedFill = getColor(options, options.rating);
-
-  /*
-  $optionMethodDemo.rateYo(options).on("rateyo.change", function (e, data) {
-    changeRating.apply(this, [data.rating]);
-  }).on("rateyo.set", function (e, data) {
-    changeRating.apply(this, [data.rating]);
-  });*/
+  $optionMethodDemo.rateYo("option", "multiColor", true);
 
   var $ratingMethodDemo = $methods.filter(".method-rating")
                                   .find("div.rating");
@@ -247,15 +222,18 @@ $(function () {
   var $destroyMethodDemo = $methods.filter(".method-destroy")
                                    .find("div.rating");
 
-  var $ratingActions = $destroyMethodDemo.rateYo().nextAll("div");
+  (function () {
 
-  $ratingActions.on("click", "button.destroy", function () {
+    var $ratingActions = $destroyMethodDemo.rateYo().nextAll("div");
 
-    $destroyMethodDemo.rateYo("method", "destroy");
-  }).on("click", "button.initialize", function () {
+    $ratingActions.on("click", "button.destroy", function () {
 
-    $destroyMethodDemo.rateYo();
-  });
+      $destroyMethodDemo.rateYo("method", "destroy");
+    }).on("click", "button.initialize", function () {
+
+      $destroyMethodDemo.rateYo();
+    });
+  }());
 
   var $events = $("div.events-content div.event");
 
@@ -264,8 +242,19 @@ $(function () {
 
   $setDemo.rateYo().on("rateyo.set", function (e, data) {
 
-    alert("The rating is set to " + data.rating + "!");
+    window.alert("The rating is set to " + data.rating + "!");
   });
+
+  var $initDemo = $events.filter(".event-init")
+                         .find("div.rating");
+
+  $initDemo.on("rateyo.init", function (e, data) {
+ 
+                        window.console.log("RateYo initialized! with " + data.rating);
+                    });
+ 
+  $initDemo.rateYo();
+
 
   var $changeDemo = $events.filter(".event-change")
                            .find("div.rating");
