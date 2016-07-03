@@ -1,5 +1,5 @@
 /*****
-* rateYo - v2.1.1
+* rateYo - v2.1.2
 * http://prrashi.github.io/rateyo/
 * Copyright (c) 2014 Prashanth Pamidi; Licensed MIT
 *****/
@@ -36,6 +36,7 @@
     halfStar  : false,
     readOnly  : false,
     spacing   : "0px",
+    rtl       : false,
     multiColor: null,
     onInit    : null,
     onChange  : null,
@@ -259,6 +260,8 @@
 
       setRatedFill(options.ratedFill);
 
+      percent = options.rtl ? 100 - percent : percent;
+
       $ratedGroup.css("width", percent + "%");
     }
 
@@ -336,7 +339,9 @@
 
       options.normalFill = newFill;
 
-      $normalGroup.find("svg").attr({fill: options.normalFill});
+      var $svgs = (options.rtl ? $ratedGroup : $normalGroup).find("svg");
+
+      $svgs.attr({fill: options.normalFill});
 
       return $node;
     }
@@ -375,9 +380,21 @@
 
       options.ratedFill = newFill;
 
-      $ratedGroup.find("svg").attr({fill: options.ratedFill});
+      var $svgs = (options.rtl ? $normalGroup : $ratedGroup).find("svg");
+
+      $svgs.attr({fill: options.ratedFill});
 
       return $node;
+    }
+
+    function setRtl (newValue) {
+
+      newValue = !!newValue;
+
+      options.rtl = newValue;
+
+      setNormalFill(options.normalFill);
+      showRating();
     }
 
     function setMultiColor (colorOptions) {
@@ -579,6 +596,11 @@
 
         // Round the rating if `halfStar` or `fullStar` options are chosen
         calculatedRating = round(calculatedRating);
+      }
+
+      if (options.rtl) {
+
+        calculatedRating = maxValue - calculatedRating;
       }
 
       return calculatedRating;
@@ -804,6 +826,10 @@
 
           method = setSpacing;
           break;
+	case "rtl":
+
+          method = setRtl;
+	  break;
         case "onInit":
 
           method = setOnInit;
@@ -921,6 +947,11 @@
 
     setNumStars(options.numStars);
     setReadOnly(options.readOnly);
+
+    if (options.rtl) {
+
+      setRtl(options.rtl);
+    }
 
     this.collection.push(this);
     this.rating(options.rating, true);
