@@ -23,6 +23,16 @@
     <div class="rateyo"></div>
     <div class="rateyo"></div>
     <div class="rateyo"></div>
+
+    <div style="margin-top: 20px">
+      <div id="rateYoClearable" style="display: inline-block"></div>
+      <span id="rateYoClearableRating"></span>
+    </div>
+
+    <div>
+      <div id="rateYoClearableRtl" style="display: inline-block"></div>
+      <span id="rateYoClearableRtlRating"></span>
+    </div>
     <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="../src/jquery.rateyo.js"></script>
 
@@ -42,7 +52,7 @@
           precision: 2,
           starWidth: "64px",
           spacing: "5px",
-	  rtl: true,
+	        rtl: true,
           multiColor: {
 
             startColor: "#000000",
@@ -71,6 +81,41 @@
         }).on("rateyo.change", function (e, data) {
         
           console.log(data.rating);
+        });
+
+        $("#rateYoClearable").rateYo({
+          rating: rating,
+          clearButton: true,
+          onInit: function () {
+            $("#rateYoClearableRating").html("Rating: " + rating);
+          },
+        }).on("rateyo.set", function (e, data) {
+          $("#rateYoClearableRating").html("Rating: " + (data.rating < 0 ? "cleared (-1)" : data.rating));
+          if (data.rating < 0) {
+            console.log("Rating cleared.");
+          }
+        }).on("rateyo.change", function (e, data) {
+          if (data.rating < 0) {
+            console.log("Clear rating?");
+          }
+        });
+
+        $("#rateYoClearableRtl").rateYo({
+          rating: rating,
+          clearButton: true,
+          rtl: true,
+          onInit: function () {
+            $("#rateYoClearableRtlRating").html("Rating: " + rating);
+          },
+        }).on("rateyo.set", function (e, data) {
+          $("#rateYoClearableRtlRating").html("Rating: " + (data.rating < 0 ? "cleared (-1)" : data.rating));
+          if (data.rating < 0) {
+            console.log("Rating cleared.");
+          }
+        }).on("rateyo.change", function (e, data) {
+          if (data.rating < 0) {
+            console.log("Clear rating?");
+          }
         });
       });
     </script>
