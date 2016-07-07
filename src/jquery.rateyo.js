@@ -22,25 +22,43 @@
                                       "1,198.566 196.426,198.566 \"/>"+
                   "</svg>";
 
+  var BASICCROSS = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"+
+              "<svg version=\"1.1\" id=\"Layer_1\" "+
+                  "xmlns=\"http://www.w3.org/2000/svg\" "+
+                  "xmlns:xlink=\"http://www.w3.org/1999/xlink\" "+
+                  "x=\"0px\" y=\"0px\" width=\"35.833px\" "+
+                  "height=\"31.333px\" viewBox=\"0 0 35.833 31.333\" "+
+                  "enable-background=\"new 0 0 35.833 31.333\" "+
+                  "xml:space=\"preserve\">"+
+                "<polygon stroke=\"#CC0000\" "+
+                  "fill=\"#CC0000\" stroke-width=\"2\" "+
+                  "points=\"27.653,10.085 23.411,5.843 16.475,12.778 "+
+                  "9.539,5.843 5.296,10.085 "+
+                  "12.231,17.021 5.296,23.957 9.539,28.2 "+
+                  "16.475,21.264 23.411,28.2 27.653,23.957 "+
+                  "20.717,17.021 \"/>"+
+              "</svg>";
+
   // The Default values of different options available in the Plugin
   var DEFAULTS = {
 
-    starWidth : "32px",
-    normalFill: "gray",
-    ratedFill : "#f39c12",
-    numStars  : 5,
-    maxValue  : 5,
-    precision : 1,
-    rating    : 0,
-    fullStar  : false,
-    halfStar  : false,
-    readOnly  : false,
-    spacing   : "0px",
-    rtl       : false,
-    multiColor: null,
-    onInit    : null,
-    onChange  : null,
-    onSet     : null
+    starWidth  : "32px",
+    normalFill : "gray",
+    ratedFill  : "#f39c12",
+    numStars   : 5,
+    maxValue   : 5,
+    precision  : 1,
+    rating     : 0,
+    fullStar   : false,
+    halfStar   : false,
+    readOnly   : false,
+    spacing    : "0px",
+    rtl        : false,
+    clearButton: false,
+    multiColor : null,
+    onInit     : null,
+    onChange   : null,
+    onSet      : null
   };
 
   //Default colors for multi-color rating
@@ -211,13 +229,20 @@
      * Variable `starWidth`: stores the decimal value of width of star in units of px
      * Variable `percentOfStar`: stores the percentage of width each star takes w.r.t
      *                           the container
+     * Variable `percentOfCross`: stores the percentage of width the cross button and
+     *                           the space after it takes w.r.t the container
      * Variable `spacing`: stores the decimal value of the spacing between stars
      *                     in the units of px
      * Variable `percentOfSpacing`: stores the percentage of width of the spacing
      *                              between stars w.r.t the container
      */
-    var step, starWidth, percentOfStar, spacing,
+    var step, starWidth, percentOfStar, percentOfCross, spacing,
         percentOfSpacing, containerWidth, minValue = 0;
+
+    /*
+     * Variable `clearedValue`: stores the value equivalent of cleared rating
+     */
+    var clearedValue = -1;
 
     /*
      * `currentRating` contains rating that is being displayed at the latest point of
@@ -258,6 +283,10 @@
         percent += (Math.ceil(numStarsToShow) - 1)*percentOfSpacing;
       }
 
+      if (options.clearButton) {
+        percent += percentOfCross;
+      }
+
       setRatedFill(options.ratedFill);
 
       percent = options.rtl ? 100 - percent : percent;
@@ -274,9 +303,16 @@
 
       containerWidth = starWidth*options.numStars + spacing*(options.numStars - 1);
 
+      if (options.clearButton) {
+
+        containerWidth += starWidth + spacing;
+      }
+
       percentOfStar = (starWidth/containerWidth)*100;
 
       percentOfSpacing = (spacing/containerWidth)*100;
+
+      percentOfCross = ((starWidth+spacing)/containerWidth)*100;
 
       $node.width(containerWidth);
 
@@ -423,10 +459,22 @@
       $normalGroup.empty();
       $ratedGroup.empty();
 
+      if (options.clearButton && !options.rtl) {
+
+        $normalGroup.append($(BASICCROSS));
+        $ratedGroup.append($(BASICCROSS));
+      }
+
       for (var i=0; i<options.numStars; i++) {
 
         $normalGroup.append($(BASICSTAR));
         $ratedGroup.append($(BASICSTAR));
+      }
+
+      if (options.clearButton && options.rtl) {
+
+        $normalGroup.append($(BASICCROSS));
+        $ratedGroup.append($(BASICCROSS));
       }
 
       setStarWidth(options.starWidth);
@@ -434,6 +482,20 @@
       setSpacing(options.spacing);
 
       showRating();
+
+      return $node;
+    }
+
+    function setClearButton (isAvailable) {
+
+      /*
+       * Set whether the Clear Rating button should be displayed, called whenever one
+       * changes the `clearButton` option
+       */
+
+      options.clearButton = isAvailable;
+
+      setNumStars(options.numStars);
 
       return $node;
     }
@@ -538,6 +600,23 @@
           nodeStartX = position.left,
           nodeEndX = nodeStartX + $normalGroup.width();
 
+      if (options.clearButton) {
+
+        /*
+         * Taking the Clear Rating button into account by "putting" it outside of
+         * the container
+         */
+        var crossWidth = starWidth + spacing;
+
+        if (options.rtl) {
+
+          nodeEndX -= crossWidth;
+        } else {
+          
+          nodeStartX += crossWidth;
+        }
+      }
+
       var maxValue = options.maxValue;
 
       // The x-coordinate(position) of the mouse pointer w.r.t page
@@ -548,11 +627,25 @@
       // If the mouse pointer is to the left of the container
       if(pageX < nodeStartX) {
 
-        calculatedRating = minValue;
-      }else if (pageX > nodeEndX) { // If the mouse pointer is right of the container
+        if (!options.rtl && options.clearButton) {
 
-        calculatedRating = maxValue;
-      }else { // If the mouse pointer is inside the continer
+          // if mouse pointer is over the Clean Rating button in LTR mode.
+          calculatedRating = clearedValue;
+        } else {
+
+          calculatedRating = minValue;
+        }
+      } else if (pageX > nodeEndX) { // If the mouse pointer is right of the container
+
+        if (options.rtl && options.clearButton) {
+
+          // if mouse pointer is over the Clean Rating button in RTL mode
+          calculatedRating = clearedValue;
+        } else {
+
+          calculatedRating = maxValue;
+        }
+      } else { // If the mouse pointer is inside the continer
 
         /*
          * The fraction of width covered by the pointer w.r.t to the total width
@@ -598,7 +691,7 @@
         calculatedRating = round(calculatedRating);
       }
 
-      if (options.rtl) {
+      if (options.rtl && calculatedRating !== clearedValue) {
 
         calculatedRating = maxValue - calculatedRating;
       }
@@ -654,7 +747,10 @@
         rating = parseFloat(rating);
       }
 
-      checkBounds(rating, minValue, maxValue);
+      var allowedMinValue = options.clearButton ? Math.min(clearedValue, minValue) : minValue;
+      var allowedMaxValue = options.clearButton ? Math.max(clearedValue, maxValue) : maxValue;
+
+      checkBounds(rating, allowedMinValue, allowedMaxValue);
 
       rating = parseFloat(rating.toFixed(options.precision));
 
@@ -818,6 +914,10 @@
 
           method = setFullStar;
           break;
+        case "clearButton":
+
+          method = setClearButton;
+          break;
         case "readOnly":
 
           method = setReadOnly;
@@ -826,10 +926,10 @@
 
           method = setSpacing;
           break;
-	case "rtl":
+      	case "rtl":
 
           method = setRtl;
-	  break;
+      	  break;
         case "onInit":
 
           method = setOnInit;
@@ -951,6 +1051,11 @@
     if (options.rtl) {
 
       setRtl(options.rtl);
+    }
+
+    if (options.clearButton) {
+
+      setClearButton(options.clearButton);
     }
 
     this.collection.push(this);
