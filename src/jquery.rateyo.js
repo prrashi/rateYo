@@ -916,7 +916,7 @@
           break;
         case "clearButton":
 
-          method = clearButton;
+          method = setClearButton;
           break;
         case "readOnly":
 
