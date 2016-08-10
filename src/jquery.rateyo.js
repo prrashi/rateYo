@@ -40,7 +40,8 @@
     multiColor: null,
     onInit    : null,
     onChange  : null,
-    onSet     : null
+    onSet     : null,
+    starSvg   : null
   };
 
   //Default colors for multi-color rating
@@ -425,8 +426,8 @@
 
       for (var i=0; i<options.numStars; i++) {
 
-        $normalGroup.append($(BASICSTAR));
-        $ratedGroup.append($(BASICSTAR));
+        $normalGroup.append($(options.starSvg || BASICSTAR));
+        $ratedGroup.append($(options.starSvg || BASICSTAR));
       }
 
       setStarWidth(options.starWidth);
