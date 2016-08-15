@@ -123,7 +123,7 @@
       <a href="#hacks">Hacks</a>
       <ul class="nav">
         <li>
-          <a href="#hack-starSvg" onclick=";window.alert('Content coming soon');">starSvg</a>
+          <a href="#hack-starSvg">starSvg</a>
         </li>
       </ul>
 
@@ -1053,6 +1053,7 @@
             </div><!-- End method-rating -->
           </div><!-- End Methods-content -->
         </div><!-- End Row -->
+
         <div class="row">
           <div id="events" class="col-md-12 events-content">
             <h3>Events</h3>
@@ -1163,6 +1164,54 @@
           </div><!-- End events-content -->
         </div><!-- End row -->
 
+        <div class="row">
+          <div id="hacks" class="col-md-12 hacks-content">
+            <h3>Hacks - The Radioactive <i class="glyphicon glyphicon-warning-sign"
+                                           style="color: #F39C12;"></i> Options</h3>
+	    <p>You need to be extra careful with these options. If not used properly, the plugin may not function as expected</p> 
+	    <div id="hack-starSvg" class="hack hack-starSvg">
+              <div class="hack-content">
+                <p><b>starSvg: <code>String, default: Star SVG</code></b></p>
+                <p>This option can be given during the <b>plugin initialization only,</b> to replace the current star with a custom shape</p>
+		<p>The custom shape must be in the form of a SVG string, the shapes in this <a href="http://iconmonstr.com/" target="_blank">website</a>
+                   fits well with this plugin.</p>
+		<p>There is also a comment <a href="#comment-2819922647">below</a> that can help you with creating shapes.</p>
+		<p>Please choose shapes that have the aspect ratio of <b>1:1</b> ( square shapes ).</p>
+		<p>In the following example i used <a target="_blank" href="http://iconmonstr.com/star-2/">this</a> star</p>
+                <div class="clearfix">
+                  <div class="pull-left rating-container">
+                    <div class="rating"></div>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <pre class="brush: js">
+                    &lt;!-- HTML --&gt;
+                    &lt;div id="rateYo"&gt;&lt;/div&gt;
+                  </pre>
+                  <pre class="brush: js">
+                    /* javascript */
+
+                    $(function () {
+
+                      $("#rateYo").rateYo({
+
+                        "rating" : 3.2,
+                        "starSvg": "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>"+
+                                     "<path d='M12 6.76l1.379 4.246h4.465l-3.612 2.625 1.379"+
+                                               " 4.246-3.611-2.625-3.612 2.625"+
+                                               " 1.379-4.246-3.612-2.625h4.465l1.38-4.246zm0-6.472l-2.833"+
+                                               " 8.718h-9.167l7.416 5.389-2.833 8.718 7.417-5.388"+
+                                               " 7.416 5.388-2.833-8.718"+
+                                               " 7.417-5.389h-9.167l-2.833-8.718z'/>"+
+                                    "</svg>"
+                      });
+                    });
+                  </pre>
+                </div>
+              </div><!-- End hack-content -->
+	    </div><!-- End hack-starSvg -->
+          </div><!-- End hacks-content -->
+	</div><!-- End row -->
 
         <!-- DISCUS COMMENTS -->
         <div class="row">
