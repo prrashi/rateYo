@@ -80,6 +80,9 @@
         <li>
           <a href="#option-spacing">spacing</a>
         </li>
+	<li>
+	  <a href="#option-rtl">rtl</a>
+	</li>
         <li>
           <a href="#option-onInit">onInit</a>
         </li>
@@ -116,6 +119,14 @@
           <a href="#event-change">rateyo.change</a>
         </li>
       </ul>
+
+      <a href="#hacks">Hacks</a>
+      <ul class="nav">
+        <li>
+          <a href="#hack-starSvg" onclick=";window.alert('Content coming soon');">starSvg</a>
+        </li>
+      </ul>
+
     </div>
     <div class="main-content">
       <div class="container-fluid">
@@ -173,12 +184,12 @@
             <div class="well">
               <p>
                 <div>&lt;!-- Latest compiled and minified CSS --&gt;</div>
-                <code>&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.1.1/jquery.rateyo.min.css&quot;&gt;</code>
+                <code>&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.2.0/jquery.rateyo.min.css&quot;&gt;</code>
               </p>
 
               <p>
                 <div>&lt;!-- Latest compiled and minified JavaScript --&gt;</div>
-                <code>&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.1.1/jquery.rateyo.min.js&quot;&gt;&lt;/script&gt;</code>
+                <code>&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.2.0/jquery.rateyo.min.js&quot;&gt;&lt;/script&gt;</code>
               </p>
             </div>
           </div>
@@ -196,8 +207,8 @@
             <h3>Download</h3>
             <div class="clearfix">
               <a class="btn btn-primary btn-lg pull-left"
-                 href="https://github.com/prrashi/rateYo/releases/download/2.1.1/v2.1.1.zip">
-                 Download V2.1.1
+                 href="https://github.com/prrashi/rateYo/releases/download/2.2.0/v2.2.0.zip">
+                 Download V2.2.0
               </a>
             </div>
           </div>
@@ -710,6 +721,47 @@
                 </div>
               </div><!-- End Option Content -->
             </div><!-- End option-spacing -->
+
+            <div id="option-rtl" class="option option-rtl">
+              <p>
+                <b>rtl ( Right to Left ) :</b>
+                <code>Boolean, default: false</code>
+                <p>Render the rating Right to Left.</p>
+              </p>
+              <div class="option-content">
+                <div class="clearfix">
+                  <div class="pull-left rating-container">
+                    <div class="rating"></div>
+                    <div class="counter"></div>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <pre class="brush: js">
+                    &lt;-- HTML --&gt;
+                    &lt;div id="rateYo"&gt;&lt;/div&gt;
+                  </pre>
+                  <pre class="brush: js">
+                    /* Javascript */
+
+                    $(function () {
+
+                      $("#rateYo").rateYo({
+                        rating: 3.2,
+                        rtl: true
+                      });
+                    });
+                  </pre>
+                  <p>Get or set the 'rtl' option after initialization</p>
+                  <pre class="brush: js">
+                  // Getter
+                  var currentRTL = $("#rateYo").rateYo("option", "rtl"); //returns false by default
+
+                  // Setter
+                  $("#rateYo").rateYo("option", "rtl", true); //returns a jQuery Element
+                  </pre>
+                </div>
+              </div><!-- End Option Content -->
+            </div><!-- End option-rtl -->
 
             <div id="option-onInit" class="option option-onInit">
               <p>

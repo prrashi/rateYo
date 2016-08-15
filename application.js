@@ -85,6 +85,22 @@ $(function () {
     onChange: updateCounter
   });
 
+  /* Option - rtl */
+  var $rtl = $options.filter(".option-rtl")
+                     .find("div.rating");
+
+  $rtl.rateYo({
+
+    rating: 3.2,
+    rtl:true
+  }).on("rateyo.change", function (e, data) {
+
+    updateCounter.apply(this, [data.rating]);
+  }).on("rateyo.set", function (e, data) {
+
+    updateCounter.apply(this, [data.rating]);
+  });
+
   /* Option - maxValue */
   var $maxValueDemo = $options.filter(".option-maxValue")
                               .find("div.rating");
