@@ -1,0 +1,29 @@
+{
+  "name": "Rateyo - Docs",
+  "short_name": "Rateyo",
+  "icons": [{
+    "src": "rateYo128x128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    }, {
+      "src": "rateYo144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    }, {
+      "src": "rateYo152x152.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    }, {
+      "src": "rateYo192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }, {
+      "src": "rateYo256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }],
+  "start_url": "/?ref=home",
+  "display": "standalone",
+  "background_color": "#f5f5f5",
+  "theme_color": "#f39c12"
+}

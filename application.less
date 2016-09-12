@@ -1,3 +1,7 @@
+@import (reference) "bower_components/bootstrap/less/bootstrap";
+
+@sidebar-width: 200px;
+
 body {
 
   background: url(debut_light.png);
@@ -5,7 +9,7 @@ body {
 div.sidebar {
 
   position: fixed;
-  width: 200px;
+  width: @sidebar-width;
   height: 100%;
   top: 0px;
   left: 0px;
@@ -26,16 +30,35 @@ div.sidebar {
 
   }
 }
+
+div.sidebar-overlay {
+
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+  background-color: rgba(0,0,0,0.5);
+}
+
 #demo1 {
 
   margin-bottom: 10px;
 }
 div.main-content {
 
-  padding-left: 200px;
+  padding-left: @sidebar-width;
   position: relative;
 
   h1.page-title {
+
+    a.menu {
+
+      width: 45px;
+      height: 45px;
+    }
 
     img.page-logo {
 
@@ -146,6 +169,70 @@ div.sidebar {
       color: #428bca;
     }
   }
+}
+
+@media (max-width: @screen-sm-max) {
+
+  body.show-sidebar {
+
+    div.sidebar {
+
+	  display: block !important;
+    }
+
+    div.sidebar-overlay {
+
+	  display: block;
+    }
+  }
+
+  div.main-content {
+
+    padding-left: 0;
+    padding-top: 75px;
+
+    h1.page-title {
+
+	  position: fixed;
+	  top: 0;
+	  left: 0;
+	  padding: 10px 5px;
+	  width: 100%;
+	  background-color: rgba(255, 255, 255, 0.95);
+	  margin: 0;
+	  box-shadow: 0px 2px 5px rgba(0,0,0,0.5);
+	  z-index: 12;
+	  font-size: 1em;
+
+      a.menu {
+
+	    width: 25px;
+        height: 25px;
+        vertical-align: middle;
+
+        &> svg {
+
+		  fill: #555555;
+        }
+      }
+
+	  img.page-logo {
+
+	    width: 25px;
+		height: 25px;
+        vertical-align: middle;
+	  }
+    }
+  }
+}
+
+/* Github ribbon */
+a.github-ribbon {
+
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 13;
 }
 
 /* DISCUS COMMENTS */

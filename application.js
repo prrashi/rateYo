@@ -15,6 +15,37 @@ $(function () {
     return randomRating;
   }
 
+  var $sidebar = $("body > div.sidebar"),
+      $sidebarOverlay = $("body > div.sidebar-overlay"),
+      $menu = $("body > div.main-content a.menu");
+
+  function hideSidebar () {
+
+    $("body").removeClass("show-sidebar");
+  }
+
+  function showSidebar (e) {
+
+    if (e) {
+
+      e.preventDefault();
+    }
+
+    $("body").addClass("show-sidebar");
+  }
+
+  $sidebarOverlay.on("click", hideSidebar);
+
+  var timer;
+
+  $sidebar.on("click", "ul.nav > li > a", function (e) {
+
+    window.clearTimeout(timer);
+    window.setTimeout(hideSidebar, 250);
+  });
+
+  $menu.on("click", showSidebar);
+
   $("#rateYo").rateYo({
 
     rating: rating
@@ -294,5 +325,7 @@ $(function () {
                            " 7.417-5.389h-9.167l-2.833-8.718z'/>"+
                 "</svg>"
   });
+
+
 });
 

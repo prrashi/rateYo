@@ -1,3 +1,19 @@
+@media screen and (max-width: 767px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 767px) {
+}
 body {
   background: url(debut_light.png);
 }
@@ -18,12 +34,26 @@ div.sidebar > a {
   position: relative;
   padding: 10px 5px;
 }
+div.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.5);
+}
 #demo1 {
   margin-bottom: 10px;
 }
 div.main-content {
   padding-left: 200px;
   position: relative;
+}
+div.main-content h1.page-title a.menu {
+  width: 45px;
+  height: 45px;
 }
 div.main-content h1.page-title img.page-logo {
   width: 90px;
@@ -101,6 +131,50 @@ div.sidebar ul.nav > li > a {
 }
 div.sidebar ul.nav > li > a:hover {
   color: #428bca;
+}
+@media (max-width: 991px) {
+  body.show-sidebar div.sidebar {
+    display: block !important;
+  }
+  body.show-sidebar div.sidebar-overlay {
+    display: block;
+  }
+  div.main-content {
+    padding-left: 0;
+    padding-top: 75px;
+  }
+  div.main-content h1.page-title {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 10px 5px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    margin: 0;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+    z-index: 12;
+    font-size: 1em;
+  }
+  div.main-content h1.page-title a.menu {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+  }
+  div.main-content h1.page-title a.menu > svg {
+    fill: #555555;
+  }
+  div.main-content h1.page-title img.page-logo {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+  }
+}
+/* Github ribbon */
+a.github-ribbon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 13;
 }
 /* DISCUS COMMENTS */
 #disqus_thread {
