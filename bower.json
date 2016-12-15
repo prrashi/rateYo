@@ -6,7 +6,10 @@
     "prrashi <prashanth.pamidi@gmail.com>"
   ],
   "description": "A simple and flexible, jQuery star rating Plugin",
-  "main": "src/jquery.rateyo.js",
+  "main": [
+	"src/jquery.rateyo.js",
+	"src/jquery.rateyo.css"
+  ],
   "moduleType": [
     "es6",
     "globals"
