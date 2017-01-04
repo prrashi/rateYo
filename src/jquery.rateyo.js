@@ -852,7 +852,7 @@
     };
 
     function onMouseEnter (e) {
-
+      // console.log('onMouseEnter or onMouseMove', e);
       /*
        * If the Mouse Pointer is inside the container, calculate and show the rating
        * in UI
@@ -893,6 +893,7 @@
 
       var resultantRating = calculateRating(e).toFixed(options.precision);
       resultantRating = parseFloat(resultantRating);
+      console.log('onMouseClick rating: ', resultantRating);
 
       that.rating(resultantRating);
     }
@@ -924,11 +925,30 @@
       }
     }
 
+    function onTouchStart (e){
+      e.preventDefault();
+    }
+
+    function onTouchMove (e) {
+      e.preventDefault();
+      var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+      onMouseEnter(touch);
+    }
+
+    function onTouchEnd(e) {
+      e.preventDefault();
+      var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+      onMouseClick(touch);
+    }
+
     function bindEvents () {
 
       $node.on("mousemove", onMouseEnter)
            .on("mouseenter", onMouseEnter)
            .on("mouseleave", onMouseLeave)
+           .on('touchstart', onTouchStart)
+           .on('touchmove', onTouchMove)
+           .on('touchend', onTouchEnd)
            .on("click", onMouseClick)
            .on("rateyo.init", onInit)
            .on("rateyo.change", onChange)
@@ -940,6 +960,9 @@
       $node.off("mousemove", onMouseEnter)
            .off("mouseenter", onMouseEnter)
            .off("mouseleave", onMouseLeave)
+           .off('touchstart', onTouchStart)
+           .off('touchmove', onTouchMove)
+           .off('touchend', onTouchEnd)
            .off("click", onMouseClick)
            .off("rateyo.init", onInit)
            .off("rateyo.change", onChange)
