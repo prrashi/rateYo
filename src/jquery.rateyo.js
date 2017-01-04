@@ -893,7 +893,6 @@
 
       var resultantRating = calculateRating(e).toFixed(options.precision);
       resultantRating = parseFloat(resultantRating);
-      console.log('onMouseClick rating: ', resultantRating);
 
       that.rating(resultantRating);
     }
