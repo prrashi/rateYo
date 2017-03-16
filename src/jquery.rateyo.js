@@ -3,7 +3,6 @@
 * http://prrashi.github.io/rateyo/
 * Copyright (c) 2014 Prashanth Pamidi; Licensed MIT
 *****/
-
 ;(function ($) {
   "use strict";
 
@@ -28,6 +27,7 @@
     starWidth : "32px",
     normalFill: "gray",
     ratedFill : "#f39c12",
+    hoverFill : "green",
     numStars  : 5,
     maxValue  : 5,
     precision : 1,
@@ -41,6 +41,7 @@
     onInit    : null,
     onChange  : null,
     onSet     : null,
+    onUserSet : function() {},
     starSvg   : null
   };
 
@@ -375,17 +376,23 @@
 
         newFill = getColor(startColor, endColor, percentCovered);
       } else {
-
         ratedFill = newFill;
       }
 
       options.ratedFill = newFill;
 
       var $svgs = (options.rtl ? $normalGroup : $ratedGroup).find("svg");
-
       $svgs.attr({fill: options.ratedFill});
 
       return $node;
+    }
+
+    function showHoverFill () {
+      var $svgs = (options.rtl ? $normalGroup : $ratedGroup).find("svg");
+
+      $svgs.attr({fill: options.hoverFill});
+      return $node;
+
     }
 
     function setRtl (newValue) {
@@ -604,7 +611,7 @@
         calculatedRating = maxValue - calculatedRating;
       }
 
-      return calculatedRating;
+      return parseFloat(calculatedRating);
     }
 
     function setReadOnly (newValue) {
@@ -827,10 +834,10 @@
 
           method = setSpacing;
           break;
-	case "rtl":
+	      case "rtl":
 
           method = setRtl;
-	  break;
+	        break;
         case "onInit":
 
           method = setOnInit;
@@ -852,7 +859,7 @@
     };
 
     function onMouseEnter (e) {
-
+      // console.log('onMouseEnter or onMouseMove', e);
       /*
        * If the Mouse Pointer is inside the container, calculate and show the rating
        * in UI
@@ -865,6 +872,7 @@
       rating = checkPrecision(parseFloat(rating), minValue, maxValue);
 
       showRating(rating);
+      showHoverFill(options.hoverFill);
 
       $node.trigger("rateyo.change", {rating: rating});
     }
@@ -895,6 +903,7 @@
       resultantRating = parseFloat(resultantRating);
 
       that.rating(resultantRating);
+      onUserSet(e, resultantRating);
     }
 
     function onInit(e, data) {
@@ -924,11 +933,43 @@
       }
     }
 
+    function onUserSet (e, rating) {
+      options.onUserSet.apply(this, [rating, that]);
+    }
+
+    var touchStart;
+    function onTouchStart (e){
+      e.preventDefault();
+      touchStart = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+    }
+
+    function onTouchMove (e) {
+      e.preventDefault();
+      var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+      onMouseEnter(touch);
+    }
+
+    function onTouchEnd(e) {
+      e.preventDefault();
+      var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+      var deltaY = Math.abs( touch.pageY - touchStart.pageY );
+      if (deltaY < 40 ){
+        onMouseClick(touch);
+      } else {
+        showRating();
+        $node.trigger("rateyo.change", {rating: options.rating});
+      }
+
+    }
+
     function bindEvents () {
 
       $node.on("mousemove", onMouseEnter)
            .on("mouseenter", onMouseEnter)
            .on("mouseleave", onMouseLeave)
+           .on('touchstart', onTouchStart)
+           .on('touchmove', onTouchMove)
+           .on('touchend', onTouchEnd)
            .on("click", onMouseClick)
            .on("rateyo.init", onInit)
            .on("rateyo.change", onChange)
@@ -940,6 +981,9 @@
       $node.off("mousemove", onMouseEnter)
            .off("mouseenter", onMouseEnter)
            .off("mouseleave", onMouseLeave)
+           .off('touchstart', onTouchStart)
+           .off('touchmove', onTouchMove)
+           .off('touchend', onTouchEnd)
            .off("click", onMouseClick)
            .off("rateyo.init", onInit)
            .off("rateyo.change", onChange)
