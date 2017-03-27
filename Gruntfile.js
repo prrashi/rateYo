@@ -48,7 +48,8 @@ module.exports = function(grunt) {
       }
     , jshint: {
           options: {
-            jshintrc: true
+            jshintrc: true,
+            reporterOutput: ""
           }
         , files: ["<%= config.srcDir %><%= config.name %>.js"]
       }
