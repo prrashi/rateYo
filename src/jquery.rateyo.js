@@ -118,9 +118,9 @@
     }
 
     var hexValues = hexRegex.exec(hex),
-	r = parseInt(hexValues[1], 16),
-	g = parseInt(hexValues[2], 16),
-	b = parseInt(hexValues[3], 16);
+        r = parseInt(hexValues[1], 16),
+        g = parseInt(hexValues[2], 16),
+        b = parseInt(hexValues[3], 16);
 
     return {r:r, g:g, b:b};
   };
@@ -137,7 +137,7 @@
 
     if (newVal.length === 1) {
 
-	newVal = "0" + newVal;
+        newVal = "0" + newVal;
     }
 
     return newVal;
@@ -168,11 +168,11 @@
     return "#" + r + g + b;
   }
 
-   function RateYo ($node, options) {
+  function RateYo ($node, options) {
 
-   /*
-    * The Contructor, whose instances are used by plugin itself
-    */
+    /*
+     * The Contructor, whose instances are used by plugin itself
+     */
 
     // Storing the HTML element as a property, for future access
     this.node = $node.get(0);
@@ -262,6 +262,14 @@
       setRatedFill(options.ratedFill);
 
       percent = options.rtl ? 100 - percent : percent;
+
+      if (percent < 0) {
+
+        percent = 0;
+      } else if (percent > 100) {
+
+        percent = 100;
+      }
 
       $ratedGroup.css("width", percent + "%");
     }
@@ -563,7 +571,7 @@
 
         if (spacing > 0) {
 
-	  /*
+          /*
            * If there is spacing between stars, take the percentage of width covered
            * and subtract the percentage of width covered by stars and spacing, to find
            * how many stars are covered, the number of stars covered is the rating
@@ -604,7 +612,7 @@
         calculatedRating = maxValue - calculatedRating;
       }
 
-      return calculatedRating;
+      return parseFloat(calculatedRating);
     }
 
     function setReadOnly (newValue) {
@@ -827,10 +835,10 @@
 
           method = setSpacing;
           break;
-	case "rtl":
+        case "rtl":
 
           method = setRtl;
-	  break;
+          break;
         case "onInit":
 
           method = setOnInit;
@@ -1087,10 +1095,31 @@
 
                var existingInstance = getInstance(this, rateYoInstances);
 
-               if (!existingInstance) {
+               if (existingInstance) {
 
-                 return new RateYo($(this), $.extend({}, options));
+                 return existingInstance;
                }
+
+               var $node = $(this),
+                   dataAttrs = {};
+
+               $.each($node.data(), function (key, value) {
+
+                 if (key.indexOf("rateyo") !== 0) {
+
+                   return;
+                 }
+
+                 var optionName = key.replace(/^rateyo/, "");
+
+                 optionName = optionName[0].toLowerCase() + optionName.slice(1);
+
+                 dataAttrs[optionName] = value;
+
+                 delete options[optionName];
+               });
+
+               return new RateYo($(this), $.extend({}, dataAttrs, options));
            });
   }
 
