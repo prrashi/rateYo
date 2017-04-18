@@ -1101,7 +1101,8 @@
                }
 
                var $node = $(this),
-                   dataAttrs = {};
+                   dataAttrs = {},
+                   optionsCopy = $.extend({}, options);
 
                $.each($node.data(), function (key, value) {
 
@@ -1116,10 +1117,10 @@
 
                  dataAttrs[optionName] = value;
 
-                 delete options[optionName];
+                 delete optionsCopy[optionName];
                });
 
-               return new RateYo($(this), $.extend({}, dataAttrs, options));
+               return new RateYo($(this), $.extend({}, dataAttrs, optionsCopy));
            });
   }
 
