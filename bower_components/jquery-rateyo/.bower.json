@@ -1,6 +1,6 @@
 {
   "name": "rateYo",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "homepage": "https://github.com/prrashi/rateYo",
   "authors": [
     "prrashi <prashanth.pamidi@gmail.com>"
@@ -32,13 +32,13 @@
   "dependencies": {
     "jquery": "~2.1.1"
   },
-  "_release": "2.3.0",
+  "_release": "2.3.1",
   "_resolution": {
     "type": "version",
-    "tag": "2.3.0",
-    "commit": "3b9072a5664ebb173f9069295d489ac1877e977a"
+    "tag": "2.3.1",
+    "commit": "112d59ebc800418b846d3dc4467e8487b84e1dcb"
   },
   "_source": "https://github.com/prrashi/rateYo.git",
-  "_target": "~2.3.0",
+  "_target": "~2.3.1",
   "_originalSource": "jquery-rateyo"
 }
