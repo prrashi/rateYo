@@ -53,142 +53,15 @@ $(function () {
 
   var $options = $("div.options-content div.option");
 
-  /* Option - starWidth */
-  var $widthDemo = $options.filter(".option-starWidth")
-                           .find("div.rating");
-  $widthDemo.rateYo({
-
-    rating: getRandomRating(),
-    starWidth: $widthDemo.attr("data-width")
-  });
-
-  /* Option - normalFill */
-  var $normalFillDemo = $options.filter(".option-normalFill")
-                                .find("div.rating");
-  $normalFillDemo.rateYo({
-    normalFill: $normalFillDemo.attr("data-color")
-  });
-
-  /* Option - ratedFill */
-  var $ratedFillDemo = $options.filter(".option-ratedFill")
-                               .find("div.rating");
-  $ratedFillDemo.rateYo({
-    rating: 3.8,
-    ratedFill: $ratedFillDemo.attr("data-color")
-  });
+  $options.find("div.rating").rateYo();
 
   var $multiColorDemo = $options.filter(".option-multiColor")
                                 .find("div.rating");
 
-  $multiColorDemo.rateYo({
+  $multiColorDemo.rateYo("option", "multiColor", {
 
-    rating    : 1.6,
-    multiColor: {
-
-      "startColor": "#FF0000",
-      "endColor"  : "#00FF00"
-    }
-  });
-
-
-  /* Option - numStars */
-  var $numStarsDemo = $options.filter(".option-numStars")
-                              .find("div.rating");
-  $numStarsDemo.rateYo({
-    rating: getRandomRating(),
-    numStars: parseFloat($numStarsDemo.attr("data-number"))
-  });
-
-  var updateCounter = function (rating) {
-
-    $(this).next(".counter").text(rating);
-  };
-
-  /* Option - spacing*/
-  var $spacingDemo = $options.filter(".option-spacing")
-                              .find("div.rating"),
-      spacing = $spacingDemo.attr("data-value");
-
-  $spacingDemo.rateYo({
-    rating: getRandomRating(0, 1),
-    spacing: spacing,
-    onSet: updateCounter,
-    onChange: updateCounter
-  });
-
-  /* Option - rtl */
-  var $rtl = $options.filter(".option-rtl")
-                     .find("div.rating");
-
-  $rtl.rateYo({
-
-    rating: 3.2,
-    rtl:true
-  }).on("rateyo.change", function (e, data) {
-
-    updateCounter.apply(this, [data.rating]);
-  }).on("rateyo.set", function (e, data) {
-
-    updateCounter.apply(this, [data.rating]);
-  });
-
-  /* Option - maxValue */
-  var $maxValueDemo = $options.filter(".option-maxValue")
-                              .find("div.rating");
-
-  $maxValueDemo.rateYo({
-    maxValue: 1,
-    numStars: 1,
-    rating: getRandomRating(0, 1),
-    onSet: updateCounter,
-    onChange: updateCounter,
-    starWidth: "50px"
-  });
-
-  /* Option - precision */
-  var $precisionDemo = $options.filter(".option-precision")
-                               .find("div.rating");
-
-  $precisionDemo.rateYo({
-    precision: 2,
-    rating: getRandomRating(),
-    onSet: updateCounter,
-    onChange: updateCounter
-  });
-
-  /* Option - rating */
-  var $ratingDemo = $options.filter(".option-rating")
-                            .find("div.rating");
-
-  $ratingDemo.rateYo({
-    rating: $ratingDemo.attr("data-rating"),
-    onSet: updateCounter,
-    onChange: updateCounter,
-    precision: 0
-  });
-
-  var $halfStarDemo = $options.filter(".option-halfStar")
-                             .find("div.rating");
-
-  $halfStarDemo.rateYo({
-    rating: 1.5,
-    halfStar: true  
-  });
-
-  var $fullStarDemo = $options.filter(".option-fullStar")
-                             .find("div.rating");
-
-  $fullStarDemo.rateYo({
-    rating: 2,
-    fullStar: true  
-  });
-
-  var $readOnlyDemo = $options.filter(".option-readonly")
-                              .find("div.rating");
-
-  $readOnlyDemo.rateYo({
-    rating: 3.2,
-    readOnly: true
+    "startColor": "#FF0000",
+    "endColor"  : "#00FF00"
   });
 
   (function () {

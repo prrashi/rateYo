@@ -1,24 +1,24 @@
 {
-    "name": "rateYo"
-  , "version": "2.2.0"
-  , "description": "A simple and flexible star rating plugin"
-  , "main": "js/jquery.rateyo.js"
-  , "repository": {
-        "type": "git"
-      , "url": "git://github.com/prrashi/rateYo.git"
-    }
-  , "author": "prashanth pamidi (https://github.com/prrashi)"
-  , "bugs": {
-      "url": "https://github.com/prrashi/rateYo/issues"
-    }
-  , "devDependencies": {
-        "grunt": "~0.4.5"
-      , "grunt-contrib-clean": "~0.6.0"
-      , "grunt-contrib-watch": "~0.6.1"
-      , "grunt-contrib-uglify": "~0.6.0"
-      , "grunt-contrib-less": "~0.12.0"
-      , "grunt-contrib-jshint": "~0.10.0"
-      , "matchdep": "~0.3.0"
-    }
-  , "homepage": "http://rateyo.fundoocode.ninja/"
+  "name": "rateYo",
+  "version": "2.3.0",
+  "description": "A simple and flexible star rating plugin",
+  "main": "js/jquery.rateyo.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/prrashi/rateYo.git"
+  },
+  "author": "prashanth pamidi (https://github.com/prrashi)",
+  "bugs": {
+    "url": "https://github.com/prrashi/rateYo/issues"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-clean": "~0.6.0",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-less": "~0.12.0",
+    "grunt-contrib-uglify": "~0.6.0",
+    "grunt-contrib-watch": "~0.6.1",
+    "matchdep": "~0.3.0"
+  },
+  "homepage": "http://rateyo.fundoocode.ninja/"
 }

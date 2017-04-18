@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="application.css"/>
 
-    <link rel="stylesheet" href="bower_components/jquery-rateyo/min/jquery.rateyo.min.css?v=2.2.0"/>
+    <link rel="stylesheet" href="bower_components/jquery-rateyo/min/jquery.rateyo.min.css?v=2.3.0"/>
 
   </head>
   <body data-spy="scroll">
@@ -227,12 +227,15 @@
           <div class="col-md-12 options-content">
             <h3>Options</h3>
             <div id="option-starWidth" class="option option-starWidth">
-              <p><b>starWidth:</b><code>string, default: 18px</code></p>
+              <p>
+                <b>starWidth:</b><code>string, default: 18px</code> 
+              </p>
               <p>The width of each star, the width of a star is always equal
-                 to its height</p>
+                 to its height.You can set this option using <code>data-rateyo-star-width</code> attribute </p>
               <div class="option-content">
                 <div class="clearfix">
-                  <div class="rating" data-width="40px"></div>
+                  <div class="rating" data-rateyo-star-width="40px"
+                                      data-rateyo-rating="3.5"></div>
                 </div>
                 <div class="clearfix">
                   <pre class="brush: js">
@@ -267,12 +270,12 @@
                 <code>string, default: #808080
                   <i style="width: 16px;height:16px;display: inline-block; background: #808080; vertical-align: middle"></i>
                 </code>
-                <p>The background color for the un-rated part of a star</p>
+                <p>The background color for the un-rated part of a star.You can set this option using <code>data-rateyo-normal-fill</code> attribute</p>
               </p>
               <div class="option-content">
                 <div class="clearfix">
                   <div class="pull-left">
-                    <div class="rating" data-color="#A0A0A0"></div>
+                    <div class="rating" data-rateyo-normal-fill="#A0A0A0"></div>
                   </div>
                 </div>
                 <div class="clearfix">
@@ -308,7 +311,7 @@
                 <code>string, default: #F39C12
                   <i style="width: 16px;height:16px;display: inline-block; background: #F39C12; vertical-align: middle"></i>
                 </code>
-                <p>The color for the rated part of a star</p>
+                <p>The color for the rated part of a star.You can set this option using <code>data-rateyo-rated-fill</code> attribute</p>
               </p>
               <div class="option-content">
 		<p></p>
@@ -318,7 +321,8 @@
 		<p></p>
                 <div class="clearfix">
                   <div class="pull-left">
-                    <div class="rating" data-color="#E74C3C"></div>
+                    <div class="rating" data-rateyo-rated-fill="#E74C3C"
+                                        data-rateyo-rating="3.8"></div>
                   </div>
                 </div>
                 <div class="clearfix">
@@ -352,6 +356,7 @@
 	      <p>
                 <b>multiColor:</b>
 		<code>Boolean or Object, default: false</code>
+                , you can set this option using <code>data-rateyo-multi-color="true"</code> attribute, only boolean value is accepted in the data-* attribute
 		<p>This option helps in changeing the color of the rating, as the rating value changes( Multi Color ).</p>
 		<p>For the trasition of color with the rating, we need two colors, the color when rating is lowest (<code>startColor</code>) and 
                    the color when rating is highest (<code>endColor</code>)</p>
@@ -415,12 +420,13 @@
               <p>
                 <b>numStars:</b>
                 <code>number, default: 5</code>
-                <p>Number of stars to use, to display the rating</p>
+                <p>Number of stars to use, to display the rating.You can set this option using <code>data-rateyo-num-stars</code> attribute</p>
               </p>
               <div class="option-content">
                 <div class="clearfix">
                   <div class="pull-left">
-                    <div class="rating" data-number="10"></div>
+                    <div class="rating" data-rateyo-num-stars="10"
+                                        data-rateyo-rating="3.5"></div>
                   </div>
                 </div>
                 <div class="clearfix">
@@ -454,12 +460,15 @@
               <p>
                 <b>maxValue:</b>
                 <code>number, default: 5</code>
-                <p>The Maximum value, you want the rating to end with.</p>
+                <p>The Maximum value, you want the rating to end with.
+                   You can set this option using <code>data-rateyo-max-value</code> attribute</p>
               </p>
               <div class="option-content">
                 <div class="clearfix">
                   <div class="pull-left rating-container">
-                    <div class="rating" data-value="0.5"></div>
+                    <div class="rating" data-rateyo-max-value="1"
+                                        data-rateyo-rating="0.5">
+                    </div>
                     <div class="counter"></div>
                   </div>
                 </div>
@@ -495,12 +504,13 @@
               <p>
                 <b>Precision:</b>
                 <code>number, default: 1</code>
-                <p>The precision of rating.</p>
+                <p>The precision of rating.You can set this option using <code>data-rateyo-precision</code> attribute</p>
               </p>
               <div class="option-content">
                 <div class="clearfix">
                   <div class="pull-left rating-container">
-                    <div class="rating" data-precision="2"></div>
+                    <div class="rating" data-rateyo-precision="2"
+                                        data-rateyo-rating="0.85"></div>
                     <div class="counter"></div>
                   </div>
                 </div>
@@ -535,12 +545,14 @@
                 <b>rating:</b>
                 <code>number/string, default: 0</code>
                 <p>The rating can be given in either percentage or number,<br/>
-                   it should be given in a <code>string</code>, if it is a percentage.</p>
+                   it should be given in a <code>string</code>, if it is a percentage.
+		   You can set this option using <code>data-rateyo-rating</code> attribute
+                </p>
               </p>
               <div class="option-content">
                 <div class="clearfix">
                   <div class="pull-left rating-container">
-                    <div class="rating" data-rating="50%"></div>
+                    <div class="rating" data-rateyo-rating="50%"></div>
                     <div class="counter"></div>
                   </div>
                 </div>
@@ -575,12 +587,14 @@
               <p>
                 <b>halfStar:</b>
                 <code>boolean, default: false</code>
-                <p>When set to <code>true</code>, rating will be displayed in the steps of <code>0.5</code>
-              </p>
+                <p>When set to <code>true</code>, rating will be displayed in the steps of <code>0.5</code>.
+ 	           You can set this option using <code>data-rateyo-half-star="true"</code> attribute
+                </p>
               <div class="option-content">
                 <div class="clearfix">
                   <div class="pull-left rating-container">
-                    <div class="rating"></div>
+                    <div class="rating" data-rateyo-half-star="true"
+                                        data-rateyo-rating="3.5"></div>
                   </div>
                 </div>
                 <div class="clearfix">
@@ -613,13 +627,14 @@
             <div id="option-fullStar" class="option option-fullStar">
               <p>
                 <b>fullStar:</b>
-                <code>boolean, default: false</code>
+                <code>boolean, default: false</code> 
                 <p>When set to <code>true</code>, rating will be displayed in the steps of <code>1</code>
-              </p>
+                   .You can set this option using <code>data-rateyo-full-star="true"</code> attribute</p>
               <div class="option-content">
                 <div class="clearfix">
                   <div class="pull-left rating-container">
-                    <div class="rating"></div>
+                    <div class="rating" data-rateyo-full-star="true"
+                                        data-rateyo-rating="4"></div>
                   </div>
                 </div>
                 <div class="clearfix">
@@ -654,13 +669,15 @@
                 <b>readOnly:</b>
                 <code>boolean, default: false</code>
                 <p>Set <code>readOnly: true</code>,
-                   if you want the rating to be non-editable
+                   if you want the rating to be non-editable.You can set this option using <code>data-rateyo-read-only="true"</code> attribute
+
                 </p>
               </p>
               <div class="option-content">
                 <div class="clearfix">
                   <div class="pull-left rating-container">
-                    <div class="rating"></div>
+                    <div class="rating" data-rateyo-read-only="true"
+                                        data-rateyo-rating="3.5"></div>
                   </div>
                 </div>
                 <div class="clearfix">
@@ -693,13 +710,15 @@
             <div id="option-spacing" class="option option-spacing">
               <p>
                 <b>spacing:</b>
-                <code>string, default: "0px"</code>
+                <code>string, default: "0px"</code> 
                 <p>The amount of space between stars in pixels.</p>
+                <p>You can set this option using <code>data-rateyo-spacing</code> attribute</p>
               </p>
               <div class="option-content">
                 <div class="clearfix">
                   <div class="pull-left rating-container">
-                    <div class="rating" data-value="10px"></div>
+                    <div class="rating" data-rateyo-spacing="10px"
+                                        data-rateyo-rating="2.5"></div>
                     <div class="counter"></div>
                   </div>
                 </div>
@@ -736,11 +755,13 @@
                 <b>rtl ( Right to Left ) :</b>
                 <code>Boolean, default: false</code>
                 <p>Render the rating Right to Left.</p>
+                <p>You can set this option using <code>data-rateyo-rtl</code> attribute</p>
               </p>
               <div class="option-content">
                 <div class="clearfix">
                   <div class="pull-left rating-container">
-                    <div class="rating"></div>
+                    <div class="rating" data-rateyo-rtl="true"
+                                        data-rateyo-rating="2"></div>
                     <div class="counter"></div>
                   </div>
                 </div>
@@ -1274,7 +1295,7 @@
 
     <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="bower_components/jquery-rateyo/min/jquery.rateyo.min.js?v=2.2.0"></script>
+    <script type="text/javascript" src="bower_components/jquery-rateyo/min/jquery.rateyo.min.js?v=2.3.0"></script>
     <script type="text/javascript" src="application.js?v=2.2.0"></script>
 
     <script type="text/javascript">
