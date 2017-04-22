@@ -64,6 +64,19 @@ $(function () {
     "endColor"  : "#00FF00"
   });
 
+  function updateCounter (e, data) {
+
+    $(this).next(".counter").text(data.rating);
+  };
+
+  var elesWithCounter = [
+
+    $("#option-maxValue").find(".rating"),
+    $("#option-precision").find(".rating"),
+    $("#option-spacing").find(".rating"),
+    $("#option-rtl").find(".rating")
+  ];
+
   (function () {
 
     var $onInitDemo = $options.filter(".option-onInit")
@@ -83,11 +96,9 @@ $(function () {
     var $onSetDemo = $options.filter(".option-onSet")
                              .find("div.rating");
 
-    $onSetDemo.rateYo({
-      onSet: function (rating) {
+    $onSetDemo.rateYo("option", "onSet", function (rating) {
 
-        window.alert("Rating is set to: " + rating);
-      }
+      window.alert("Rating is set to: " + rating);
     });
 
   }());
@@ -97,15 +108,7 @@ $(function () {
     var $onChangeDemo = $options.filter(".option-onChange")
                                 .find("div.rating");
 
-    $onChangeDemo.rateYo({
-
-      onChange: function (rating) {
-
-        $(this).next().text(rating);
-      },
-      rating: getRandomRating()
-    });
-
+    elesWithCounter.push($onChangeDemo);
   }());
 
   var $methods = $("div.methods-content div.method");
@@ -179,9 +182,14 @@ $(function () {
   var $changeDemo = $events.filter(".event-change")
                            .find("div.rating");
 
-  $changeDemo.rateYo().on("rateyo.change", function (e, data) {
+  elesWithCounter.push($changeDemo);
 
-    $(this).next().text(data.rating);
+  $.each(elesWithCounter, function () {
+
+    $(this).rateYo().on("rateyo.change", function (e, data) {
+
+      $(this).next().text(data.rating);
+    });
   });
 
   var $starSvgDemo = $("#hack-starSvg div.rating");
