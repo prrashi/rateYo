@@ -1,5 +1,5 @@
 /*****
-* rateYo - v2.3.1
+* rateYo - v2.3.2
 * http://prrashi.github.io/rateyo/
 * Copyright (c) 2014 Prashanth Pamidi; Licensed MIT
 *****/
@@ -1101,7 +1101,8 @@
                }
 
                var $node = $(this),
-                   dataAttrs = {};
+                   dataAttrs = {},
+                   optionsCopy = $.extend({}, options);
 
                $.each($node.data(), function (key, value) {
 
@@ -1116,10 +1117,10 @@
 
                  dataAttrs[optionName] = value;
 
-                 delete options[optionName];
+                 delete optionsCopy[optionName];
                });
 
-               return new RateYo($(this), $.extend({}, dataAttrs, options));
+               return new RateYo($(this), $.extend({}, dataAttrs, optionsCopy));
            });
   }
 
