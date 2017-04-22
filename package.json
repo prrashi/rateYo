@@ -1,5 +1,5 @@
 {
-  "name": "rateYo",
+  "name": "rateyo",
   "version": "2.3.2",
   "description": "A simple and flexible star rating plugin",
   "main": "js/jquery.rateyo.js",
