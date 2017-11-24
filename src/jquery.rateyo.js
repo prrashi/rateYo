@@ -1,5 +1,5 @@
 /*****
-* rateyo - v2.3.3
+* rateyo - v2.3.4
 * http://prrashi.github.io/rateyo/
 * Copyright (c) 2014 Prashanth Pamidi; Licensed MIT
 *****/
@@ -25,23 +25,24 @@
   // The Default values of different options available in the Plugin
   var DEFAULTS = {
 
-    starWidth : "32px",
-    normalFill: "gray",
-    ratedFill : "#f39c12",
-    numStars  : 5,
-    maxValue  : 5,
-    precision : 1,
-    rating    : 0,
-    fullStar  : false,
-    halfStar  : false,
-    readOnly  : false,
-    spacing   : "0px",
-    rtl       : false,
-    multiColor: null,
-    onInit    : null,
-    onChange  : null,
-    onSet     : null,
-    starSvg   : null
+    starWidth   : "32px",
+    normalFill  : "gray",
+    ratedFill   : "#f39c12",
+    numStars    : 5,
+    maxValue    : 5,
+    precision   : 1,
+    rating      : 0,
+    fullStar    : false,
+    halfStar    : false,
+    readOnly    : false,
+    spacing     : "0px",
+    rtl         : false,
+    multiColor  : null,
+    onInit      : null,
+    onChange    : null,
+    onSet       : null,
+    starSvg     : null,
+    starSvgEmpty: null
   };
 
   //Default colors for multi-color rating
@@ -433,8 +434,7 @@
       $ratedGroup.empty();
 
       for (var i=0; i<options.numStars; i++) {
-
-        $normalGroup.append($(options.starSvg || BASICSTAR));
+        $normalGroup.append($(options.starSvgEmpty || options.starSvg || BASICSTAR));
         $ratedGroup.append($(options.starSvg || BASICSTAR));
       }
 
