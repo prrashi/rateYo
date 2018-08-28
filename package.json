@@ -2,7 +2,7 @@
   "name": "rateyo",
   "version": "2.3.3",
   "description": "A simple and flexible star rating plugin",
-  "main": "js/jquery.rateyo.js",
+  "main": "src/jquery.rateyo.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/prrashi/rateYo.git"
