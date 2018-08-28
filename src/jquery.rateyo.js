@@ -1,5 +1,5 @@
 /*****
-* rateyo - v2.3.3
+* rateyo - v2.3.4
 * http://prrashi.github.io/rateyo/
 * Copyright (c) 2014 Prashanth Pamidi; Licensed MIT
 *****/
