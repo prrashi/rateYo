@@ -5,7 +5,7 @@
   "indent": 2,
   "strict": true,
   "camelcase": true,
-  "latedef": true,
+  "latedef": "nofunc",
   "newcap": true,
   "nonew": true,
   "quotmark": "double",

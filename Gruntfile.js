@@ -20,9 +20,6 @@ module.exports = function(grunt) {
                 banner: '<%= options.banner %>'
               , sourceMap: true
               , drop_console: true
-              , mangle: {
-                  except: ['jQuery']
-                }
             }
           , files: {
               '<%= config.minDir %><%= config.name %>.min.js': ['<%= config.srcDir %><%= config.name %>.js']
