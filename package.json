@@ -1,6 +1,6 @@
 {
   "name": "rateyo",
-  "version": "2.3.4",
+  "version": "2.3.5",
   "description": "A simple and flexible star rating plugin",
   "main": "min/jquery.rateyo.min.js",
   "scripts": {
@@ -30,11 +30,9 @@
     "grunt-contrib-less": "^2.0.0",
     "grunt-contrib-uglify": "^3.4.0",
     "grunt-contrib-watch": "^1.1.0",
-    "matchdep": "^2.0.0"
-  },
-  "homepage": "http://rateyo.fundoocode.ninja/",
-  "dependencies": {
+    "matchdep": "^2.0.0",
     "bower": "^1.8.4",
     "grunt-cli": "^1.3.1"
-  }
+  },
+  "homepage": "http://rateyo.fundoocode.ninja/"
 }
