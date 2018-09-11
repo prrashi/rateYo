@@ -4,7 +4,6 @@
   "description": "A simple and flexible star rating plugin",
   "main": "min/jquery.rateyo.min.js",
   "scripts": {
-    "postinstall": "bower install;grunt",
     "build": "grunt"
   },
   "repository": {
