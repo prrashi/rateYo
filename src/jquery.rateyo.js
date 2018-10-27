@@ -34,6 +34,7 @@
     rating    : 0,
     fullStar  : false,
     halfStar  : false,
+    hover     : true,
     readOnly  : false,
     spacing   : "0px",
     rtl       : false,
@@ -860,7 +861,9 @@
     };
 
     function onMouseEnter (e) {
-
+      if (!options.hover) {
+        return;
+      }
       /*
        * If the Mouse Pointer is inside the container, calculate and show the rating
        * in UI
@@ -878,7 +881,7 @@
     }
 
     function onMouseLeave () {
-      if (isMobileBrowser()) {
+      if (isMobileBrowser() || !options.hover) {
         return;
       }
 
