@@ -42,7 +42,8 @@
     onInit    : null,
     onChange  : null,
     onSet     : null,
-    starSvg   : null
+    starSvg   : null,
+    doAnim    : false,
   };
 
   //Default colors for multi-color rating
@@ -219,7 +220,7 @@
      *                              between stars w.r.t the container
      */
     var step, starWidth, percentOfStar, spacing,
-        percentOfSpacing, containerWidth, minValue = 0;
+        percentOfSpacing, containerWidth, minValue = 0, doAnim;
 
     /*
      * `currentRating` contains rating that is being displayed at the latest point of
@@ -234,17 +235,34 @@
     // A flag to store if the plugin is already being displayed in the UI
     var isInitialized = false;
 
-    function showRating (ratingVal) {
-
+    function showRating (ratingVal, isMouse=false) {
       /*
-       * The function is responsible for displaying the rating by changing
-       * the width of `$ratedGroup`
+       * If doAnim option is true and this is not called by related to mouse function, the function is displaying the rating with animation using `function animRating`.
+       * Otherwise, displaying without animation.
        */
 
       if (!isDefined(ratingVal)) {
 
         ratingVal = options.rating;
       }
+
+      if (doAnim && !isMouse) {
+        var c = 1;
+        for (var i = 0; i <= ratingVal; i+= 0.1) {
+          setTimeout(function(val){animRating(val);}, 15 * c, [i]);
+          c++;
+        }
+        setTimeout(function(val){animRating(val);}, 15 * (c + 1), [ratingVal]);
+      }else{
+        animRating(ratingVal);
+      }
+    }
+
+    function animRating (ratingVal) {
+      /*
+       * The function is responsible for displaying the rating by changing
+       * the width of `$ratedGroup`
+       */
 
       // Storing the value that is being shown in `currentRating`.
       currentRating = ratingVal;
@@ -616,6 +634,14 @@
       return parseFloat(calculatedRating);
     }
 
+    function setDoAnim (newValue) {
+      if (newValue) {
+        doAnim = true;
+      }else{
+        doAnim = false;
+      }
+    }
+
     function setReadOnly (newValue) {
 
       /*
@@ -852,6 +878,10 @@
 
           method = setOnChange;
           break;
+        case "doAnim":
+
+          method = setDoAnim;
+          break;
         default:
 
           throw Error("No such option as " + optionName);
@@ -875,7 +905,7 @@
 
       rating = checkPrecision(parseFloat(rating), minValue, maxValue);
 
-      showRating(rating);
+      showRating(rating, true);
 
       $node.trigger("rateyo.change", {rating: rating});
     }
@@ -891,7 +921,7 @@
        * rating
        */
 
-      showRating();
+      showRating(undefined, true);
 
       $node.trigger("rateyo.change", {rating: options.rating});
     }
@@ -957,6 +987,7 @@
            .off("rateyo.set", onSet);
     }
 
+    setDoAnim(options.doAnim);
     setNumStars(options.numStars);
     setReadOnly(options.readOnly);
 
