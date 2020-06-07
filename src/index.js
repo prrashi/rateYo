@@ -2,7 +2,7 @@ import {
   BASICSTAR,
   DEFAULTS,
   MULTICOLOR_OPTIONS
-} from "./constants";
+} from "./constants.js";
 
 import {
   isMobileBrowser,
@@ -10,13 +10,27 @@ import {
   checkBounds,
   isDefined,
   getColor
-} from "./utils";
+} from "./utils.js";
 
-import dollar from "./$";
+import "./styles.css";
 
-const $ = window.jQuery || dollar;
+import $ from "./$.js";
 
-function RateYo (node, options) {
+const instanceMap = new WeakMap();
+
+function RateYo (node, options={}) {
+
+  if (!(this instanceof RateYo)) {
+
+    return new RateYo(node, options);
+  }
+
+  if (instanceMap.has(node)) {
+
+    return instanceMap.get(node);
+  }
+
+  options = {...DEFAULTS, ...options};
 
   var that = this;
 
@@ -590,8 +604,7 @@ function RateYo (node, options) {
       unbindEvents();
     }
 
-    RateYo.prototype.collection = deleteInstance($node.get(0),
-                                                 this.collection);
+    instanceMap.delete(node);
 
     $node.removeClass("jq-ry-container").children().remove();
 
@@ -813,13 +826,48 @@ function RateYo (node, options) {
     setRtl(options.rtl);
   }
 
-  this.collection.push(this);
+  instanceMap.set(node, this);
   this.rating(options.rating, true);
 
   isInitialized = true;
   $node.trigger("rateyo.init", {rating: options.rating});
 }
 
+Object.defineProperty(RateYo.prototype, "on", {
+  value: function on (eventName, handler) {
+
+    $(this.node).on(eventName, handler);
+
+    return this;
+  }
+});
+
+Object.defineProperty(RateYo.prototype, "off", {
+  value: function off (eventName, handler) {
+
+    $(this.node).off(eventName, handler);
+
+    return this;
+  }
+});
+
+Object.defineProperty(RateYo, "has", {
+  value: function has (node) {
+
+    return instanceMap.has(node);
+  }
+});
+
+Object.defineProperty(RateYo, "get", {
+  value: function get (node) {
+
+    return instanceMap.get(node);
+  }
+});
+
+if (typeof window !== "undefined") {
+
+  window.RateYo = RateYo;
+}
+
 export default RateYo;
-
-

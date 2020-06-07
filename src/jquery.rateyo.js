@@ -1,63 +1,28 @@
 import {
   DEFAULTS
-} from "./constants";
+} from "./constants.js";
 
-import RateYo from "./index";
+import RateYo from "./index.js";
+import dollar from "./$.js";
 
 ;(function ($) {
   "use strict";
 
-  RateYo.prototype.collection = [];
+  const eventsTrigger = dollar.El.prototype.trigger;
 
-  function getInstance (node, collection) {
+  dollar.El.prototype.trigger = function overrideTrigger (...args) {
 
-    /*
-     * Given a HTML element (node) and a collection of RateYo instances,
-     * this function will search through the collection and return the matched
-     * instance having the node
-     */
+    eventsTrigger.apply(this, args);
 
-    var instance;
-
-    $.each(collection, function () {
-
-      if(node === this.node){
-
-        instance = this;
-        return false;
-      }
-    });
-
-    return instance;
-  }
-
-  function deleteInstance (node, collection) {
-
-    /*
-     * Given a HTML element (node) and a collection of RateYo instances,
-     * this function will search through the collection and delete the
-     * instance having the node, and return the modified collection
-     */
-
-    $.each(collection, function (index) {
-
-      if (node === this.node) {
-
-        var firstPart = collection.slice(0, index),
-            secondPart = collection.slice(index+1, collection.length);
-
-        collection = firstPart.concat(secondPart);
-
-        return false;
-      }
-    });
-
-    return collection;
+    // seems like jquery .on() does not handle custom events
+    // also handlers registered using .addEventListener will not
+    // be called when event is triggered using .trigger()
+    // triggering with jquery .trigger() again for those handlers
+    // registered using 
+    $(this.node).trigger(...args);
   }
 
   function _rateYo (options) {
-
-    var rateYoInstances = RateYo.prototype.collection;
 
     /* jshint validthis:true */
     var $nodes = $(this);
@@ -92,7 +57,7 @@ import RateYo from "./index";
 
       $.each($nodes, function (i, node) {
 
-        var existingInstance = getInstance(node, rateYoInstances);
+        var existingInstance = RateYo.get(node);
 
         if(!existingInstance) {
 
@@ -131,7 +96,7 @@ import RateYo from "./index";
 
     return $.each($nodes, function () {
 
-               var existingInstance = getInstance(this, rateYoInstances);
+               var existingInstance = RateYo.get(this);
 
                if (existingInstance) {
 

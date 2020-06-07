@@ -1,5 +1,5 @@
-import {isNumber, isString, isDefined} from "./utils";
-import events from "./events";
+import {isNumber, isString, isDefined} from "./utils.js";
+import events from "./events.js";
 
 function classList (node, operation, input) {
 
@@ -187,7 +187,7 @@ function parseHTML (html) {
                .childNodes;
 }
 
-export default function $ (node) {
+function $ (node) {
 
   node = isString(node) && parseHTML(node) || node;
 
@@ -203,3 +203,7 @@ export default function $ (node) {
 
   return new El(node);
 }
+
+$.El = El;
+
+export default $;
