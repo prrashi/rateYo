@@ -12,11 +12,14 @@ just create a div, throw some styles, initialize and thats it!.
 **Documentation**:
 http://prrashi.github.io/rateYo/
 
+**Installation**:
+`npm i rateyo`
+
 **Browser Support**:
 Supported by all modern browsers from IE11
 
 **Packages**
-- Jquery Rateyo (Coming Soon)
+- [Jquery Rateyo(`npm i @rateyo/jquery`)](https://www.npmjs.com/package/@rateyo/jquery)
 - React Rateyo (Coming Soon)
 - Svelte Rateyo (Coming Soon)
 - Vue Rateyo (Coming Soon)
