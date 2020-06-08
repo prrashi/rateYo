@@ -12,7 +12,7 @@ import {
   getColor
 } from "./utils.js";
 
-import "./styles.css";
+import "./styles.scss";
 
 import $ from "./$.js";
 
@@ -773,7 +773,6 @@ function RateYo (node, options={}) {
 
     if(options.onInit && typeof options.onInit === "function") {
 
-      /* jshint validthis:true */
       options.onInit.apply(this, [data.rating, that]);
     }
   }
@@ -782,7 +781,6 @@ function RateYo (node, options={}) {
 
     if(options.onChange && typeof options.onChange === "function") {
 
-      /* jshint validthis:true */
       options.onChange.apply(this, [data.rating, that]);
     }
   }
@@ -791,7 +789,6 @@ function RateYo (node, options={}) {
 
     if(options.onSet && typeof options.onSet === "function") {
 
-      /* jshint validthis:true */
       options.onSet.apply(this, [data.rating, that]);
     }
   }
@@ -864,10 +861,5 @@ Object.defineProperty(RateYo, "get", {
     return instanceMap.get(node);
   }
 });
-
-if (typeof window !== "undefined") {
-
-  window.RateYo = RateYo;
-}
 
 export default RateYo;
