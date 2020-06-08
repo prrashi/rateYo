@@ -30,13 +30,13 @@ function RateYo (node, options={}) {
     return instanceMap.get(node);
   }
 
-  options = {...DEFAULTS, ...options};
-
   var that = this;
 
   this.node = node;
 
   const $node = $(node);
+
+  options = {...DEFAULTS, ...options, ...$node.dataAttrOptions()};
 
   // Remove any stuff that is present inside the container, and add the plugin class
   $node.empty().addClass("jq-ry-container");

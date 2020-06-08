@@ -1,6 +1,8 @@
 import {isNumber, isString, isDefined} from "./utils.js";
 import events from "./events.js";
 
+const rateyoAttrRegex = /^rateyo(.+)$/;
+
 function classList (node, operation, input) {
 
   const className = node.className.trim();
@@ -138,7 +140,30 @@ El.prototype = {
     } = this.node.getBoundingClientRect();
 
     return {top, left, bottom, right};
-  } 
+  },
+  dataAttrOptions () {
+
+    const {dataset} = this.node;
+
+    return Object.keys(dataset).reduce((
+      options, attr
+    ) => {
+
+      const match = attr.match(rateyoAttrRegex);
+
+      if (!match) {
+
+        return options;
+      }
+
+      const rateyoAttr = match[1],
+            option = rateyoAttr[0].toLowerCase() + rateyoAttr.slice(1);
+
+      options[option] = dataset[attr];
+
+      return options;
+    }, {});
+  }
 }
 
 El.prototype = {...El.prototype, ...events};
