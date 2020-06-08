@@ -5,7 +5,9 @@
   "main": "lib/cjs/rateyo.js",
   "module": "lib/es/rateyo.js",
   "scripts": {
-    "build": "rollup --config config/rollup.config.js"
+    "build": "rollup --config config/rollup.config.js",
+    "clean": "rm -rf lib/",
+    "prepublishOnly": "npm run clean && npm run build"
   },
   "repository": {
     "type": "git",
@@ -37,5 +39,12 @@
     "sass": "^1.26.8"
   },
   "homepage": "http://rateyo.fundoocode.ninja/",
-  "dependencies": {}
+  "dependencies": {},
+  "files": [
+    "lib"
+  ],
+  "engines": {
+    "node": ">=10.16.2",
+    "npm": ">=4.0.0"
+  }
 }
