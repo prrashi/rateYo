@@ -1,6 +1,6 @@
 {
   "name": "rateyo",
-  "version": "3.0.0-alpha",
+  "version": "3.0.0-alpha.1",
   "description": "A simple and flexible star rating plugin",
   "main": "lib/cjs/rateyo.js",
   "module": "lib/es/rateyo.js",

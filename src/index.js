@@ -192,10 +192,10 @@ function RateYo (node, options={}) {
     spacing = parseFloat(options.spacing.replace("px", ""));
 
     $normalGroup.find("svg:not(:first-child)")
-                .css({"margin-left": newSpacing});
+                .css(`margin-left`, newSpacing);
 
     $ratedGroup.find("svg:not(:first-child)")
-               .css({"margin-left": newSpacing});
+               .css("margin-left", newSpacing);
 
     setContainerWidth();
 
