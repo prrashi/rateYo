@@ -1,7 +1,7 @@
 rateYo
 ======
 
-A simple and flexible, jQuery star rating Plugin,
+A simple and flexible, vanilla js star rating Plugin,
 
 it uses SVG to render rating, so no images required.
 
@@ -13,4 +13,8 @@ just create a div, throw some styles, initialize and thats it!.
 http://prrashi.github.io/rateYo/
 
 **Browser Support**:
-Supported by all modern browsers from IE9
+Supported by all modern browsers from IE11
+
+**Packages**
+- Jquery Rateyo (Coming Soon)
+- React Rateyo (Coming Soon)
