@@ -21,7 +21,7 @@ function getDestFiles (options={}) {
     destPath
   } = options;
 
-  const destMinFilePrefix = "rateyo.min",
+  const destMinFilePrefix = `${destFilePrefix}.min`,
       destFileJs = `${destFilePrefix}.js`,
       destFileMinJs = `${destMinFilePrefix}.js`,
       destFileCss = `${destFilePrefix}.css`,

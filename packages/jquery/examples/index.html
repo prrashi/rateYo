@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>RateYo - Scratchpad</title>
+    <meta charset="utf-8"></meta>
+    <link rel="stylesheet" href="../lib/iife/jquery.rateyo.min.css"/>
+  </head>
+  <body>
+
+    <div>
+      <div id="rateYo1" style="margin: 10px auto"></div>
+      <div class="counter" style="float: left;
+                            font-weight: bold;
+                            margin-left: 10px;
+                            margin-top: 7px;"></div>
+      <div style="clear: both"></div>
+    </div>
+
+    <div class="rateyo-readonly-widg"></div>
+
+    <div class="rateyo"></div>
+    <div class="rateyo"></div>
+    <div class="rateyo"></div>
+    <div class="rateyo"></div>
+    <div class="rateyo"
+         data-rateyo-rating="50%"
+         data-rateyo-rtl="true"
+         data-rateyo-spacing="10px"
+         data-rateyo-rated-fill="#FF0000"
+         data-rateyo-num-stars="10"></div>
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../lib/iife/jquery.rateyo.js"></script>
+
+    <script>
+
+      $(function () {
+
+        var rating = 1.6;
+
+        $(".counter").text(rating);
+
+        $("#rateYo1").on("rateyo.init", function () { console.log("rateyo.init"); });
+
+        $("#rateYo1").rateYo({
+          rating: rating,
+          numStars: 5,
+          precision: 2,
+          starWidth: "64px",
+          spacing: "5px",
+          rtl: true,
+          multiColor: {
+
+            startColor: "#000000",
+            endColor  : "#ffffff"
+          },
+          onInit: function () {
+
+            console.log("On Init");
+          },
+          onSet: function () {
+
+            console.log("On Set");
+          }
+        }).on("rateyo.set", function () { console.log("rateyo.set"); })
+          .on("rateyo.change", function () { console.log("rateyo.change"); });
+
+        $(".rateyo").rateYo();
+
+        $(".rateyo-readonly-widg").rateYo({
+
+          rating: rating,
+          numStars: 5,
+          precision: 2,
+          minValue: 1,
+          maxValue: 5
+        }).on("rateyo.change", function (e, data) {
+        
+          console.log(data.rating);
+        });
+      });
+    </script>
+  </body>
+</html>
