@@ -1,10 +1,13 @@
 {
   "name": "rateyo",
-  "version": "2.3.5",
+  "version": "3.0.0-alpha",
   "description": "A simple and flexible star rating plugin",
-  "main": "min/jquery.rateyo.min.js",
+  "main": "lib/cjs/rateyo.js",
+  "module": "lib/es/rateyo.js",
   "scripts": {
-    "build": "grunt"
+    "build": "rollup --config config/rollup.config.js",
+    "clean": "rm -rf lib/",
+    "prepublishOnly": "npm run clean && npm run build"
   },
   "repository": {
     "type": "git",
@@ -23,15 +26,25 @@
     "plugin"
   ],
   "devDependencies": {
-    "grunt": "^1.0.3",
-    "grunt-contrib-clean": "~0.6.0",
-    "grunt-contrib-jshint": "^1.1.0",
-    "grunt-contrib-less": "^2.0.0",
-    "grunt-contrib-uglify": "^3.4.0",
-    "grunt-contrib-watch": "^1.1.0",
+    "@babel/core": "^7.10.2",
+    "@babel/preset-env": "^7.10.2",
+    "@rollup/plugin-babel": "^5.0.3",
+    "@rollup/plugin-node-resolve": "^8.0.1",
+    "cssnano": "^4.1.10",
     "matchdep": "^2.0.0",
-    "bower": "^1.8.4",
-    "grunt-cli": "^1.3.1"
+    "postcss-scss": "^2.1.1",
+    "rollup": "^2.14.0",
+    "rollup-plugin-postcss": "^3.1.2",
+    "rollup-plugin-terser": "^6.1.0",
+    "sass": "^1.26.8"
   },
-  "homepage": "http://rateyo.fundoocode.ninja/"
+  "homepage": "http://rateyo.fundoocode.ninja/",
+  "dependencies": {},
+  "files": [
+    "lib"
+  ],
+  "engines": {
+    "node": ">=10.16.2",
+    "npm": ">=4.0.0"
+  }
 }
