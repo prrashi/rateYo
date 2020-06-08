@@ -862,4 +862,10 @@ Object.defineProperty(RateYo, "get", {
   }
 });
 
+Object.defineProperty(RateYo, "$", {
+  get () {
+    return $;
+  }
+})
+
 export default RateYo;
