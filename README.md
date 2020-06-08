@@ -18,3 +18,5 @@ Supported by all modern browsers from IE11
 **Packages**
 - Jquery Rateyo (Coming Soon)
 - React Rateyo (Coming Soon)
+- Svelte Rateyo (Coming Soon)
+- Vue Rateyo (Coming Soon)
