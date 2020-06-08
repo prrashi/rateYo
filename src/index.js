@@ -862,7 +862,7 @@ Object.defineProperty(RateYo, "get", {
   }
 });
 
-Object.defineProperty(RateYo, "$", {
+Object.defineProperty(RateYo, "_$", {
   get () {
     return $;
   }
